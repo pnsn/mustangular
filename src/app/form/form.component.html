@@ -1,0 +1,43 @@
+ <form #queryForm="ngForm" (ngSubmit)="onSubmit()">
+   <p>{{diagnostic}}</p>
+    <mat-form-field >
+      <input matInput placeholder="Network(s)" name="net" [(ngModel)]="query.net">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Channel(s)" name="chan" [(ngModel)]="query.chan">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Station(s)" name="sta" [(ngModel)]="query.sta">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Location(s)" name="loc" [(ngModel)]="query.loc">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="Quality(s)" name="qual" [(ngModel)]="query.qual">
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDate" placeholder="Start Date" [matDatepickerFilter]="startFilter"  name="start" [(ngModel)]="query.start">
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input matInput [matDatepicker]="endDate" [matDatepickerFilter]="endFilter"  placeholder="End Date" name="end" [(ngModel)]="query.end">
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+      <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field> 
+    <p>Dates start at beginning of day<p>
+
+    <mat-form-field>
+      <mat-select placeholder="Metric(s)" multiple required name="metric" [(ngModel)]="selectedMetrics">
+        <mat-option *ngFor="let metric of metrics" [value]="metric.name">{{metric.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary" type="submit" [disabled]="!queryForm.form.valid">Submit</button>
+
+    <p>Unspecified values will act as wildcards.</p>
+    
+<!--TODO: add information about form values (i.e. '&', ',') -->
+ </form>
