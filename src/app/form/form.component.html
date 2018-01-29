@@ -1,19 +1,18 @@
  <form #queryForm="ngForm" (ngSubmit)="onSubmit()">
-   <p>{{diagnostic}}</p>
     <mat-form-field >
-      <input matInput placeholder="Network(s)" name="net" [(ngModel)]="query.net">
+      <input matInput placeholder="Network(s)" name="net" [(ngModel)]="query.net" (ngModelChange)="query.net = query.net.toUpperCase()">
     </mat-form-field>
     <mat-form-field >
-      <input matInput placeholder="Channel(s)" name="chan" [(ngModel)]="query.chan">
+      <input matInput placeholder="Channel(s)" name="chan" [(ngModel)]="query.chan" (ngModelChange)="query.chan = query.chan.toUpperCase()">
     </mat-form-field>
     <mat-form-field >
-      <input matInput placeholder="Station(s)" name="sta" [(ngModel)]="query.sta">
+      <input matInput placeholder="Station(s)" name="sta" [(ngModel)]="query.sta" (ngModelChange)="query.sta = query.sta.toUpperCase()">
     </mat-form-field>
     <mat-form-field >
-      <input matInput placeholder="Location(s)" name="loc" [(ngModel)]="query.loc">
+      <input matInput placeholder="Location(s)" name="loc" [(ngModel)]="query.loc" (ngModelChange)="query.loc = query.loc.toUpperCase()">
     </mat-form-field>
     <mat-form-field >
-      <input matInput placeholder="Quality(s)" name="qual" [(ngModel)]="query.qual">
+      <input matInput placeholder="Quality(s)" name="qual" [(ngModel)]="query.qual" (ngModelChange)="query.qual = query.qual.toUpperCase()">
     </mat-form-field>
     
     <mat-form-field>

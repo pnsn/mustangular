@@ -14,11 +14,12 @@ export class FormComponent implements OnInit {
   //TODO: get metric list form IRIS
   metrics : Metric[];
   selectedMetrics : Metric[];
-  
-  query = new Query();
   loading: boolean = false;
-  constructor(private route: ActivatedRoute, private router: Router, private metricService: MetricService) { }
   maxDate = new Date();
+  query = new Query();
+  
+  constructor(private route: ActivatedRoute, private router: Router, private metricService: MetricService) { }
+
   ngOnInit() {
     this.getMetrics();
     this.route.queryParams
@@ -34,24 +35,18 @@ export class FormComponent implements OnInit {
       });
   }
   
-  getMetrics(): void {
+  // Get list of available metrics from IRIS
+  private getMetrics(): void {
     this.loading: true;
     this.metricService.getMetrics().subscribe(
       metrics => {
         this.loading = false;
         this.metrics = metrics
         console.log(this.metrics)
-      });
-  
+      }); 
   }
-  
-  // onsubmit()
-  onSubmit() {
-    console.log(this.query);
-    this.query.metric = this.selectedMetrics.toString();
-    this.router.navigate(['../map'], { queryParams: this.query }); 
-  }
-  
+
+  // Disable dates that haven't happened yet and dates after end date
   startFilter = (d: Date): boolean => {
     const day = d;
     let tomorrow = new Date();
@@ -64,6 +59,8 @@ export class FormComponent implements OnInit {
     } 
   }
   
+  
+  // Disable dates that haven't happened yet and dates before start date  
   endFilter = (d: Date): boolean => {
     const day = d;
     let tomorrow = new Date();
@@ -74,5 +71,11 @@ export class FormComponent implements OnInit {
       return day < tomorrow
     } 
   }
-  get diagnostic() { return JSON.stringify(this.query); }
+
+  // Submit form 
+  onSubmit() {
+    console.log(this.query);
+    this.query.metric = this.selectedMetrics.toString();
+    this.router.navigate(['../map'], { queryParams: this.query }); 
+  }
 }
