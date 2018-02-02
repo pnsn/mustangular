@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Query } from '../query';
-import { MetricService } from '../metric.service';
+import { MetricsService } from '../metrics.service';
 import { Metric } from '../metric'
 import {Router, ActivatedRoute } from '@angular/router';
 @Component({
@@ -16,29 +16,34 @@ export class FormComponent implements OnInit {
   selectedMetrics : Metric[];
   loading: boolean = false;
   maxDate = new Date();
-  query = new Query();
+  query : Query;
   
-  constructor(private route: ActivatedRoute, private router: Router, private metricService: MetricService) { }
-
+  constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService) { }
+  
   ngOnInit() {
     this.getMetrics();
-    this.route.queryParams
+    this.route.queryParamMap
       .subscribe(params => {
-        this.query.net = params.net;
-        this.query.chan = params.chan;
-        this.query.sta = params.sta;
-        this.query.loc = params.loc;
-        this.query.qual = params.qual;
-        this.query.start = params.start;
-        this.query.end = params.end;
+        var pa = params.params;
+        this.query = new Query(
+          pa.net,
+          pa.chan,
+          pa.sta,
+          pa.loc,
+          pa.qual,
+          pa.start, 
+          pa.end,
+          pa.metric
+        );
         this.selectedMetrics = params.metric ? params.metric.split(',') : "";
       });
+      console.log(this.query)
   }
   
   // Get list of available metrics from IRIS
   private getMetrics(): void {
-    this.loading: true;
-    this.metricService.getMetrics().subscribe(
+    this.loading= true;
+    this.metricsService.getMetrics().subscribe(
       metrics => {
         this.loading = false;
         this.metrics = metrics
@@ -59,6 +64,10 @@ export class FormComponent implements OnInit {
     } 
   }
   
+  upperCase = (str : string) : string => {
+    console.log(str)
+    return str ? str.toUpperCase() : "";
+  }
   
   // Disable dates that haven't happened yet and dates before start date  
   endFilter = (d: Date): boolean => {
@@ -74,8 +83,9 @@ export class FormComponent implements OnInit {
 
   // Submit form 
   onSubmit() {
-    console.log(this.query);
+    this.query.start = this.query.start.toISOString().replace(/Z.*$/gim, "");
+    this.query.end = this.query.end.toISOString().replace(/Z.*$/gim, "");
     this.query.metric = this.selectedMetrics.toString();
-    this.router.navigate(['../map'], { queryParams: this.query }); 
+    this.router.navigate(['../map'], { queryParams: this.query});
   }
 }

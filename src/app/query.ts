@@ -9,4 +9,15 @@ export class Query {
     public end?: string,
     public metric?: string
   ) {}
+
+ getString(): string {
+    var str = "";
+    let keys = ["net","chan","sta","loc","qual","start","end","metric"];
+    for (let key of keys) {
+      if(this[key]){
+        str += "&" + key + "=" + this[key];
+      }
+    }
+    return str;
+  }
 }

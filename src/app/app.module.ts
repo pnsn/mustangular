@@ -11,7 +11,8 @@ import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
 import { StationComponent } from './station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MetricService } from './metric.service';
+import { MetricsService } from './metrics.service';
+import { MeasurementsService } from './measurements.service';
 
 import {
   MatAutocompleteModule,
@@ -67,7 +68,7 @@ import {
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [MetricService],
+  providers: [MetricsService, MeasurementsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

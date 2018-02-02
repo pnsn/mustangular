@@ -20,6 +20,7 @@
       <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
       <mat-datepicker #startDate></mat-datepicker>
     </mat-form-field>
+    {{query.start}}
     
     <mat-form-field>
       <input matInput [matDatepicker]="endDate" [matDatepickerFilter]="endFilter"  placeholder="End Date" name="end" [(ngModel)]="query.end">

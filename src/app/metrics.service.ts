@@ -9,12 +9,12 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 
 //fetches all metrics from IRIS
-export class MetricService {
+export class MetricsService {
 
   constructor(private http: HttpClient) { 
    }
    
-   private mapMetrics(response:Response): Metric[]{
+   private mapMetrics(response: Response): Metric[]{
      return response.metrics.map(metric => {
        return <Metric>{
          name: metric.name,
@@ -27,10 +27,10 @@ export class MetricService {
 
    
   getMetrics(metric?: String) : Observable <Metric[]>{
-    const metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
+    var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric)
       metricsURL += "&metric=" + metric;
-
+      
     return this.http.jsonp(metricsURL, 'callback').pipe(
       map(
         this.mapMetrics

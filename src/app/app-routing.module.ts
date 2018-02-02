@@ -9,8 +9,7 @@ import { StationComponent} from './station/station.component';
 const routes: Routes = [
   { path: '', redirectTo: 'form', pathMatch: 'full' },
   { path: 'form', component: FormComponent },
-  { path: 'map?metric=', component: MapComponent},
-  { path: 'map', redirectTo: 'form', pathMatch: 'full' },
+  { path: 'map', component: MapComponent},
   { path: 'station', component: StationComponent }
 ];
 

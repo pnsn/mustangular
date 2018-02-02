@@ -4,6 +4,7 @@ export class Metric {
     public name: string,
     public title: string,
     public description?: string,
-    public value?: string
+    public unit?: string,
+    public measurements?: <Measurement[]>
   ) {}
 }

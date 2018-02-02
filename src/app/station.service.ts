@@ -6,7 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
  
 @Injectable()
-export class StationService {
+export class StationsService {
 
   constructor(
     private http: HttpClient) {}
