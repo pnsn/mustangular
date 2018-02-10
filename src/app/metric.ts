@@ -1,3 +1,4 @@
+import { Measurement } from '../measurement'
 export class Metric {
 
   constructor (
@@ -5,6 +6,6 @@ export class Metric {
     public title: string,
     public description?: string,
     public unit?: string,
-    public measurements?: <Measurement[]>
+    public measurements?: Measurement[]
   ) {}
 }

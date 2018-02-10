@@ -27,7 +27,7 @@ export class FormComponent implements OnInit {
         var pa = params.params;
         this.query = new Query(
           pa.net,
-          pa.chan,
+          pa.cha,
           pa.sta,
           pa.loc,
           pa.qual,

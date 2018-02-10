@@ -1,7 +1,7 @@
 export class Query {
   constructor (
     public net?: string,
-    public chan?: string,
+    public cha?: string,
     public sta?: string,
     public loc?: string,
     public qual?: string,
@@ -10,9 +10,10 @@ export class Query {
     public metric?: string
   ) {}
 
- getString(): string {
+ getString(keys?: array): string {
     var str = "";
-    let keys = ["net","chan","sta","loc","qual","start","end","metric"];
+
+    let keys = keys ? keys : ["net","cha","sta","loc","qual","start","end","metric"];
     for (let key of keys) {
       if(this[key]){
         str += "&" + key + "=" + this[key];

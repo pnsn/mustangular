@@ -13,6 +13,7 @@ import { StationComponent } from './station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MetricsService } from './metrics.service';
 import { MeasurementsService } from './measurements.service';
+import { StationsService } from './stations.service';
 
 import {
   MatAutocompleteModule,
@@ -68,7 +69,7 @@ import {
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [MetricsService, MeasurementsService],
+  providers: [MetricsService, MeasurementsService, StationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

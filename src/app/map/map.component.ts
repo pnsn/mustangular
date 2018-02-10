@@ -4,6 +4,8 @@ import { MetricsService } from '../metrics.service';
 import { Metric } from '../metric'
 import { MeasurementsService } from '../measurements.service';
 import { Measurement } from '../measurement'
+import { StationsService } from '../stations.service';
+import { Station } from '../station'
 import { Router, ActivatedRoute } from '@angular/router';
 import { Query } from '../query';
 
@@ -15,8 +17,9 @@ import { Query } from '../query';
 export class MapComponent implements OnInit {
   query : Query;
   metrics : Metric[];
-  measurements = [];
-  constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService, private measurementsService: MeasurementsService) { }
+  measurements: Measurement[];
+  stations: {};
+  constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService, private measurementsService: MeasurementsService, private stationsService: StationsService) { }
 
   ngOnInit() {
       
@@ -25,7 +28,7 @@ export class MapComponent implements OnInit {
         var pa = params.params;
         this.query = new Query(
           pa.net,
-          pa.chan,
+          pa.cha,
           pa.sta,
           pa.loc,
           pa.qual,
@@ -36,8 +39,8 @@ export class MapComponent implements OnInit {
       });
     if (this.query.metric.length > 0) {
       this.getMetrics();
+      this.getStations(this.query.getString(["net","sta","loc","cha"]));
       this.getMeasurements(this.query.getString());
-    
     } else {
       // this.router.navigate(['../form']);
     }
@@ -52,7 +55,15 @@ export class MapComponent implements OnInit {
       }
     ); 
   }
-  
+  private getStations(qString:string): void {
+    console.log("string", qString)
+    this.stationsService.getStations(qString).subscribe(
+      stations => {
+        this.stations = stations
+        console.log(this.stations)
+      }
+    );
+  }
   private getMeasurements(qString:string): void {
     console.log("string", qString)
     this.measurementsService.getMeasurements(qString).subscribe(
