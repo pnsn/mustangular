@@ -24,18 +24,23 @@ export class FormComponent implements OnInit {
     this.getMetrics();
     this.route.queryParamMap
       .subscribe(params => {
-        var pa = params.params;
-        this.query = new Query(
-          pa.net,
-          pa.cha,
-          pa.sta,
-          pa.loc,
-          pa.qual,
-          pa.start, 
-          pa.end,
-          pa.metric
-        );
-        this.selectedMetrics = params.metric ? params.metric.split(',') : "";
+        if(params && params["params"]){
+          var pa = params["params"];
+          this.query = new Query(
+            pa.net,
+            pa.cha,
+            pa.sta,
+            pa.loc,
+            pa.qual,
+            pa.start,
+            pa.end,
+            pa.metric
+          );
+          this.selectedMetrics = pa.hasOwnProperty('metric') ? pa.metric.split(',') : [];
+        } else {
+          this.query = new Query();
+        }
+       
       });
       console.log(this.query)
   }
@@ -82,9 +87,11 @@ export class FormComponent implements OnInit {
   }
 
   // Submit form 
-  onSubmit() {
-    this.query.start = this.query.start.toISOString().replace(/Z.*$/gim, "");
-    this.query.end = this.query.end.toISOString().replace(/Z.*$/gim, "");
+  onSubmit() {)
+    var start = new Date(this.query.start);
+    var end = new Date(this.query.end);
+    this.query.start = start.toISOString().replace(/Z.*$/gim, "");
+    this.query.end = end.toISOString().replace(/Z.*$/gim, "");
     this.query.metric = this.selectedMetrics.toString();
     this.router.navigate(['../map'], { queryParams: this.query});
   }

@@ -25,17 +25,21 @@ export class MapComponent implements OnInit {
       
     this.route.queryParamMap
       .subscribe(params => {
-        var pa = params.params;
-        this.query = new Query(
-          pa.net,
-          pa.cha,
-          pa.sta,
-          pa.loc,
-          pa.qual,
-          pa.start, 
-          pa.end,
-          pa.metric
-        );
+        if(params && params["params"]){
+          var pa = params["params"];
+          this.query = new Query(
+            pa.net,
+            pa.cha,
+            pa.sta,
+            pa.loc,
+            pa.qual,
+            pa.start,
+            pa.end,
+            pa.metric
+          );
+        } else {
+          this.query = new Query();
+        }
       });
     if (this.query.metric.length > 0) {
       this.getMetrics();
