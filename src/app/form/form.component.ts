@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Query } from '../query';
 import { MetricsService } from '../metrics.service';
 import { Metric } from '../metric'
-import {Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-
 
 export class FormComponent implements OnInit {
   //TODO: get metric list form IRIS
@@ -21,6 +21,7 @@ export class FormComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService) { }
   
   ngOnInit() {
+    console.log("FormComponent onInit");
     this.getMetrics();
     this.route.queryParamMap
       .subscribe(params => {
@@ -42,7 +43,6 @@ export class FormComponent implements OnInit {
         }
        
       });
-      console.log(this.query)
   }
   
   // Get list of available metrics from IRIS
@@ -52,7 +52,6 @@ export class FormComponent implements OnInit {
       metrics => {
         this.loading = false;
         this.metrics = metrics
-        console.log(this.metrics)
       }); 
   }
 
@@ -69,8 +68,8 @@ export class FormComponent implements OnInit {
     } 
   }
   
+  // Take a string and make it capitalized 
   upperCase = (str : string) : string => {
-    console.log(str)
     return str ? str.toUpperCase() : "";
   }
   
@@ -87,7 +86,7 @@ export class FormComponent implements OnInit {
   }
 
   // Submit form 
-  onSubmit() {)
+  onSubmit() {
     var start = new Date(this.query.start);
     var end = new Date(this.query.end);
     this.query.start = start.toISOString().replace(/Z.*$/gim, "");

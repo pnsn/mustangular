@@ -1,0 +1,8 @@
+.select-active-metric {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.select-active-metric  mat-radio-button{
+  margin: 5px;
+}

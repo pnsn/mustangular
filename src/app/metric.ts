@@ -1,4 +1,4 @@
-import { Measurement } from '../measurement'
+import { Station } from './station'
 export class Metric {
 
   constructor (
@@ -6,6 +6,9 @@ export class Metric {
     public title: string,
     public description?: string,
     public unit?: string,
-    public measurements?: Measurement[]
+    public stations?: object
   ) {}
+  
+  
+  //add station
 }

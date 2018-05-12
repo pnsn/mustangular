@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Station } from './station';
- 
 @Injectable()
 export class StationsService {
   
@@ -13,7 +12,7 @@ export class StationsService {
    }
    
    //Parse text file and map to station objects
-   private mapStations(response: Response): void{
+   private mapStations(response: String): Object{
      var stations = {};
      var lines = response.split('\n');
      var headers = lines.shift();

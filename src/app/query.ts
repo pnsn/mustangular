@@ -10,11 +10,11 @@ export class Query {
     public metric?: string
   ) {}
 
- getString(keys?: array): string {
+ getString(keys?: Array<string>): string {
     var str = "";
 
-    let keys = keys ? keys : ["net","cha","sta","loc","qual","start","end","metric"];
-    for (let key of keys) {
+    let queryKeys = keys ? keys : ["net","cha","sta","loc","qual","start","end","metric"];
+    for (let key of queryKeys) {
       if(this[key]){
         str += "&" + key + "=" + this[key];
       }

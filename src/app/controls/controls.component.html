@@ -1,0 +1,6 @@
+<mat-radio-group class="select-active-metric" [(ngModel)]="active.metric" (ngModelChange)="changeMetric($event)">
+  <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name">
+    {{metric.title}}
+  </mat-radio-button>
+</mat-radio-group>
+<div class="example-selected-value">Active Metric: {{active.metric}}</div>

@@ -14,23 +14,21 @@ export class MeasurementsService {
   constructor(private http: HttpClient) { 
    }
    
-   private mapMetrics(response: Response): void{
-     console.log(response)
-
+   private mapMeasurements(response: any): object{
+     return response.measurements;
    }
 
-   
+  
+   // Gets the measurements from the IRIS service
   getMeasurements(queryString : string) : Observable <any>{
-    
     var measurementsURL = 'http://service.iris.edu/mustang/measurements/1/query?output=jsonp&nodata=200' + queryString;
     var measurements = []; 
-    
-    console.log(measurementsURL)
-    
+  
     return this.http.jsonp(measurementsURL, 'callback').pipe(
       map(
-        this.mapMetrics
+        this.mapMeasurements
       )
+      //catch some errors
     );
 
   }

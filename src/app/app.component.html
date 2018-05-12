@@ -2,9 +2,7 @@
   Welcome to {{ title }}!
 </h1>
 <nav>
-  <a routerLink="/form">Form</a>
-  <a routerLink="/map">Map</a>
-  <!-- <a routerLink="/map/station">Station</a> -->
+  <a routerLink="/form" queryParamsHandling="merge">Form</a>
 </nav>
 <router-outlet></router-outlet>
 

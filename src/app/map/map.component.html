@@ -1,8 +1,8 @@
-<p>
-  Here's My Map!
-</p>
+<div>What's going on? {{message}}</div>
 
-<div id="map"     
-    leaflet 
-    [leafletOptions]="options">
-</div>
+<div> start: <span>{{query.start}}</span> </div>
+<app-controls [metrics]="metrics" ></app-controls>
+<app-markers [metrics]="metrics" ></app-markers>
+
+
+

@@ -1,4 +1,4 @@
-import { Measurement } from '../measurement'
+import { Channel } from './channel'
 export class Station {
   
     constructor (
@@ -7,20 +7,24 @@ export class Station {
       public lat: number,
       public lon: number,
       public name: string,
-      public channels?: array,
-      public measurements?: any
+      public loc?: string, 
+      public code?: string, //NET.STA.LOC
+      public channels?: object,
+      public displayValues?: number[] 
     ){}
     
-    addMeasurements(measurements: Measurement[]): void { 
-      console.log(measurements)
-
-     
-   }
- 
-   addChannels(channel: string): void { 
-     
-
-    
-  }
-    
+    //temporary 
+    getValue(channels: Array<string>) : number {
+      var value = 0;
+      for (let channel in this.channels) {
+        if (channels.length == 0 || channels.indexOf(channel) > -1) {
+          for (let measurement of this.channels[channel].measurements) {
+            value += measurement.value;
+          }
+        }
+      }
+      return value;
+    }
+  //value calculation
+  //only show values if they are from certain stations
 }

@@ -1,0 +1,11 @@
+#map {
+  height:800px;
+  width:80%;
+}
+
+.icon-test{
+  border-radius: 7px;
+  height: 7px;
+  width: 7px;
+  border: 1px solid black;
+}

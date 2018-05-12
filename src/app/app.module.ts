@@ -14,11 +14,15 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MetricsService } from './metrics.service';
 import { MeasurementsService } from './measurements.service';
 import { StationsService } from './stations.service';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CombineMetricsService} from './combine-metrics.service';
+import { MakeMarkersService } from './make-markers.service';
+import { ActiveService } from './active.service'
 import {
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
+  MatCardModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatDialogModule,
@@ -34,13 +38,17 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { MarkersComponent } from './markers/markers.component';
+import { ControlsComponent } from './controls/controls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     FormComponent,
-    StationComponent
+    StationComponent,
+    MarkersComponent,
+    ControlsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +62,7 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatCardModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -67,9 +76,10 @@ import {
     MatSelectModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FlexLayoutModule
   ],
-  providers: [MetricsService, MeasurementsService, StationsService],
+  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

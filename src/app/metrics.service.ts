@@ -14,23 +14,23 @@ export class MetricsService {
   constructor(private http: HttpClient) { 
    }
    
-   private mapMetrics(response: Response): Metric[]{
+   private mapMetrics(response: any): Metric[]{
      return response.metrics.map(metric => {
-       return <Metric>{
-         name: metric.name,
-         title: metric.title,
-         description: metric.description,
-         value: metric.tables[0].columns[0].description
-       };
+       return new Metric(
+         metric.name,
+         metric.title,
+         metric.description,
+         metric.tables[0].columns[0].description
+         );
      });
    }
 
-   
+   //metric is optional so it can be used by the form
   getMetrics(metric?: String) : Observable <Metric[]>{
     var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric)
-      metricsURL += "&metric=" + metric;
-      
+      metricsURL += metric;
+
     return this.http.jsonp(metricsURL, 'callback').pipe(
       map(
         this.mapMetrics
