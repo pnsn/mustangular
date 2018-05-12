@@ -4,3 +4,9 @@
   </mat-radio-button>
 </mat-radio-group>
 <div class="example-selected-value">Active Metric: {{active.metric}}</div>
+
+<mat-form-field>
+  <mat-select placeholder="Channel(s)" multiple name="channels" [(ngModel)]="active.channels" (ngModelChange)="changeChannels($event)">
+    <mat-option *ngFor="let channel of channels" [value]="channel">{{channel}}</mat-option>
+  </mat-select>
+</mat-form-field>

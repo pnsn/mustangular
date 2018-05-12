@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../Metric';
 import { MakeMarkersService } from '../make-markers.service'
 import { ActiveService } from "../active.service";
+import { CombineMetricsService} from '../combine-metrics.service';
 
 @Component({
   selector: 'app-markers',
   templateUrl: './markers.component.html',
   styleUrls: ['./markers.component.css']
 })
-export class MarkersComponent implements OnInit, OnChanges {
-  @Input() metrics: Metric[];
+export class MarkersComponent implements OnInit {
+  metrics: Metric[];
   
   active = {
     "metric" : "",
@@ -19,23 +20,25 @@ export class MarkersComponent implements OnInit, OnChanges {
   
   markers : any;
   fitBounds: any;
-  constructor(private makeMarkersService: MakeMarkersService, private activeService: ActiveService) { }
+  constructor(private makeMarkersService: MakeMarkersService, private activeService: ActiveService, private combineMetricsService: CombineMetricsService) { }
 
   ngOnInit() {
     this.activeService.getActive.subscribe(
       activeMetric => { 
         this.active.metric = activeMetric;
-        console.log("should make new metircs")
         this.makeMarkers();
       }
-      
     );
+    
+    this.combineMetricsService.getMetrics.subscribe(
+      metrics => { 
+        this.metrics = metrics;
+        this.makeMarkers();
+      }
+    );
+    
   }
   
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("active metric, markers", this.active.metric)
-    this.makeMarkers();
-  }
   
   private makeMarkers() : void { 
     if( this.metrics && this.active.metric) {

@@ -26,6 +26,13 @@ export class MakeMarkersService {
     return options;
   }
   
+  
+  //This really needs to just reference a function
+  private buildPopUp(station:Station, active:any) : string {
+    return "<div>Station: "+ station.name +"</div> <button> Go to station data </button>";
+  
+  }
+  
   //Makes leaflet markers using active channels and metrics
   getMarkers(metrics: Metric[], active: any): any{
     let markers = [];
@@ -38,7 +45,7 @@ export class MakeMarkersService {
           
           let options = this.buildIcon(station, active);
           
-          markers.push(marker(latlon, options).bindPopup("hi"));
+          markers.push(marker(latlon, options).bindPopup(this.buildPopUp(station, active)));
           latlons.push(latlon);
         }
       }

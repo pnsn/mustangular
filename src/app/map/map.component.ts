@@ -18,7 +18,13 @@ export class MapComponent implements OnInit {
   query : Query;
   metrics : Metric[];
   message: string;
-  constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService, private combineMetricsService: CombineMetricsService, private measurementsService: MeasurementsService, private stationsService: StationsService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private metricsService: MetricsService,
+    private combineMetricsService: CombineMetricsService,
+    private measurementsService: MeasurementsService,
+    private stationsService: StationsService) { }
   
   ngOnInit() {
     console.log("Map Component onInit");
@@ -80,7 +86,12 @@ export class MapComponent implements OnInit {
   }
   
   private combineMetrics(measurements:object, stations:object, metrics:Metric[]){
-    this.metrics = this.combineMetricsService.combineMetrics(measurements, stations, metrics);
+    this.combineMetricsService.combineMetrics(measurements, stations, metrics);
+    this.combineMetricsService.getMetrics.subscribe(
+      metrics => { 
+        this.metrics = metrics;
+      }
+    );
     this.message = "metrics combined?"
   }
 }

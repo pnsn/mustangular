@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+// import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-station',
   templateUrl: './station.component.html',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StationComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    // this.station = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     this.service.getHero(params.get('station')))
+    //
+    // );
+    
+    let stationCode = this.route.snapshot.paramMap.get('station');
+    console.log(stationCode)
+    // this.hero$ = this.service.getHero(id);
   }
 
 }
