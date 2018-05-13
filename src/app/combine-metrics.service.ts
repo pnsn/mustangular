@@ -9,45 +9,54 @@ export class CombineMetricsService {
 
   constructor() { }
   
-  private channels = new BehaviorSubject<Array>();
-  private metrics = new BehaviorSubject<Metric[]>();
+  private channels = new BehaviorSubject<Array<string>>([]);
+  private metrics = new BehaviorSubject<Metric[]>([]);
+  private stationCount = {};
   getMetrics = this.metrics.asObservable();
   getChannels = this.channels.asObservable();
-  
+  getStationCount(metric:string) : number {
+    console.log(metric)
+    return this.stationCount[metric];
+  }
   //returns metrics with stations and measurements added
-  combineMetrics(measurements: any, stations: any, metrics: Metric[]) : Metric[]{
+  combineMetrics(measurements: any, stations: any, metrics: any) : void{
     let availableChannels = [];
+    let combinedMetrics = new Array<Metric>();
+    
     for (let metric of metrics){
-      metric.stations = {};
+      this.stationCount[metric.name] = 0;
+      let combinedMetric = new Metric(metric.name, metric.title, metric.description, metric.tables[0].columns[0].name, {});
       for (let m of measurements[metric.name]){
-
-        var stationCode = m.net + "." + m.sta;
-        var station = metric.stations[stationCode];
+        let stationCode = m.net + "." + m.sta;
+        let station = combinedMetric.stations[stationCode];
         
         if (!station) {
-          station = stations[stationCode];
+          station = Object.create(stations[stationCode]);
           station.channels = {};
+          this.stationCount[metric.name]++;
         }
-        
-        var channelCode = m.cha;
-        var channels = station.channels;
-        
+        let channelCode = m.cha;
+        let channels = station.channels;
         if (!channels[channelCode]) {
           channels[channelCode] = new Channel(channelCode);
           channels[channelCode].measurements = new Array<Measurement>();
         }
-        
         if (availableChannels.indexOf(channelCode) == -1 ){
           availableChannels.push(channelCode);
         }
         channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.qual, m.start, m.target, m.value));
         
         station.channels = channels;
-        metric.stations[stationCode] = station;
+
+        combinedMetric.stations[stationCode] = station;
       }
+      combinedMetrics.push(combinedMetric);
     }
-    console.log(availableChannels)
+    
+
     this.channels.next(availableChannels);
-    this.metrics.next(metrics);
+    this.metrics.next(combinedMetrics);
   }
+  
+  //need a stationcount
 }

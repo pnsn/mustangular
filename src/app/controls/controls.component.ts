@@ -1,7 +1,7 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActiveService } from "../active.service";
 import { CombineMetricsService} from '../combine-metrics.service';
-
+import { Metric } from '../metric';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -17,12 +17,19 @@ export class ControlsComponent implements OnInit {
     "channels" : []
   };
   
-
+  stationCount: number;
   constructor(private activeService: ActiveService, private combineMetricsService: CombineMetricsService) { }
   
   ngOnInit() {
-    this.activeService.getActive.subscribe(
-      activeMetric => this.active.metric = activeMetric
+    this.activeService.getActiveMetric.subscribe(
+      activeMetric => {
+        this.active.metric = activeMetric;
+        this.stationCount = this.combineMetricsService.getStationCount(this.active.metric);
+      }
+    );
+    
+    this.activeService.getActiveChannels.subscribe(
+      activeChannels => this.active.channels = activeChannels
     );
     this.combineMetricsService.getMetrics.subscribe(
       metrics => { 
@@ -43,7 +50,7 @@ export class ControlsComponent implements OnInit {
 
   changeChannels(channels) {
     console.log(channels)
-  
+    //this.activeService.changeChannels(channels);
   }
   changeMetric(metricName) {
     this.activeService.changeMetric(metricName);

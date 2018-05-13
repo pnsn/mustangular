@@ -1,6 +1,14 @@
+
+<mat-radio-group class="select-active-value" [(ngModel)]="active.value" (ngModelChange)="changeValue($event)">
+  <mat-radio-button *ngFor="let value of displayValues" [value]="value">
+    {{value}}
+  </mat-radio-button>
+</mat-radio-group>
+
 <div id="map"     
     leaflet 
     [leafletOptions]="options"
     [leafletLayers]="markers"
     [leafletFitBounds]="fitBounds">
 </div>
+

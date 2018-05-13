@@ -1,11 +1,23 @@
 #map {
   height:800px;
   width:80%;
+  float:left;
 }
 
-.icon-test{
+:host ::ng-deep .icon-test { 
   border-radius: 7px;
   height: 7px;
   width: 7px;
   border: 1px solid black;
+}
+
+:host ::ng-deep ul#channel-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+:host ::ng-deep ul#channel-list li {
+  flex: 1 0 33%;
 }

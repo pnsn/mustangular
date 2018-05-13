@@ -1,8 +1,21 @@
-<div>What's going on? {{message}}</div>
+<nav>
+  <a routerLink="/form" queryParamsHandling="merge">Edit Query</a>
+</nav>
 
-<div> start: <span>{{query.start}}</span> </div>
+<h3>What's going on?... {{message}}</h3>
+
+<div id="query-info">
+  <div *ngIf="query.net"> Net: <span>{{query.net}}</span> </div>
+  <div *ngIf="query.sta"> Sta: <span>{{query.sta}}</span></div>
+  <div *ngIf="query.cha"> Cha: <span>{{query.cha}}</span></div>  
+  <div *ngIf="query.loc"> Loc: <span>{{query.loc}}</span></div>
+  <div *ngIf="query.qual"> Qual: <span>{{query.qual}}</span></div>
+  <div *ngIf="query.start"> Start: <span>{{query.start}}</span> </div>
+  <div *ngIf="query.end"> End: <span>{{query.end}}</span> </div>
+</div>
 <app-controls ></app-controls>
 <app-markers ></app-markers>
+<app-station *ngIf="viewStation"></app-station>
 
 
 

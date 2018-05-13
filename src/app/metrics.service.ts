@@ -14,15 +14,8 @@ export class MetricsService {
   constructor(private http: HttpClient) { 
    }
    
-   private mapMetrics(response: any): Metric[]{
-     return response.metrics.map(metric => {
-       return new Metric(
-         metric.name,
-         metric.title,
-         metric.description,
-         metric.tables[0].columns[0].description
-         );
-     });
+   private mapMetrics(response: any): any{
+     return response.metrics;
    }
 
    //metric is optional so it can be used by the form

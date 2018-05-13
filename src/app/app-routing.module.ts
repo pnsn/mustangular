@@ -9,10 +9,10 @@ import { StationComponent} from './station/station.component';
 const routes: Routes = [
  { path: 'map', component: MapComponent},
  { path: 'form', component: FormComponent },
- { path: 'station/:station', component: StationComponent},
  { path: '', redirectTo: 'form', pathMatch: 'full' }
 ];
 
+ // { path: 'station/:station', component: StationComponent},
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

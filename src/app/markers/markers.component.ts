@@ -15,15 +15,18 @@ export class MarkersComponent implements OnInit {
   
   active = {
     "metric" : "",
-    "channels" : []
+    "channels" : [],
+    "value" : "average"
   };
   
+  displayValues = ["minimum", "maximum", "average"];
+
   markers : any;
   fitBounds: any;
   constructor(private makeMarkersService: MakeMarkersService, private activeService: ActiveService, private combineMetricsService: CombineMetricsService) { }
 
   ngOnInit() {
-    this.activeService.getActive.subscribe(
+    this.activeService.getActiveMetric.subscribe(
       activeMetric => { 
         this.active.metric = activeMetric;
         this.makeMarkers();
@@ -37,8 +40,23 @@ export class MarkersComponent implements OnInit {
       }
     );
     
+    this.activeService.getActiveChannels.subscribe(
+      activeChannels => { 
+        this.active.channels = activeChannels;
+        this.makeMarkers();
+      }
+    )
+    
   }
   
+  updateStation($event) : void {
+    console.log($event)
+  }
+  
+  changeValue($event) : void {
+    console.log(this.active.value)
+   this.makeMarkers();
+  }
   
   private makeMarkers() : void { 
     if( this.metrics && this.active.metric) {

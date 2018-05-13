@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Metric } from './metric';
 import { divIcon, latLng, marker} from 'leaflet';
+import { Station } from './station'
+
 @Injectable()
 export class MakeMarkersService {
 
@@ -12,12 +14,10 @@ export class MakeMarkersService {
   }
   
   private buildIcon(station: Station, active:any) : any {
-    let value = station.getValue(active.channels);
-    
     let options = {
         icon: divIcon({
           className: 'icon-plain',
-          html: "<div class='icon-test'>" + value + "</div>",
+          html: "<div class='icon-test'></div>",
           iconAnchor: [5, 5], // Make sure icon is centered over coordinates
           popupAnchor:  [-1, -5]
         })
@@ -29,7 +29,23 @@ export class MakeMarkersService {
   
   //This really needs to just reference a function
   private buildPopUp(station:Station, active:any) : string {
-    return "<div>Station: "+ station.name +"</div> <button> Go to station data </button>";
+    let value = station.getValue(active);
+    value = Math.round(value * 10 ) / 10;
+    
+    var string = "<div>";
+    string += "Station: " + station.sta + "</div>" 
+    + "<div> Displayed value: " + value 
+    + "</div>" + "<div> Network: " + station.net + "</div>"
+    + "<div> Channels (Average value): <ul id='channel-list'>";
+    
+    var channels = station.channels;
+    for (let channel in channels ) {
+      string += "<li>" + channels[channel].name + "</li>";
+    }
+
+    string += "</ul>"; 
+    return string+"</div><button onclick='updateStation($event)'> Go to station data </button>";  
+    // return "<div>Station: "+ station.name +"</div> <div> value: "+value+"</div><button (ngModelClick)='updateStation($event)'> Go to station data </button>";
   
   }
   

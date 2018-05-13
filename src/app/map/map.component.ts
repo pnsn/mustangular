@@ -18,6 +18,8 @@ export class MapComponent implements OnInit {
   query : Query;
   metrics : Metric[];
   message: string;
+  
+  //needs active metric
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,6 +53,8 @@ export class MapComponent implements OnInit {
     if (this.query.metric.length > 0) {
       this.message = "fetching metrics";
       this.getMetrics();
+      
+      
     } else {
       // this.router.navigate(['../form']);
     }
