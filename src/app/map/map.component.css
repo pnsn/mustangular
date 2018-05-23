@@ -1,0 +1,22 @@
+#header {
+  height: 60px;
+  background-color:#f2f2f2;
+}
+#query-info {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+}
+#query-info li {
+  float:left;
+  padding: 5px;
+}
+mat-sidenav {
+  width:300px;
+}
+
+#edit-query {
+  right:30px;
+  position:absolute;
+}

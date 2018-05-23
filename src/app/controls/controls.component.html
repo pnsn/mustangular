@@ -1,9 +1,38 @@
-<mat-radio-group class="select-active-metric" [(ngModel)]="active.metric" (ngModelChange)="changeMetric($event)">
-  <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name">
+<span>Available Metrics</span>
+
+<mat-radio-group class="select-active" [(ngModel)]="active.metricIndex" (ngModelChange)="changeMetric($event)">
+  <mat-radio-button *ngFor="let metric of metrics; let i = index" [value]="i">
     {{metric.title}}
   </mat-radio-button>
 </mat-radio-group>
-<div class="example-selected-value">Active Metric: {{active.metric}}</div>
-<div>Stations: {{stationCount}}</div>
+
+<mat-divider></mat-divider>
+
 <div>Channel stuff here</div>
-<!-- <mat-checkbox class="example-margin" *ngFor="let channel of channels" [(ngModel)]="active.channels" (ngModelChange)="changeChannels($event)">{{channel}}</mat-checkbox>  -->
+<mat-checkbox class="example-margin" *ngFor="let channel of channels" [(ngModel)]="active.channels" (ngModelChange)="changeChannels(channel)">{{channel}}</mat-checkbox>
+
+<mat-divider></mat-divider>
+
+<div>Display Value</div>
+<mat-radio-group class="select-active" [(ngModel)]="active.value" (ngModelChange)="changeValue($event)">
+  <mat-radio-button *ngFor="let value of displayValues" [value]="value">
+    {{value}}
+  </mat-radio-button>
+</mat-radio-group>
+
+<mat-divider></mat-divider>
+<div>Binning</div>
+<!-- <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider> -->
+
+<!--make this some sort of form group so it changes when you leave, not on individual  -->
+<mat-form-field>
+<input matInput type="number" placeholder="Maximum" value="binning.max" [(ngModel)]="binning.max" (ngModelChange)="changeBinning($event)" min="{{binning.min + 1}}">
+</mat-form-field>
+
+<mat-form-field>
+<input matInput type="number" placeholder="Minimum" value="binning.min" [(ngModel)]="binning.min" (ngModelChange)="changeBinning($event)" max="{{binning.max - 1}}">
+</mat-form-field>
+
+<mat-form-field>
+<input matInput type="number" placeholder="Count" value="binning.count" [(ngModel)]="binning.count" (ngModelChange)="changeBinning($event)" min="1" max="25">
+</mat-form-field>

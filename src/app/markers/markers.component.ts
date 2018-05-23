@@ -4,6 +4,7 @@ import { Metric } from '../Metric';
 import { MakeMarkersService } from '../make-markers.service'
 import { ActiveService } from "../active.service";
 import { CombineMetricsService} from '../combine-metrics.service';
+import { BinningService } from '../binning.service';
 
 @Component({
   selector: 'app-markers',
@@ -14,21 +15,30 @@ export class MarkersComponent implements OnInit {
   metrics: Metric[];
   
   active = {
-    "metric" : "",
+    "metricIndex" : 0,
     "channels" : [],
-    "value" : "average"
+    "value" : ""
   };
-  
-  displayValues = ["minimum", "maximum", "average"];
 
   markers : any;
   fitBounds: any;
-  constructor(private makeMarkersService: MakeMarkersService, private activeService: ActiveService, private combineMetricsService: CombineMetricsService) { }
+  constructor(
+    private makeMarkersService: MakeMarkersService,
+    private activeService: ActiveService,
+    private combineMetricsService: CombineMetricsService,
+    private binningService: BinningService) { }
 
   ngOnInit() {
-    this.activeService.getActiveMetric.subscribe(
-      activeMetric => { 
-        this.active.metric = activeMetric;
+    this.activeService.getActiveMetricIndex.subscribe(
+      activeMetricIndex => { 
+        this.active.metricIndex = activeMetricIndex;
+        this.makeMarkers();
+      }
+    );
+    
+    this.activeService.getActiveValue.subscribe(
+      activeValue => { 
+        this.active.value = activeValue;
         this.makeMarkers();
       }
     );
@@ -46,7 +56,6 @@ export class MarkersComponent implements OnInit {
         this.makeMarkers();
       }
     )
-    
   }
   
   updateStation($event) : void {
@@ -59,7 +68,8 @@ export class MarkersComponent implements OnInit {
   }
   
   private makeMarkers() : void { 
-    if( this.metrics && this.active.metric) {
+    if( this.metrics) {
+      console.log("makeMarkers")
       this.markers = this.makeMarkersService.getMarkers(this.metrics, this.active);
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons())

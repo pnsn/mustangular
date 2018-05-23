@@ -8,6 +8,7 @@ import { Station } from '../station'
 import { Router, ActivatedRoute } from '@angular/router';
 import { Query } from '../query';
 import { CombineMetricsService} from '../combine-metrics.service';
+import { ActiveService} from '../active.service';
 
 @Component({
   selector: 'app-map',
@@ -18,7 +19,12 @@ export class MapComponent implements OnInit {
   query : Query;
   metrics : Metric[];
   message: string;
-  
+  active = {
+    "metricIndex" : 0,
+    "name" : "",
+    "channels" : []
+  };
+  stationCount : number =  0;
   //needs active metric
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +32,8 @@ export class MapComponent implements OnInit {
     private metricsService: MetricsService,
     private combineMetricsService: CombineMetricsService,
     private measurementsService: MeasurementsService,
-    private stationsService: StationsService) { }
+    private stationsService: StationsService,
+    private activeService: ActiveService) { }
   
   ngOnInit() {
     console.log("Map Component onInit");
@@ -53,7 +60,6 @@ export class MapComponent implements OnInit {
     if (this.query.metric.length > 0) {
       this.message = "fetching metrics";
       this.getMetrics();
-      
       
     } else {
       // this.router.navigate(['../form']);
@@ -96,6 +102,14 @@ export class MapComponent implements OnInit {
         this.metrics = metrics;
       }
     );
-    this.message = "metrics combined?"
+    
+    this.activeService.getActiveMetricIndex.subscribe(
+      activeMetricIndex => {
+        this.active.metricIndex = activeMetricIndex;
+        this.stationCount = this.combineMetricsService.getStationCount(this.active.metricIndex);
+      }
+    );
+    
+    this.message = "metrics combined?"; //hide the blocker thingy
   }
 }

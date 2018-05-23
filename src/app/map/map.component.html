@@ -1,21 +1,42 @@
-<nav>
-  <a routerLink="/form" queryParamsHandling="merge">Edit Query</a>
-</nav>
+<mat-toolbar id="header">
 
-<h3>What's going on?... {{message}}</h3>
+  
+  <ul id="query-info">
+    <li *ngIf="query.net"> Net: <span>{{query.net}}</span> </li>
+    <li *ngIf="query.sta"> Sta: <span>{{query.sta}}</span></li>
+    <li *ngIf="query.cha"> Cha: <span>{{query.cha}}</span></li>  
+    <li *ngIf="query.loc"> Loc: <span>{{query.loc}}</span></li>
+    <li *ngIf="query.qual"> Qual: <span>{{query.qual}}</span></li>
+    <li *ngIf="query.start"> Start: <span>{{query.start}}</span> </li>
+    <li *ngIf="query.end"> End: <span>{{query.end}}</span> </li>
+  </ul>
+  
+  <div *ngIf="metrics" >Active Metric: {{metrics[active.metricIndex].title}}</div>
+  <div>Stations: {{stationCount}}</div>
+  
+  <button id="edit-query">
+    <a routerLink="/form" queryParamsHandling="merge">Edit Query</a>
+  </button>
+</mat-toolbar>
 
-<div id="query-info">
-  <div *ngIf="query.net"> Net: <span>{{query.net}}</span> </div>
-  <div *ngIf="query.sta"> Sta: <span>{{query.sta}}</span></div>
-  <div *ngIf="query.cha"> Cha: <span>{{query.cha}}</span></div>  
-  <div *ngIf="query.loc"> Loc: <span>{{query.loc}}</span></div>
-  <div *ngIf="query.qual"> Qual: <span>{{query.qual}}</span></div>
-  <div *ngIf="query.start"> Start: <span>{{query.start}}</span> </div>
-  <div *ngIf="query.end"> End: <span>{{query.end}}</span> </div>
+<div id="overlay">
+  
+    <h3>What's going on?... {{message}}</h3>
 </div>
-<app-controls ></app-controls>
-<app-markers ></app-markers>
-<app-station *ngIf="viewStation"></app-station>
+
+<!-- <app-station *ngIf="viewStation"></app-station> -->
+
+<mat-sidenav-container>
+
+  <mat-sidenav-content>
+    <app-markers ></app-markers>
+  </mat-sidenav-content>
+
+  <mat-sidenav id="sidebar" mode="side" position="end" opened>
+    <app-controls ></app-controls>
+  </mat-sidenav>
+
+</mat-sidenav-container>
 
 
 

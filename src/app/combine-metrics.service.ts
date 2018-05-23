@@ -11,20 +11,22 @@ export class CombineMetricsService {
   
   private channels = new BehaviorSubject<Array<string>>([]);
   private metrics = new BehaviorSubject<Metric[]>([]);
-  private stationCount = {};
+  private stationCount = [];
+  
   getMetrics = this.metrics.asObservable();
   getChannels = this.channels.asObservable();
-  getStationCount(metric:string) : number {
-    console.log(metric)
-    return this.stationCount[metric];
+  
+  getStationCount(metricIndex:number) : number {
+    return this.stationCount[metricIndex];
   }
+  
   //returns metrics with stations and measurements added
-  combineMetrics(measurements: any, stations: any, metrics: any) : void{
+  combineMetrics(measurements: any, stations: any, metrics: any) : void {
     let availableChannels = [];
     let combinedMetrics = new Array<Metric>();
-    
+    let index = 0;
     for (let metric of metrics){
-      this.stationCount[metric.name] = 0;
+      this.stationCount[index] = 0;
       let combinedMetric = new Metric(metric.name, metric.title, metric.description, metric.tables[0].columns[0].name, {});
       for (let m of measurements[metric.name]){
         let stationCode = m.net + "." + m.sta;
@@ -33,7 +35,7 @@ export class CombineMetricsService {
         if (!station) {
           station = Object.create(stations[stationCode]);
           station.channels = {};
-          this.stationCount[metric.name]++;
+          this.stationCount[index]++;
         }
         let channelCode = m.cha;
         let channels = station.channels;
@@ -51,6 +53,7 @@ export class CombineMetricsService {
         combinedMetric.stations[stationCode] = station;
       }
       combinedMetrics.push(combinedMetric);
+      index++;
     }
     
 

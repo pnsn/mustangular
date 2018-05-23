@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AppComponent } from './app.component';
-
+import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -17,6 +17,7 @@ import { StationsService } from './stations.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CombineMetricsService} from './combine-metrics.service';
 import { MakeMarkersService } from './make-markers.service';
+import { BinningService } from './binning.service';
 import { ActiveService } from './active.service'
 import {
   MatAutocompleteModule,
@@ -34,6 +35,7 @@ import {
   MatRadioModule,
   MatRippleModule,
   MatSelectModule,
+  MatSliderModule,
   MatSidenavModule,
   MatToolbarModule,
   MatTooltipModule
@@ -75,11 +77,12 @@ import { ControlsComponent } from './controls/controls.component';
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSliderModule,
     MatToolbarModule,
     MatTooltipModule,
     FlexLayoutModule
   ],
-  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService],
+  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService, BinningService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

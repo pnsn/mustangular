@@ -54,7 +54,7 @@ export class MakeMarkersService {
     let markers = [];
     let latlons = [];
     for (let metric of metrics){
-      if(metric.name == active.metric) {
+      if(metric.name == metrics[active.metricIndex].name) {
         for(let s in metric.stations) {
           let station = metric.stations[s];
           let latlon = latLng(station.lat, station.lon);
