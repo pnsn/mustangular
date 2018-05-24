@@ -3,6 +3,9 @@ import { ActiveService } from "../active.service";
 import { CombineMetricsService} from '../combine-metrics.service';
 import { BinningService } from '../binning.service'
 import { Metric } from '../metric';
+import { Active } from '../active';
+
+
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -13,38 +16,42 @@ export class ControlsComponent implements OnInit {
   metrics: Metric[];
   channels: Array<string>;
   
-  active = {
-    "metricIndex" : 0,
-    "channels" : [],
-    "value": "average"
-  };
+  //default values
+  active = new Active(0, [], "average");
   
   displayValues = ["minimum", "maximum", "average"];
   
   binning = {
     min: <number> 0,
-    max: <number> 1,
+    max: <number> 100,
     count: <number> 3
   }
+  
+  //TODO: better color picker
+  coloring = {
+    low: "#0000ff",
+    high: "#ffffff"
+  };
+  
+  changed = false;
   
   stationCount: number;
   constructor(private activeService: ActiveService, private combineMetricsService: CombineMetricsService, private binningService: BinningService) { }
   
   ngOnInit() {
-    this.activeService.getActiveMetricIndex.subscribe(
-      activeMetricIndex => {
-        this.active.metricIndex = activeMetricIndex;
+    this.activeService.setActive(this.active);
+  
+    this.activeService.getActive.subscribe(
+      active => {
+        this.active = active;
         this.stationCount = this.combineMetricsService.getStationCount(this.active.metricIndex);
       }
-    );
-    
-    this.activeService.getActiveChannels.subscribe(
-      activeChannels => this.active.channels = activeChannels
     );
     
     this.combineMetricsService.getMetrics.subscribe(
       metrics => { 
         this.metrics = metrics;
+        this.binningService.makeBins(this.binning, this.coloring);
       }
     );
     
@@ -55,21 +62,15 @@ export class ControlsComponent implements OnInit {
     );
   }
 
-
-  changeChannels(channels) {
-    console.log(channels)
-    //this.activeService.changeChannels(channels);
-  }
-  changeMetric(metricIndex : number) {
-    this.activeService.changeMetric(metricIndex);
+  valueChanged(){
+    this.changed = true;
   }
   
-  changeValue(value: string) {
-    this.activeService.changeValue(value);
-  }
-  
-  changeBinning(value: number) {
-    console.log(value)
+  onSubmit(){
+    console.log("active changed")
+    this.changed = false;
+    this.activeService.setActive(this.active);
+    this.binningService.makeBins(this.binning, this.coloring);
   }
   
 }

@@ -1,33 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Active } from './active';
 
 @Injectable()
 export class ActiveService {
   constructor() { }
-  
-  
-  private metricIndex = new BehaviorSubject<number>(0);
-  getActiveMetricIndex = this.metricIndex.asObservable();
 
-  private channels = new BehaviorSubject<Array<string>>([]);
-  getActiveChannels = this.channels.asObservable();
+  private status = new BehaviorSubject<string>("In Progress");
   
-  private value = new BehaviorSubject<string>("");
-  getActiveValue = this.value.asObservable();
+  private active = new BehaviorSubject<Active>(); //TODO:fix this
   
-
-  changeMetric(metricIndex: number) {
-    this.metricIndex.next(metricIndex);
-    console.log("change the metric")
-  }
+  getActive = this.active.asObservable();
   
-  changeChannels(channels: Array<string>) {
-    this.channels.next(channels);
-    console.log("change the channels");
-  }
-  
-  changeValue(value: string) {
-    this.value.next(value);
-    console.log("change the channels");
+  setActive(active:Active) : void {
+    this.active.next(active);
   }
 }

@@ -6,3 +6,8 @@
 .select-active mat-radio-button{
   margin: 5px;
 }
+
+.color-picker {
+  height:30px;
+  width:30px;
+}

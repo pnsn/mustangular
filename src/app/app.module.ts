@@ -42,7 +42,7 @@ import {
 } from '@angular/material';
 import { MarkersComponent } from './markers/markers.component';
 import { ControlsComponent } from './controls/controls.component';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +80,8 @@ import { ControlsComponent } from './controls/controls.component';
     MatSliderModule,
     MatToolbarModule,
     MatTooltipModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    AngularFontAwesomeModule
   ],
   providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService, BinningService],
   bootstrap: [AppComponent]

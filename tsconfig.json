@@ -12,7 +12,8 @@
       "node_modules/@types"
     ],
     "types": [
-      "hammerjs"
+      "hammerjs",
+      "rainbowvis"
     ],
     "lib": [
       "es2017",

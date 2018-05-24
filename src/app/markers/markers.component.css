@@ -21,3 +21,44 @@
 :host ::ng-deep ul#channel-list li {
   flex: 1 0 33%;
 }
+
+.icon, .icon-outlier-high, .icon-outlier-low {
+  border-radius: 7px;
+  height: 7px;
+  width: 7px;
+  border: 1px solid black;
+}
+
+#key{
+  position:relative;
+  right:0px;
+  height:auto;
+}
+
+#key td {
+  padding-left: 5px;
+}
+
+#key .icon-key {
+  width: 20px;
+}
+
+#key .icon-key {
+  width:20px;
+  height:20px;
+  border: 1px solid black;
+}
+
+.histogram  {
+  height:20px;
+  border: 1px solid black;
+}
+
+md-checkbox.md-checked.layer-toggle .md-icon {
+ background-color: transparent !important;
+ border-width: 1px;
+}
+tr[disabled="disabled"] {
+  color:#808080;
+  opacity: 0.5;
+}

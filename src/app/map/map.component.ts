@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Query } from '../query';
 import { CombineMetricsService} from '../combine-metrics.service';
 import { ActiveService} from '../active.service';
-
+import { Active } from '../active';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -19,11 +19,8 @@ export class MapComponent implements OnInit {
   query : Query;
   metrics : Metric[];
   message: string;
-  active = {
-    "metricIndex" : 0,
-    "name" : "",
-    "channels" : []
-  };
+  inProgress: boolean = true;
+  metricIndex : number;
   stationCount : number =  0;
   //needs active metric
   constructor(
@@ -58,7 +55,7 @@ export class MapComponent implements OnInit {
         }
       });
     if (this.query.metric.length > 0) {
-      this.message = "fetching metrics";
+      this.message = "Waiting for Metrics from MUSTANG.";
       this.getMetrics();
       
     } else {
@@ -89,7 +86,7 @@ export class MapComponent implements OnInit {
   private getMeasurements(qString:string, metrics:Metric[], stations:object): void {
     this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
-        this.message = "have metrics, combining them now"
+        this.message = "Combining Metrics."
         this.combineMetrics(measurements, stations, metrics)
       }
     );
@@ -103,13 +100,14 @@ export class MapComponent implements OnInit {
       }
     );
     
-    this.activeService.getActiveMetricIndex.subscribe(
-      activeMetricIndex => {
-        this.active.metricIndex = activeMetricIndex;
-        this.stationCount = this.combineMetricsService.getStationCount(this.active.metricIndex);
+    this.activeService.getActive.subscribe(
+      active => {
+        console.log("changing the active")
+        this.metricIndex = active.metricIndex;
+        this.stationCount = this.combineMetricsService.getStationCount(this.metricIndex);
       }
     );
-    
-    this.message = "metrics combined?"; //hide the blocker thingy
+    this.inProgress = false;
+    this.message = "Metrics Combined."; //hide the blocker thingy
   }
 }
