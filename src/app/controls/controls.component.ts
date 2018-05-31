@@ -1,10 +1,10 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { ActiveService } from "../active.service";
 import { CombineMetricsService} from '../combine-metrics.service';
-import { BinningService } from '../binning.service'
+import { BinningService } from '../binning.service';
 import { Metric } from '../metric';
-import { Active } from '../active';
-
+import { ActiveService } from '../active.service';
+import { ParametersService } from '../parameters.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-controls',
@@ -13,64 +13,50 @@ import { Active } from '../active';
 })
 
 export class ControlsComponent implements OnInit {
-  metrics: Metric[];
+  metricNames: string[];
   channels: Array<string>;
+  activeMetric : Metric; //am I wiping this over???
+  displayDefaults : any;
+  //needs a ton of params
   
-  //default values
-  active = new Active(0, [], "average");
-  
+  //if there isn't coloring on the metric property already, make it up
   displayValues = ["minimum", "maximum", "average"];
   
-  binning = {
-    min: <number> 0,
-    max: <number> 100,
-    count: <number> 3
-  }
-  
-  //TODO: better color picker
-  coloring = {
-    low: "#0000ff",
-    high: "#ffffff"
-  };
-  
   changed = false;
-  
-  stationCount: number;
-  constructor(private activeService: ActiveService, private combineMetricsService: CombineMetricsService, private binningService: BinningService) { }
+
+  constructor(
+    private activeService: ActiveService,
+    private combineMetricsService: CombineMetricsService,
+    private binningService: BinningService,
+    private parametersService: ParametersService,
+    private dataService: DataService
+  ) { }
   
   ngOnInit() {
-    this.activeService.setActive(this.active);
-  
-    this.activeService.getActive.subscribe(
-      active => {
-        this.active = active;
-        this.stationCount = this.combineMetricsService.getStationCount(this.active.metricIndex);
+    this.displayDefaults = this.parametersService.getDisplay();
+    //make sure this is slicing off a copy of the metric
+    this.dataService.getActiveMetric().subscribe(
+      activeMetric => {
+        this.activeMetric = activeMetric;
+        this.metricNames = this.dataService.getMetricNames();
+        console.log(this.metricNames)
+        this.binningService.makeBins(this.activeMetric.binning, this.activeMetric.coloring);
       }
     );
-    
-    this.combineMetricsService.getMetrics.subscribe(
-      metrics => { 
-        this.metrics = metrics;
-        this.binningService.makeBins(this.binning, this.coloring);
-      }
-    );
-    
-    this.combineMetricsService.getChannels.subscribe(
-      channels => { 
-        this.channels = channels;
-      }
-    );
+    // this.combineMetricsService.getChannels.subscribe(
+    //   channels => {
+    //     this.channels = channels;
+    //   }
+    // );
   }
 
   valueChanged(){
     this.changed = true;
   }
   
-  onSubmit(){
-    console.log("active changed")
+  onSubmit(){ //not actually submitting anything right now
     this.changed = false;
-    this.activeService.setActive(this.active);
-    this.binningService.makeBins(this.binning, this.coloring);
+    this.activeService.setActiveMetric(this.activeMetric);//FIXME: this is going to assign wrong data to new metric
   }
   
 }

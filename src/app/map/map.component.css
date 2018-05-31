@@ -21,7 +21,8 @@
 
 .overlay-message {
   z-index:101;
-  color:white;
+  color: white;
+  font-weight:bold;  
   display:inline-block;
 }
 #header {

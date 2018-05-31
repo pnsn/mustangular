@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Active } from './active';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Metric } from './metric';
 
 @Injectable()
 export class ActiveService {
   constructor() { }
 
-  private status = new BehaviorSubject<string>("In Progress");
+  // private status = new Subject<string>("In Progress");
   
-  private active = new BehaviorSubject<Active>(); //TODO:fix this
+  private activeMetric = new Subject<Metric>(); //TODO:fix this
   
-  getActive = this.active.asObservable();
+  getActiveMetric() : Observable<Metric> {
+    return this.activeMetric.asObservable();
+  } 
   
-  setActive(active:Active) : void {
-    this.active.next(active);
+  setActiveMetric(metric:Metric) : void {
+    this.activeMetric.next(metric);
   }
 }

@@ -2,8 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../Metric';
 import { MakeMarkersService } from '../make-markers.service'
-import { ActiveService } from "../active.service";
-import { CombineMetricsService} from '../combine-metrics.service';
+import { ActiveService} from '../active.service';
 import { BinningService } from '../binning.service';
 import { Bin } from '../Bin';
 import { Active } from '../active';
@@ -13,74 +12,39 @@ import { Active } from '../active';
   styleUrls: ['./markers.component.css']
 })
 export class MarkersComponent implements OnInit {
-  metrics: Metric[];
+  metric: Metric;
   
-  active : Active;
-  
-    bins= [
-    {
-      max:1,
-      min: 0,
-      color:"#000000",
-      count:10,
-      position:-1,
-      name:"icon-group-0",
-      width: 10 + "px"
-    },
-    { 
-      max:2,
-      min: 1,
-      color:"#a6a6a6",
-      count:14,
-      position:0,
-      name:"icon-group-0",
-      width: 14 + "px"
-    },
-    { 
-      max:4,
-      min:2,
-      color:"#ffffff",
-      count:12,
-      position:1,
-      name:"icon-group-1",
-      width: 12 + "px"
-    },
-  ]
+  bins : Bin[];
 
-  markers : any;
+  //need data count, min, max
+
+  markers : any; //marker[];
   fitBounds: any;
+  
   constructor(
     private makeMarkersService: MakeMarkersService,
     private activeService: ActiveService,
-    private combineMetricsService: CombineMetricsService,
     private binningService: BinningService) { }
 
   ngOnInit() {
-    this.activeService.getActive.subscribe(
-      active => { 
-        this.active = active;
+    this.activeService.getActiveMetric().subscribe(
+      metric => { 
+        this.metric = metric;
+        this.bins = this.binningService.getBins();
         this.makeMarkers();
       }
     );
-    
-    this.combineMetricsService.getMetrics.subscribe(
-      metrics => { 
-        this.metrics = metrics;
-        this.makeMarkers();
-      }
-    );
-    
-    //getBins
   }
-
-  changeValue($event) : void {
-    console.log(this.active.value);
-    this.makeMarkers();
+  
+  private toggleLayer(layer : string) {
+    console.log(layer)
+    return true;
   }
   
   private makeMarkers() : void { 
-    if( this.metrics && this.active) {
-      this.markers = this.makeMarkersService.getMarkers(this.metrics, this.active);
+    if( this.metric && this.bins) {
+      if(this.bins && this.bins.length > 0 ) { console.log(this.bins[1].color);}
+      this.markers = this.makeMarkersService.getMarkers(this.metric, this.bins);
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons())
       }
@@ -88,6 +52,7 @@ export class MarkersComponent implements OnInit {
     }
 
   }
+  //TODO: prevent recentering on new icons
 
   options = {
     layers: [

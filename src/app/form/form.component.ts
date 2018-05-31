@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Query } from '../query';
 import { MetricsService } from '../metrics.service';
-import { Metric } from '../metric'
-import { Router, ActivatedRoute } from '@angular/router';
+import { Metric } from '../metric';
+import { Router } from '@angular/router';
+import { ParametersService } from '../parameters.service';
 
 @Component({
   selector: 'app-form',
@@ -13,36 +14,29 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FormComponent implements OnInit {
   //TODO: get metric list form IRIS
   metrics : Metric[];
-  selectedMetrics : Metric[];
+  selectedMetrics : any;
   loading: boolean = false;
   maxDate = new Date();
   query : Query;
   
-  constructor(private route: ActivatedRoute, private router: Router, private metricsService: MetricsService) { }
+  constructor (
+    private router: Router,
+    private metricsService: MetricsService,
+    private parametersService: ParametersService
+  ) { }
   
   ngOnInit() {
     console.log("FormComponent onInit");
     this.getMetrics();
-    this.route.queryParamMap
-      .subscribe(params => {
-        if(params && params["params"]){
-          var pa = params["params"];
-          this.query = new Query(
-            pa.net,
-            pa.cha,
-            pa.sta,
-            pa.loc,
-            pa.qual,
-            pa.start,
-            pa.end,
-            pa.metric
-          );
-          this.selectedMetrics = pa.hasOwnProperty('metric') ? pa.metric.split(',') : [];
-        } else {
-          this.query = new Query();
-        }
-       
-      });
+    
+    this.parametersService.getQuery().subscribe(
+      query => { 
+        this.query = query;
+        this.selectedMetrics = query.metric ? query.metric.split(',') : [];
+      }
+    );
+  
+    this.parametersService.setQueryParameters();
   }
   
   // Get list of available metrics from IRIS
@@ -89,6 +83,7 @@ export class FormComponent implements OnInit {
   onSubmit() {
     var start = new Date(this.query.start);
     var end = new Date(this.query.end);
+    this.query.net=this.query.net.replace(/\s/m,"");
     this.query.start = start.toISOString().replace(/Z.*$/gim, "");
     this.query.end = end.toISOString().replace(/Z.*$/gim, "");
     this.query.metric = this.selectedMetrics.toString();

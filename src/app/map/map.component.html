@@ -1,9 +1,11 @@
 <div [ngClass]="{'overlay-background': inProgress}">
   <mat-toolbar id="header">
-    <div *ngIf="metrics">Active Metric: {{metrics[metricIndex].title}}</div>
-    <div>Stations: {{stationCount}}</div>
+    <ng-container *ngIf="activeMetric">
+      <div>Active Metric: {{activeMetric.title}}</div>
+      <div>Stations: {{activeMetric.data.count}}</div>
+    </ng-container>
   
-    <ul id="query-info">
+    <ul id="query-info" *ngIf="query">
       <li *ngIf="query.net"> Net: <span>{{query.net}}</span> </li>
       <li *ngIf="query.sta"> Sta: <span>{{query.sta}}</span></li>
       <li *ngIf="query.cha"> Cha: <span>{{query.cha}}</span></li>  

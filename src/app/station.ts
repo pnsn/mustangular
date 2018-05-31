@@ -9,8 +9,8 @@ export class Station {
       public name: string,
       public loc?: string, 
       public code?: string, //NET.STA.LOC
-      public channels?: object,
-      public displayValues?: number[] 
+      public channels?: any,
+      public displayValue? : number
     ){}
     
     private getAverage(values: number[]) : number {
@@ -19,28 +19,29 @@ export class Station {
         sum += value;
       }
       let average = sum/values.length;
-    
       return average;
-
     }
+    
     //temporary 
-    getValue(active: any) : number {
-      let channels = active.channels;
+    setValue(displayValue : string, chans:string[]) : void {
+      let selectedChannels = chans;
       var values = [];
       for (let channel in this.channels) {
-        if (channels.length == 0 || channels.indexOf(channel) > -1) {
+        if (selectedChannels.length == 0 || selectedChannels.indexOf(channel) > -1) {
           values.push(this.channels[channel].getAverage());
         }
       }
       
       values.sort(function(a, b){return a - b});
-
-      if(active.value == "minimum") {
-        return values[0];
-      } else if (active.value == "maximum") {
-        return values[values.length-1];
+      
+      if(values.length == 0) {
+        this.displayValue = null;
+      } else if(displayValue == "minimum") {
+        this.displayValue = values[0];
+      } else if (displayValue == "maximum") {
+        this.displayValue = values[values.length-1];
       } else {
-        return this.getAverage(values);
+        this.displayValue = this.getAverage(values);
       }
     }
   //value calculation

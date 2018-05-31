@@ -18,7 +18,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CombineMetricsService} from './combine-metrics.service';
 import { MakeMarkersService } from './make-markers.service';
 import { BinningService } from './binning.service';
-import { ActiveService } from './active.service'
+import { ActiveService } from './active.service';
+import { ParametersService } from './parameters.service';
+import { DataService } from './data.service'
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -83,7 +85,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     FlexLayoutModule,
     AngularFontAwesomeModule
   ],
-  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService, BinningService],
+  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService, BinningService, ParametersService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
