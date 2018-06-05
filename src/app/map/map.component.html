@@ -1,4 +1,4 @@
-<div [ngClass]="{'overlay-background': inProgress}">
+<div [ngClass]="{'overlay-blur': inProgress}">
   <mat-toolbar id="header">
     <ng-container *ngIf="activeMetric">
       <div>Active Metric: {{activeMetric.title}}</div>
@@ -19,8 +19,6 @@
     </button>
   </mat-toolbar>
 
-
-
   <!-- <app-station *ngIf="viewStation"></app-station> -->
 
   <mat-sidenav-container>
@@ -36,10 +34,12 @@
   </mat-sidenav-container>
 </div>
 <div class="overlay" fxLayout fxLayoutAlign="center center" *ngIf="inProgress">
+  
   <div class="overlay-message" fxLayout="column" >
     <h1 fxFlexAlign="center">{{message}}</h1>
     <fa name="spinner" animation="spin" size="5x" fxFlexAlign="center"></fa>
   </div>
+  <div class="overlay-background"> </div>
 </div>
 
 

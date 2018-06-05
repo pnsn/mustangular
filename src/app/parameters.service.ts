@@ -20,15 +20,15 @@ export class ParametersService {
   getDisplay() : any { //TODO: deal with these values from URL. - these are defaults in case there is none on activeMEtric
     return {
       "binning" : {
-        "max" : 100,
-        "min" : 0,
-        "count" : 3
+        "max" : null,
+        "min" : null,
+        "count" : null
       },
       "coloring" : {
-        "high" : "#0000ff",
-        "low" : "#ffffff"
+        "high" : null,
+        "low" : null
       },
-      "displayValue" : "average"
+      "displayValue" : null
     }
   }
   //TODO: sanitize
