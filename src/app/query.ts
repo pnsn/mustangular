@@ -21,4 +21,19 @@ export class Query {
     }
     return str;
   }
+  
+  sanitize() : void {
+    let queryKeys = ["net","cha","sta","loc","qual","metric"];
+    for (let key of queryKeys) {
+      if(this[key]){
+        this[key] = this[key].replace(/\s/gm,""); //remove spaces
+      }
+    }
+    
+    var start = new Date(this.start);
+    var end = new Date(this.end);
+    
+    this.start = start.toISOString().replace(/Z.*$/gim, "");
+    this.end = end.toISOString().replace(/Z.*$/gim, "");
+  }
 }

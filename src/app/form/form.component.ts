@@ -81,12 +81,8 @@ export class FormComponent implements OnInit {
 
   // Submit form 
   onSubmit() {
-    var start = new Date(this.query.start);
-    var end = new Date(this.query.end);
-    this.query.net=this.query.net.replace(/\s/m,"");
-    this.query.start = start.toISOString().replace(/Z.*$/gim, "");
-    this.query.end = end.toISOString().replace(/Z.*$/gim, "");
     this.query.metric = this.selectedMetrics.toString();
+    this.query.sanitize();
     this.router.navigate(['../map'], { queryParams: this.query});
   }
 }
