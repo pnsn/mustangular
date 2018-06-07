@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../metric';
 import { MakeMarkersService } from '../make-markers.service'
-import { ActiveService} from '../active.service';
+import { DataService} from '../data.service';
 import { BinningService } from '../binning.service';
 import { Bin } from '../bin';
 import { Active } from '../active';
@@ -24,13 +24,14 @@ export class MarkersComponent implements OnInit {
   
   constructor(
     private makeMarkersService: MakeMarkersService,
-    private activeService: ActiveService,
+    private dataService: DataService,
     private binningService: BinningService) { }
 
   ngOnInit() {
-    this.activeService.getActiveMetric().subscribe(
+    this.dataService.getActiveMetric().subscribe(
       metric => { 
         this.metric = metric;
+        this.binningService.makeBins(this.metric.display);
         this.bins = this.binningService.getBins();
         this.makeMarkers();
       }
@@ -48,7 +49,6 @@ export class MarkersComponent implements OnInit {
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons())
       }
-    
     }
 
   }

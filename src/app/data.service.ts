@@ -11,6 +11,7 @@ export class DataService {
   private metrics : Metric[];
   private activeMetric = new Subject<Metric>();
   private metricNames : string[] = [];
+  
   setDisplay(parameters : any) : void {
     this.parameters = parameters;
   } 
@@ -19,84 +20,91 @@ export class DataService {
     return this.activeMetric.asObservable();
   } 
   
-  setActiveMetric(metricName : string) : void {
-    
+  // Changes the active metric and propagates it
+  private setActiveMetric(activeMetricName : String) : void {    
     for (let metric of this.metrics) {
-      if(metric.name == metricName ){
-         this.activeMetric.next(metric);
+      if(metric.name == activeMetricName ){
+        this.activeMetric.next(metric);
       }
     }
 
   }
   
-  getMetricNames() : string[] {
-  
-    return this.metricNames;
-  
+  getMetrics() : Metric[] {
+    return Object.assign(this.metrics);
   }
+
+  updateMetrics(metrics : Metric[], activeMetricName : string) : void {
+    this.metrics = metrics;
+    this.setActiveMetric(activeMetricName);
   
+  } 
+  
+  
+  // only happens once
   setMetrics(metrics : Metric[]) : void {
     this.metrics = metrics;
     this.calculateValues();
   }
   
+  // Calculates 5th and 95th percentile to bin data
   private initialBinning(values:number[]) : any {
-  
     let length = values.length;
-    
+      
     let min = Math.ceil(.05 * length);
     let max = Math.ceil(0.95 * length);
-    console.log(min,max)
-    
     
     return {
-        "max" : values[max],
-        "min" : values[min],
+        "max" : length > 0 ? values[max] : 0,
+        "min" : length > 0 ? values[min] : 0,
         "count" : 3
-      }
-  
+    }
   }
   
+  //Apply default value, parameter values or calculate new ones. 
   private calculateValues () : void {
     for (let metric of this.metrics) {
+      let display = metric.display;
+      
       if(this.metricNames.indexOf(metric.name) < 0){
         this.metricNames.push(metric.name);
       }
       
       if(this.parameters.displayValue){
-        metric.displayValue = this.parameters.displayValue;
+        display.displayValue = this.parameters.displayValue;
       } else {
-        metric.displayValue = "average";
+        display.displayValue = "average";
       }
       
 
       let values = [];
       for (let s in metric.stations) {
         let station = metric.stations[s];
-        station.setValue(metric.displayValue, []);
+        station.setValue(display.displayValue, []);
         values.push(station.displayValue);
       }
     
       values.sort(function(a, b){return a - b});
       
       if(values.length > 0) {
-        metric.data.max = values[values.length-1];
-        metric.data.min = values[0];
+        display.data.max = values[values.length-1];
+        display.data.min = values[0];
       }
 
       if(this.parameters.coloring.high && this.parameters.coloring.low) {
-        metric.coloring = this.parameters.coloring;
+        display.coloring = this.parameters.coloring;
       } else {
-        metric.coloring = {"high" : "#0000ff", "low" : "#ffffff"};
+        display.coloring = {"high" : "#008000", "low" : "#FF0000"};
       }
       if(this.parameters.binning && this.parameters.binning.max && this.parameters.binning.min && this.parameters.binning.count ){
-          metric.binning = this.parameters.binning;
+          display.binning = this.parameters.binning;
       } else {
-        metric.binning = this.initialBinning(values);
+        display.binning = this.initialBinning(values);
       
       }
+      
+      metric.display = display;
     }
-    this.setActiveMetric(this.metrics[0].name);
-    console.log(this.metrics)
+    this.activeMetric.next(this.metrics[0]);
   }
 }

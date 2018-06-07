@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute} from '@angular/router';
 import { Query } from './query';
+import { Display } from './display'
 
 @Injectable()
 export class ParametersService {
@@ -18,7 +19,7 @@ export class ParametersService {
   }
   
   getDisplay() : any { //TODO: deal with these values from URL. - these are defaults in case there is none on activeMEtric
-    return {
+    return { //return new Display?
       "binning" : {
         "max" : null,
         "min" : null,
@@ -38,7 +39,6 @@ export class ParametersService {
       .subscribe(params => {
         if(params && params["params"]){
           var pa = params["params"];
-          console.log("have parameter");
           this.query.next(new Query(
             pa.net,
             pa.cha,

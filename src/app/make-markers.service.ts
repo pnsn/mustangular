@@ -13,6 +13,11 @@ export class MakeMarkersService {
     return this.latlons;
   }
   
+  
+  getBins() : Bin[] {
+    return this.bins;
+  }
+  
   private bins : Bin[];
   
   //Makes leaflet markers using active channels and metrics
@@ -24,13 +29,18 @@ export class MakeMarkersService {
       let station = metric.stations[s];
       let latlon = latLng(station.lat, station.lon);
       
-      let options = this.buildIcon(station, metric.displayValue);
+      let options = this.buildIcon(station, metric.display.displayValue);
       
-      markers.push(marker(latlon, options).bindPopup(this.buildPopup(station, metric.displayValue)));
+      markers.push(marker(latlon, options).bindPopup(this.buildPopup(station, metric.display.displayValue)));
       latlons.push(latlon);
     }
-    console.log(this.bins)
     this.latlons = latlons;
+    
+    for (let bin of this.bins){
+      bin.setWidth(metric.display.data.count);
+    }
+    console.log(this.bins)
+    
     return markers;
   }
   

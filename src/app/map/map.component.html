@@ -2,7 +2,7 @@
   <mat-toolbar id="header">
     <ng-container *ngIf="activeMetric">
       <div>Active Metric: {{activeMetric.title}}</div>
-      <div>Stations: {{activeMetric.data.count}}</div>
+      <div>Stations: {{activeMetric.display.data.count}}</div>
     </ng-container>
   
     <ul id="query-info" *ngIf="query">

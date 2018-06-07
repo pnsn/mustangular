@@ -9,16 +9,8 @@ export class Bin {
     public min?: number,
     public width?: number
   ){}
-    
-  private setMax(max : number) : void {
-   this.max = max; 
-  }
-
-  private setMin(min : number) : void {
-   this.min = min; 
-  }
   
-  private setWidth(count : number) : void {
+  setWidth(count : number) : void {
    this.width = 100 * this.count / count;
   }
 

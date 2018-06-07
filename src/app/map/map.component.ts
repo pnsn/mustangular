@@ -5,8 +5,6 @@ import { MeasurementsService } from '../measurements.service';
 import { StationsService } from '../stations.service';
 import { Query } from '../query';
 import { CombineMetricsService} from '../combine-metrics.service';
-import { ActiveService} from '../active.service';
-import { Active } from '../active';
 import { ParametersService } from '../parameters.service';
 import { DataService } from '../data.service';
 @Component({
@@ -26,7 +24,6 @@ export class MapComponent implements OnInit {
     private combineMetricsService: CombineMetricsService,
     private measurementsService: MeasurementsService,
     private stationsService: StationsService,
-    private activeService: ActiveService,
     private parametersService: ParametersService,
     private dataService: DataService
     ) { }
@@ -79,6 +76,12 @@ export class MapComponent implements OnInit {
   private combineMetrics(measurements:object, stations:object, metrics:Metric[]){
     this.message = "Processing Data.";
     
+    this.dataService.getActiveMetric().subscribe(
+      activeMetric => { 
+        this.activeMetric = activeMetric;
+      }
+    );
+    
     this.combineMetricsService.getMetrics().subscribe(
       metrics => {
         this.dataService.setDisplay(this.parametersService.getDisplay());
@@ -87,11 +90,7 @@ export class MapComponent implements OnInit {
     )
     
     this.combineMetricsService.combineMetrics(measurements, stations, metrics);
-    this.dataService.getActiveMetric().subscribe(
-      activeMetric => { 
-        this.activeMetric = activeMetric;
-      }
-    );
+
     
     this.inProgress = false;
     this.message = "Processing Complete."; //hide the blocker thingy

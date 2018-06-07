@@ -2,9 +2,9 @@
 
     <span>Available Metrics</span>
 
-    <mat-radio-group class="select-active" [(ngModel)]="activeMetric.name" (ngModelChange)="valueChanged()" name="metric">
-        <mat-radio-button *ngFor="let metricName of metricNames" [value]="metricName">
-            {{metricName}}
+    <mat-radio-group class="select-active" [ngModel]="activeMetric.name" (ngModelChange)="metricChanged($event)" name="metric">
+        <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name">
+            {{metric.title}}
         </mat-radio-button>
     </mat-radio-group>
 
@@ -15,37 +15,39 @@
 
     <mat-divider></mat-divider>
 
-<!--    <div>Display Value</div>
-    <mat-radio-group class="select-active" [(ngModel)]="activeMetric.displayValue" (ngModelChange)="valueChanged()" name="values">
+    Display options for {{activeMetric.title}}
+    
+   <div>Display Value</div>
+    <mat-radio-group class="select-active" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="values">
         <mat-radio-button *ngFor="let value of displayValues" [value]="value" [name]="value">
             {{value}}
         </mat-radio-button>
-    </mat-radio-group> -->
+    </mat-radio-group>
 
     <mat-divider></mat-divider>
-    <div>Binning</div>
+    <div>Binning </div>
     <!-- <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider> -->
 
     <!--make this some sort of form group so it changes when you leave, not on individual  -->
 
     <mat-form-field>
-        <input matInput required type="number" placeholder="Minimum" [(ngModel)]="activeMetric.binning.min" (ngModelChange)="valueChanged()" max="{{activeMetric.binning.max - 1}}" name="minimum">
+        <input matInput required type="number" placeholder="Minimum" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
     </mat-form-field>
     <mat-form-field>
-        <input matInput required type="number" placeholder="Maximum" [(ngModel)]="activeMetric.binning.max" (ngModelChange)="valueChanged()" min="{{activeMetric.binning.min + 1}}" name="maximum">
+        <input matInput required type="number" placeholder="Maximum" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
     </mat-form-field>
 
 
     <mat-form-field>
-        <input matInput required type="number" placeholder="Count" [(ngModel)]="activeMetric.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
+        <input matInput required type="number" placeholder="Count" [(ngModel)]="display.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
     </mat-form-field>
 
     <div>Coloring</div>
     Low
-      <input matInput type="color" class="color-picker" [(ngModel)]="activeMetric.coloring.low" (ngModelChange)="valueChanged()" name="low">
-    <input matInput type="color" class="color-picker" [(ngModel)]="activeMetric.coloring.high" (ngModelChange)="valueChanged()" name="high"> High
+      <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
+      <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
 
-
+    <div></div>
     <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
         Update
     </button>

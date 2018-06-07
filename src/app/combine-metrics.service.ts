@@ -28,7 +28,7 @@ export class CombineMetricsService {
         if (!station) {
           station = Object.create(stations[stationCode]);
           station.channels = {};
-          combinedMetric.data.count++;
+          combinedMetric.display.data.count++;
         }
         let channelCode = m.cha;
         let channels = station.channels;

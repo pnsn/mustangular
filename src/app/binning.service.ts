@@ -11,16 +11,20 @@ export class BinningService {
     getBins() : Bin[] {
       return this.bins;
     }
-
-    makeBins(binning: any, coloring: any): void {
-
+    
+    makeBins(display: any): void {
+      let binning = display.binning;
+      let data = display.data;
+      let coloring = display.coloring;
+      
+      
       let bins = new Array < Bin > ();
       let rainbow = new Rainbow();
       let binWidth = (binning.max - binning.min) / binning.count;
       let min = binning.min;
 
       //Low outliers
-      bins.push(new Bin( 0, "#000", -1, "icon-group-0", binning.min, null));
+      bins.push(new Bin( 0, "#000", -1, "icon-group-0", binning.min, data.min));
      
       //Middle bins 
       rainbow.setNumberRange(0, binning.count > 1 ? binning.count - 1 : 1);
@@ -33,13 +37,12 @@ export class BinningService {
       }
   
       // High outlier
-      bins.push( new Bin (0, "#808080", 1, "icon-group-" + (binning.count + 1), null, binning.max));
+      bins.push( new Bin (0, "#808080", 1, "icon-group-" + (binning.count + 1), data.max, binning.max));
 
       //No data
       bins.push( new Bin (0, "#fff", 2, "no-data", 0 ,0));
 
       this.bins = bins;
-
     }
 
     //setBins for use if there is already a min/max from the url

@@ -18,7 +18,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CombineMetricsService} from './combine-metrics.service';
 import { MakeMarkersService } from './make-markers.service';
 import { BinningService } from './binning.service';
-import { ActiveService } from './active.service';
 import { ParametersService } from './parameters.service';
 import { DataService } from './data.service'
 import {
@@ -45,6 +44,7 @@ import {
 import { MarkersComponent } from './markers/markers.component';
 import { ControlsComponent } from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ColorPickerModule} from 'ngx-color-picker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,9 +83,19 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     MatToolbarModule,
     MatTooltipModule,
     FlexLayoutModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    ColorPickerModule
   ],
-  providers: [MetricsService, MeasurementsService, StationsService, CombineMetricsService, MakeMarkersService, ActiveService, BinningService, ParametersService, DataService],
+  providers: [
+    MetricsService,
+    MeasurementsService,
+    StationsService,
+    CombineMetricsService,
+    MakeMarkersService,
+    BinningService,
+    ParametersService,
+    DataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

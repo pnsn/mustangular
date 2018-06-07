@@ -30,7 +30,7 @@
             <td *ngIf="bin.position == 1">> {{bin.min | number : '1.2-2'}}</td>
             <td *ngIf="bin.position == 2"> No data.</td>
             <td>{{bin.count}}</td>
-            <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width }" ></div></td>
+            <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div></td>
          </tr>
        
        
