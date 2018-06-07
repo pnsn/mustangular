@@ -6,13 +6,13 @@
     </ng-container>
   
     <ul id="query-info" *ngIf="query">
-      <li *ngIf="query.net"> Net: <span>{{query.net}}</span> </li>
-      <li *ngIf="query.sta"> Sta: <span>{{query.sta}}</span></li>
-      <li *ngIf="query.cha"> Cha: <span>{{query.cha}}</span></li>  
-      <li *ngIf="query.loc"> Loc: <span>{{query.loc}}</span></li>
-      <li *ngIf="query.qual"> Qual: <span>{{query.qual}}</span></li>
-      <li *ngIf="query.start"> Start: <span>{{query.start}}</span> </li>
-      <li *ngIf="query.end"> End: <span>{{query.end}}</span> </li>
+      <li> Net: <span *ngIf="query.net"> {{query.net}} </span> </li>
+      <li> Sta: <span *ngIf="query.sta"> {{query.sta}} </span> </li>
+      <li> Cha: <span *ngIf="query.cha"> {{query.cha}} </span> </li>  
+      <li> Loc: <span *ngIf="query.loc"> {{query.loc}} </span> </li>
+      <li> Qual: <span *ngIf="query.qual"> {{query.qual}} </span> </li>
+      <li> Start: <span *ngIf="query.start"> {{query.start}} </span> </li>
+      <li> End: <span *ngIf="query.end"> {{query.end}} </span> </li>
     </ul>
     <button mat-raised-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
       Edit Query

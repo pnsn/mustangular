@@ -1,11 +1,12 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
-import { Metric } from '../Metric';
+import { Metric } from '../metric';
 import { MakeMarkersService } from '../make-markers.service'
 import { ActiveService} from '../active.service';
 import { BinningService } from '../binning.service';
-import { Bin } from '../Bin';
+import { Bin } from '../bin';
 import { Active } from '../active';
+
 @Component({
   selector: 'app-markers',
   templateUrl: './markers.component.html',
@@ -43,7 +44,6 @@ export class MarkersComponent implements OnInit {
   
   private makeMarkers() : void { 
     if( this.metric && this.bins) {
-      if(this.bins && this.bins.length > 0 ) { console.log(this.bins[1].color);}
       this.markers = this.makeMarkersService.getMarkers(this.metric, this.bins);
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons())

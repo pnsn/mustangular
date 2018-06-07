@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Bin } from './Bin';
+import { Bin } from './bin';
 import * as Rainbow from 'rainbowvis.js'
 
 @Injectable()

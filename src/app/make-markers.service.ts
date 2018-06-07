@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Metric } from './metric';
 import { divIcon, latLng, marker} from 'leaflet';
 import { Station } from './station'
-import { Bin } from './Bin';
+import { Bin } from './bin';
 @Injectable()
 export class MakeMarkersService {
 
