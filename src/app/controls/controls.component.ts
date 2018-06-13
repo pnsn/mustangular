@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Metric } from '../metric';
 import { DataService } from '../data.service';
 import { Display } from '../display';
+
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -10,18 +11,24 @@ import { Display } from '../display';
 
 export class ControlsComponent implements OnInit {
   metrics: Metric[]; 
-  channels: Array<string>;
   activeMetric : Metric; 
   display: Display;
 
   //if there isn't coloring on the metric property already, make it up
-  displayValues = ["minimum", "maximum", "average"];
+  displayValues : Array<string> = ["Minimum", "Maximum", "Average", "5th Percentile", "95th Percentile"];
   
   changed = false;
 
   constructor(
     private dataService: DataService
-  ) { }
+  ) {}
+  
+  channelSorterOptions = {
+    onUpdate: (event:any) => {
+      this.valueChanged();
+    }
+  }
+  
   
   ngOnInit() {
     //make sure this is slicing off a copy of the metric
@@ -51,13 +58,22 @@ export class ControlsComponent implements OnInit {
     this.valueChanged();
   }
   
+  channelsChanged(newChannels : any) {
+    console.log("channels changed", newChannels)
+  
+  
+  }
+  
   valueChanged(){
+    console.log("something is different")
     this.changed = true;
   }
   
-  onSubmit(){ //not actually submitting anything right now
+  onSubmit(){ 
     this.changed = false;
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
   }
+  
+
   
 }

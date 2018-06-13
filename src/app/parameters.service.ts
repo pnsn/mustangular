@@ -18,19 +18,11 @@ export class ParametersService {
     return this.query.asObservable();
   }
   
+  private display : Display = new Display();
+  
+  
   getDisplay() : any { //TODO: deal with these values from URL. - these are defaults in case there is none on activeMEtric
-    return { //return new Display?
-      "binning" : {
-        "max" : null,
-        "min" : null,
-        "count" : null
-      },
-      "coloring" : {
-        "high" : null,
-        "low" : null
-      },
-      "displayValue" : null
-    }
+    return this.display;
   }
   //TODO: sanitize
   
@@ -39,6 +31,12 @@ export class ParametersService {
       .subscribe(params => {
         if(params && params["params"]){
           var pa = params["params"];
+          //grab other query params here
+          
+          if(pa.cha) {
+            this.display.channels.available = pa.cha.split(",");
+          }
+          
           this.query.next(new Query(
             pa.net,
             pa.cha,

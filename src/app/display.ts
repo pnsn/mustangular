@@ -3,6 +3,7 @@ export class Display {
   coloring : any;
   binning : any;
   displayValue : string;
+  channels: any;
   
   constructor(){
     this.data = { 
@@ -21,7 +22,13 @@ export class Display {
       "max": null, 
       "count": 0
     };
+    
     this.displayValue = "";  
+    
+    this.channels = {
+      "active" : null,
+      "available" : null
+    };
   }
 
 }

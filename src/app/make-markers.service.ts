@@ -39,8 +39,7 @@ export class MakeMarkersService {
     for (let bin of this.bins){
       bin.setWidth(metric.display.data.count);
     }
-    console.log(this.bins)
-    
+
     return markers;
   }
   
@@ -49,10 +48,10 @@ export class MakeMarkersService {
     let color : string;
     let activeBin : Bin;
     for (let bin of this.bins){
-      //do something when max/min is NUll
+      //TODO: do something when max/min is NUll
       if (value === null) {
         activeBin = this.bins[this.bins.length - 1];
-      } else if (value >= bin.min && value < bin.max || bin.min === null && value < bin.max || value >= bin.min && bin.max === null){
+      } else if (value >= bin.min && value < bin.max || bin.position == 1 && value == bin.max){
         activeBin = bin;
       } 
       
@@ -82,11 +81,14 @@ export class MakeMarkersService {
     string += "Station: " + station.sta + "</div>" 
     + "<div> Displayed value: " + value 
     + "</div>" + "<div> Network: " + station.net + "</div>"
-    + "<div> Channels (Average value): <ul id='channel-list'>";
-    
-    var channels = station.channels;
-    for (let channel in channels ) {
-      string += "<li>" + channels[channel].name + "</li>";
+    + "<div> Channels: <ul id='channel-list'>";
+    for (let channel in station.channels ) {
+      string += "<li"
+      if (channel == station.displayChannel) {
+        string += " class='active channel'";
+      
+      }
+      string += ">" + channel + "</li>";
     }
 
     string += "</ul>"; 

@@ -1,55 +1,77 @@
-<form #controlForm="ngForm" (ngSubmit)="onSubmit(controlForm)" *ngIf="activeMetric">
+<form #controlForm="ngForm" (ngSubmit)="onSubmit(controlForm)" *ngIf="activeMetric" >
+    <div id="metric-section" class="mat-elevation-z3">
+        <div class="section-title"> Metrics</div>
 
-    <span>Available Metrics</span>
+        <mat-radio-group class="select-active" [ngModel]="activeMetric.name" (ngModelChange)="metricChanged($event)" name="metric" >
+            <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name" [disabled]="metric.display.data.count < 1">
+                {{metric.title}} ({{metric.display.data.count}} stations)
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
 
-    <mat-radio-group class="select-active" [ngModel]="activeMetric.name" (ngModelChange)="metricChanged($event)" name="metric">
-        <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name">
-            {{metric.title}}
-        </mat-radio-button>
-    </mat-radio-group>
+    <div class="form-body">
+        <div class="form-title"> Display options for {{activeMetric.title}}</div>
+        <div class="form-section" fxFlex="100">
+            <div class="section-title">Channel</div>
 
+            <div *ngFor="let channel of display.channels.active"> {{ channel }}</div>
+            hi
+            <div [sortablejs]="display.channels.available" [sortablejsOptions]="channelSorterOptions">
+                <!-- <div *ngFor="let channel of display.channels.available"> {{ channel }}</div> -->
+            </div>
+
+            
+ 
+
+        </div>
+        <mat-divider></mat-divider>
+        <div fxLayout="row">
+          <div class="form-section" fxFlex="50">
+              <div class="section-title">Value</div>
+              <mat-radio-group class="select-active" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="values">
+                  <mat-radio-button *ngFor="let value of displayValues" [value]="value" [name]="value">
+                      {{value}}
+                  </mat-radio-button>
+              </mat-radio-group>
+
+              <div class="section-title">Icon Color</div>
+              <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
+              <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
+
+          </div>
+          
+          <div class="form-section" fxFlex="50">
+              <div class="section-title">Binning </div>
+              <!-- <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider> -->
+
+              <!--make this some sort of form group so it changes when you leave, not on individual  -->
+
+              <mat-form-field class="binning">
+                  <input  matInput required type="number" placeholder="Min > {{display.data.min}}" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
+              </mat-form-field>
+              <mat-form-field class="binning">
+                  <input matInput required type="number" placeholder="Max < {{display.data.max}}" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
+              </mat-form-field>
+
+              <mat-form-field class="binning">
+                  <input matInput required type="number" placeholder="Number of bins" [(ngModel)]="display.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
+              </mat-form-field>
+          </div>
+      </div>    
+
+
+    </div>
     <mat-divider></mat-divider>
-
-    <div>Channel stuff here</div>
-
-
-    <mat-divider></mat-divider>
-
-    Display options for {{activeMetric.title}}
+    <div class="form-section" id="form-buttons">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
+              Update
+          </button>
+          <button mat-button color="primary" id="view-data">
+              View Data
+          </button>
+        </div>
+        <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes</div>
+    </div>
     
-   <div>Display Value</div>
-    <mat-radio-group class="select-active" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="values">
-        <mat-radio-button *ngFor="let value of displayValues" [value]="value" [name]="value">
-            {{value}}
-        </mat-radio-button>
-    </mat-radio-group>
-
-    <mat-divider></mat-divider>
-    <div>Binning </div>
-    <!-- <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider> -->
-
-    <!--make this some sort of form group so it changes when you leave, not on individual  -->
-
-    <mat-form-field>
-        <input matInput required type="number" placeholder="Minimum" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput required type="number" placeholder="Maximum" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
-    </mat-form-field>
-
-
-    <mat-form-field>
-        <input matInput required type="number" placeholder="Count" [(ngModel)]="display.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
-    </mat-form-field>
-
-    <div>Coloring</div>
-    Low
-      <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
-      <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
-
-    <div></div>
-    <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
-        Update
-    </button>
-    <p *ngIf="changed">Warning! Display Not Updated</p>
 </form>
