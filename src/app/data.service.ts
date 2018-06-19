@@ -63,7 +63,7 @@ export class DataService {
   
   private sortChannels(channels : Array <string>) : Array <string> {
     if(channels.length > 0){
-      let displayChannels = ["EHZ", "ENZ", "BHZ", "HHZ", "HNZ"];
+      let displayChannels = [];
       for ( let channel of channels) {
         if (displayChannels.indexOf(channel) == -1 ){
           displayChannels.push(channel);

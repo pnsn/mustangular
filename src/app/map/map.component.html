@@ -5,7 +5,7 @@
       <app-markers ></app-markers>
     </mat-sidenav-content>
 
-    <mat-sidenav id="sidebar" mode="side" position="end" opened class="mat-elevation-z4">
+    <mat-sidenav #sidenav id="sidebar" mode="side" opened position="end" class="mat-elevation-z4">
       <app-controls ></app-controls>
     </mat-sidenav>
 
@@ -27,7 +27,9 @@
     <button mat-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
       Edit Query
     </button>
-    
+    <!-- <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-toggle">
+      <fa name="arrow-circle-right" size="3x"></fa>
+    </button> -->
   </mat-toolbar>
 </div>
 

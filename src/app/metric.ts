@@ -50,7 +50,7 @@ export class Metric {
         }
       }
     }
-    channels.sort(); //Maybe shouldn't be alphabetical
+    // channels.sort(); //Maybe shouldn't be alphabetical
     return channels;
   }
   

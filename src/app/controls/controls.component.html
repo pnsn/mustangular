@@ -61,17 +61,23 @@
 
 
     </div>
-    <mat-divider></mat-divider>
-    <div class="form-section" id="form-buttons">
+    <div class="form-section mat-elevation-z3" id="form-buttons">
         <div fxLayout="row" fxLayoutAlign="center center">
           <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
               Update
           </button>
-          <button mat-button color="primary" id="view-data">
+          <button mat-button color="primary" id="view-data" [disabled]="true">
               View Data
           </button>
         </div>
         <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes</div>
+        <div fxLayout="row" fxLayoutAlign="center center">          
+          <button mat-icon-button><fa name="download" size="2x"></fa></button>
+          <button mat-icon-button><fa name="share-square" size="2x"></fa></button>
+          <button mat-icon-button><fa name="question-circle" size="2x"></fa></button>
+        </div>
+        
+
     </div>
     
 </form>

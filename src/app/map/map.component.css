@@ -32,6 +32,12 @@
   display:inline-block;
 }
 
+.sidenav-toggle {
+/*  position:fixed;
+  left: -200px;
+  z-index: 100;*/
+}
+
 #header {
   font-family: "Helvetica Neue", sans-serif !important;
   font-weight: normal;
@@ -81,3 +87,5 @@ mat-sidenav-container {
   border-radius: 5px;
   border: solid 1px #707070;
 }
+
+
