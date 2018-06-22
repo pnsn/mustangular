@@ -1,0 +1,46 @@
+
+#key{
+  max-height:360px;
+  overflow:scroll;
+  background-color:white;
+  padding: 5px 10px 5px 0px;
+  width: 100%;
+}
+#key div.title {
+  font-size: 30px;
+  padding-left:10px;
+}
+
+#key th,td {
+  font-size: 18px;
+  text-align: left;
+  font-weight: normal;
+  padding-left: 10px;
+}
+
+#key .key-toggle {
+  width: 55px;
+}
+
+#key .key-icon {
+  width:20px;
+  height:20px;
+}
+
+#key .key-content {
+  color: #707070;
+}
+
+.histogram  {
+  height:20px;
+}
+
+mat-checkbox.layer-toggle {
+ background-color: transparent !important;
+ border-width: 1px;
+}
+
+tr[disabled="disabled"] {
+  color:#808080;
+  opacity: 0.5;
+}

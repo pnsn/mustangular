@@ -1,0 +1,29 @@
+<div id="key">
+  <div class="title"> Key</div>
+  <table>
+   
+     <tr>
+       <th class="key-toggle">On/off</th><th>Range</th><th>Count</th>
+     </tr>
+     <ng-container *ngFor="let bin of bins">
+       <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
+          <td class="key-toggle">
+             <div class="key-icon"  [ngStyle]="{'background-color': bin.color}">
+                <mat-checkbox  *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" [disabled]="bin.count == 0"></mat-checkbox>
+             </div>
+          </td>
+          <td *ngIf="bin.position == -1" class="key-content">< {{bin.max - 0.01 | number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 0" class="key-content">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 1" class="key-content">≥ {{bin.min | number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 2" class="key-content"> No data.</td>
+          <td class="key-content">{{bin.count}}</td>
+          <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div></td>
+       </tr>
+   
+   
+     </ng-container>
+
+  </table>
+
+</div>
+

@@ -13,9 +13,6 @@ import { Bin } from '../bin';
 })
 export class MarkersComponent implements OnInit {
   metric: Metric;
-  
-  bins : Bin[];
-
   //need data count, min, max
 
   markers : any; //marker[];
@@ -29,8 +26,6 @@ export class MarkersComponent implements OnInit {
     this.dataService.getActiveMetric().subscribe(
       metric => { 
         this.metric = metric;
-        this.binningService.makeBins(this.metric.display);
-        this.bins = this.binningService.getBins();
         this.makeMarkers();
       }
     );
@@ -42,8 +37,12 @@ export class MarkersComponent implements OnInit {
   }
   
   private makeMarkers() : void { 
-    if( this.metric && this.bins) {
-      this.markers = this.makeMarkersService.getMarkers(this.metric, this.bins);
+    let bins = this.binningService.makeBins(this.metric.display);
+    if( this.metric && bins) {
+      this.markers = this.makeMarkersService.getMarkers(this.metric, bins);
+      
+      this.binningService.setBins(this.makeMarkersService.getBins());
+      
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
         this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit

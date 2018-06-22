@@ -16,11 +16,11 @@
     </ng-container>
     <ul id="query-info" *ngIf="query">
       <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li> 
-      <li> Net: <span> {{query.net}} </span> </li>
-      <li> Sta: <span> {{query.sta}} </span> </li>
-      <li> Cha: <span> {{query.cha}} </span> </li>  
-      <li> Loc: <span> {{query.loc}} </span> </li>
-      <li> Qual: <span> {{query.qual}} </span> </li>
+      <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
+      <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
+      <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>  
+      <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
+      <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
 
     </ul>
     

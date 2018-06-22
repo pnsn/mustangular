@@ -46,6 +46,7 @@ import { MarkersComponent } from './markers/markers.component';
 import { ControlsComponent, ShareDialog, ChannelsDialog } from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
+import { KeyComponent } from './key/key.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,8 @@ import { ColorPickerModule} from 'ngx-color-picker';
     MarkersComponent,
     ControlsComponent,
     ShareDialog,
-    ChannelsDialog
+    ChannelsDialog,
+    KeyComponent
   ],
   imports: [
     BrowserModule,

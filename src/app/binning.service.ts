@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Bin } from './bin';
 import * as Rainbow from 'rainbowvis.js'
-
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class BinningService {
 
     constructor() {}
-    private bins : Bin[];
+    private bins = new Subject<Bin[]>;
    
-    getBins() : Bin[] {
-      return this.bins;
+    getBins() : Observable<Bin[]> {
+      return this.bins.asObservable();
     }
     
-    makeBins(display: any): void {
+    setBins(bins : Bin[]) : void{
+      this.bins.next(bins);
+    }
+    
+    makeBins(display: any): Bin[] {
       let binning = display.binning;
       let data = display.data;
       let coloring = display.coloring;
@@ -42,7 +47,7 @@ export class BinningService {
       //No data
       bins.push( new Bin (0, "#fff", 2, "no-data", 0 ,0));
 
-      this.bins = bins;
+      return bins;
     }
 
     //setBins for use if there is already a min/max from the url

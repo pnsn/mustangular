@@ -13,8 +13,8 @@ export class MakeMarkersService {
     return this.latlons;
   }
   
-  
   getBins() : Bin[] {
+    console.log(this.bins, "hi")
     return this.bins;
   }
   
