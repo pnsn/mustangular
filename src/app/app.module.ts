@@ -41,8 +41,9 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { SortablejsModule } from 'angular-sortablejs';
 import { MarkersComponent } from './markers/markers.component';
-import { ControlsComponent } from './controls/controls.component';
+import { ControlsComponent, ShareDialog, ChannelsDialog } from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 @NgModule({
@@ -52,7 +53,9 @@ import { ColorPickerModule} from 'ngx-color-picker';
     FormComponent,
     StationComponent,
     MarkersComponent,
-    ControlsComponent
+    ControlsComponent,
+    ShareDialog,
+    ChannelsDialog
   ],
   imports: [
     BrowserModule,
@@ -84,7 +87,8 @@ import { ColorPickerModule} from 'ngx-color-picker';
     MatTooltipModule,
     FlexLayoutModule,
     AngularFontAwesomeModule,
-    ColorPickerModule
+    ColorPickerModule,
+    SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
     MetricsService,
@@ -96,6 +100,7 @@ import { ColorPickerModule} from 'ngx-color-picker';
     ParametersService,
     DataService
   ],
+  entryComponents: [ShareDialog, ChannelsDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

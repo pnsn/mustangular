@@ -1,38 +1,38 @@
 <div [ngClass]="{'overlay-blur': inProgress}">
-  <mat-toolbar id="header">
-    <ng-container *ngIf="activeMetric">
-      <div>Active Metric: {{activeMetric.title}}</div>
-      <div>Stations: {{activeMetric.display.data.count}}</div>
-    </ng-container>
-  
-    <ul id="query-info" *ngIf="query">
-      <li> Net: <span *ngIf="query.net"> {{query.net}} </span> </li>
-      <li> Sta: <span *ngIf="query.sta"> {{query.sta}} </span> </li>
-      <li> Cha: <span *ngIf="query.cha"> {{query.cha}} </span> </li>  
-      <li> Loc: <span *ngIf="query.loc"> {{query.loc}} </span> </li>
-      <li> Qual: <span *ngIf="query.qual"> {{query.qual}} </span> </li>
-      <li> Start: <span *ngIf="query.start"> {{query.start}} </span> </li>
-      <li> End: <span *ngIf="query.end"> {{query.end}} </span> </li>
-    </ul>
-    <button mat-raised-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
-      Edit Query
-    </button>
-  </mat-toolbar>
+  <mat-sidenav-container id="content">
 
-  <!-- <app-station *ngIf="viewStation"></app-station> -->
-
-  <mat-sidenav-container>
-
-    <mat-sidenav-content>
+    <mat-sidenav-content class="mat-elevation-z1">
       <app-markers ></app-markers>
     </mat-sidenav-content>
 
-    <mat-sidenav id="sidebar" mode="side" position="end" opened>
+    <mat-sidenav #sidenav id="sidebar" mode="side" opened position="end" class="mat-elevation-z4">
       <app-controls ></app-controls>
     </mat-sidenav>
 
   </mat-sidenav-container>
+  <mat-toolbar id="header" class="mat-elevation-z5">
+    <ng-container *ngIf="activeMetric">
+      <div class="title"> {{activeMetric.title}} Metric</div>
+    </ng-container>
+    <ul id="query-info" *ngIf="query">
+      <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li> 
+      <li> Net: <span> {{query.net}} </span> </li>
+      <li> Sta: <span> {{query.sta}} </span> </li>
+      <li> Cha: <span> {{query.cha}} </span> </li>  
+      <li> Loc: <span> {{query.loc}} </span> </li>
+      <li> Qual: <span> {{query.qual}} </span> </li>
+
+    </ul>
+    
+    <button mat-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
+      Edit Query
+    </button>
+    <!-- <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-toggle">
+      <fa name="arrow-circle-right" size="3x"></fa>
+    </button> -->
+  </mat-toolbar>
 </div>
+
 <div class="overlay" fxLayout fxLayoutAlign="center center" *ngIf="inProgress">
   
   <div class="overlay-message" fxLayout="column" >

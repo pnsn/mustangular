@@ -3,6 +3,7 @@ export class Display {
   coloring : any;
   binning : any;
   displayValue : string;
+  channels: any;
   
   constructor(){
     this.data = { 
@@ -21,7 +22,28 @@ export class Display {
       "max": null, 
       "count": 0
     };
+    
     this.displayValue = "";  
+    
+    this.channels = {
+      "active" : <string[]>  null,
+      "available" : <string[]> null
+    };
+  }
+  
+  //TODO: make this better
+  toString() : string {
+    // "color_high" = this.coloring.high
+    let string = 
+      "&high=" + this.coloring.high.replace(/#/, "%23") +
+      "&low=" + this.coloring.low.replace(/#/, "%23") +
+      "&count=" + this.binning.count +
+      "&min=" + this.binning.min +
+      "&max=" + this.binning.max + 
+      "&value=" + this.displayValue + 
+      "&channels=" + this.channels.active; 
+      
+    return  string ;
   }
 
 }

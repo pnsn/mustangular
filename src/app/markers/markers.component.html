@@ -1,41 +1,38 @@
-<div id="map"     
+
+<div id="key" class="mat-elevation-z3">
+  <div class="title"> Key</div>
+  <table>
+   
+     <tr>
+       <th class="key-toggle">On/off</th><th>Range</th><th>Count</th>
+     </tr>
+     <ng-container *ngFor="let bin of bins">
+       <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
+          <td class="key-toggle">
+             <div class="key-icon"  [ngStyle]="{'background-color': bin.color}">
+                <mat-checkbox  *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" [disabled]="bin.count == 0"></mat-checkbox>
+             </div>
+          </td>
+          <td *ngIf="bin.position == -1" class="key-content">< {{bin.max - 0.01 | number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 0" class="key-content">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 1" class="key-content">≥ {{bin.min | number : '1.2-2'}}</td>
+          <td *ngIf="bin.position == 2" class="key-content"> No data.</td>
+          <td class="key-content">{{bin.count}}</td>
+          <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div></td>
+       </tr>
+   
+   
+     </ng-container>
+
+  </table>
+
+</div>
+
+<div id="map" class="mat-elevation-z1"  
     leaflet 
     [leafletOptions]="options"
     [leafletLayers]="markers"
-    [leafletFitBounds]="fitBounds">
+    [leafletFitBounds]="fitBounds"
+    >
 </div>
 
- <div id="key" >
-    <h2 class="md-title"> Key:
-       <!-- <div class="tooltip"><md-icon md-svg-src="images/tooltip.svg">
-          <md-tooltip md-direction="right">
-            Toggle the stations using the checkbox.
-          </md-tooltip>
-       </div> -->
-    </h2>
-    <table>
-       
-       <tr>
-         <th>On/off</th><th>Range</th><th>Count</th>
-       </tr>
-       <ng-container *ngFor="let bin of bins">
-         <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
-            <td>
-               <div class="icon-key"  [ngStyle]="{'background-color': bin.color}">
-                  <mat-checkbox  *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" [disabled]="bin.count == 0"></mat-checkbox>
-               </div>
-            </td>
-            <td *ngIf="bin.position == -1">< {{bin.max - 0.01 | number : '1.2-2'}}</td>
-            <td *ngIf="bin.position == 0">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</td>
-            <td *ngIf="bin.position == 1">> {{bin.min | number : '1.2-2'}}</td>
-            <td *ngIf="bin.position == 2"> No data.</td>
-            <td>{{bin.count}}</td>
-            <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div></td>
-         </tr>
-       
-       
-       </ng-container>
-
-    </table>
-
- </div>

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Sort Channels</h1>
+<div mat-dialog-content>
+  <div [sortablejs]="data" [sortablejsOptions]="channelSorterOptions">
+      <div *ngFor="let channel of data"> {{ channel }}</div>
+  </div>
+</div>
+<div mat-dialog-actions>
+ <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Done</button>
+</div>

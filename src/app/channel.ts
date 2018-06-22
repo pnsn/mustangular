@@ -6,41 +6,79 @@ export class Channel {
     public measurements?: Measurement[]
   ) {}
   
-  private getValues() : Array<number> {
-    let values = [];
-    
-    for (let measurement of this.measurements) {
-      values.push(measurement.value);
-    }
+  private values : Array<number>;
+  private median? : number;
+  private average? : number;
+  private max? : number;
+  private min? : number;
   
-    values.sort(function(a, b){return a - b});
-    return values;
+  private calculateValues() : void {
+    if ( !this.values || this.values.length == 0 ) {
+      let values = [];
+    
+      for (let measurement of this.measurements) {
+        values.push(measurement.value);
+      }
+  
+      values.sort(function(a, b){return a - b});
+      this.values = values;
+      this.max = values[values.length - 1];
+      this.min = values[0];
+    }
   }
   
   getMedian() : number {
-    let values = this.getValues();
-    let mid = values.length / 2 - 0.5;
-    let median : number;
+    if( !this.median ) {
+      this.calculateValues();
+      
+      let mid = this.values.length / 2 - 0.5;
+      let median : number;
     
-    if(mid % 1 == 0){
-      median = values[mid];
-    } else {
-      median = (values[mid-.5]+values[mid-.5])/2;
+      if(mid % 1 == 0){
+        median = this.values[mid];
+      } else {
+        median = (this.values[mid-.5]+ this.values[mid-.5])/2;
+      }
+    
+      this.median = median;
     }
-    
-    return median;
+    return this.median;
+
+
   }
   
   getAverage() : number {
-    let values = this.getValues();
-    let sum = 0;
-    for (let value of values) {
-      sum += value;
+    if( !this.average ) {
+      this.calculateValues();
+      
+      let sum = 0;
+      for (let value of this.values) {
+        sum += value;
+      }
+      let average = sum/this.values.length;
+      this.average = average;
     }
-    let average = sum/values.length;
-    
-    return average;
+    return this.average;
 
+  }
+  
+  // Returns requested percentile, probably
+  getPercentile(percentile : number) : number {
+    this.calculateValues();
+    
+    let index = Math.ceil(percentile / 100 * this.values.length);
+    return index == this.values.length ? this.values[index - 1] : this.values[index];
+  
+  }
+  
+  getMax() : number {
+    this.calculateValues();
+    return this.max;
+  }
+  
+  getMin() : number {
+    this.calculateValues();
+    return this.min;
   }
   
 }

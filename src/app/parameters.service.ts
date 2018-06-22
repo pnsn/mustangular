@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Router, ActivatedRoute} from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
+import { Location } from '@angular/common';
 import { Query } from './query';
 import { Display } from './display'
 
@@ -10,7 +11,7 @@ export class ParametersService {
 
   //fake initial values here
 
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route:ActivatedRoute, private location : Location){}
   
   private query = new Subject<Query>();
 
@@ -18,19 +19,30 @@ export class ParametersService {
     return this.query.asObservable();
   }
   
-  getDisplay() : any { //TODO: deal with these values from URL. - these are defaults in case there is none on activeMEtric
-    return { //return new Display?
-      "binning" : {
-        "max" : null,
-        "min" : null,
-        "count" : null
-      },
-      "coloring" : {
-        "high" : null,
-        "low" : null
-      },
-      "displayValue" : null
-    }
+  private display : Display = new Display();
+  
+  
+  getDisplay() : any { //TODO: deal with these values from URL.
+    console.log("getDisply", this.display)
+    return this.display;
+  }
+  
+  setDisplay( params  : any) : void{
+    let d = this.display;
+    d.coloring = {
+      "high" : params.high,
+      "low" : params.low
+    };
+    d.binning = {
+      "count" : Number(params.count),
+      "min" : Number(params.min),
+      "max" : Number(params.max) 
+    };
+    d.displayValue = params.value; 
+    d.channels.active = params.channels; 
+    
+    this.display = d;
+    console.log(this.display)
   }
   //TODO: sanitize
   
@@ -39,7 +51,13 @@ export class ParametersService {
       .subscribe(params => {
         if(params && params["params"]){
           var pa = params["params"];
-          this.query.next(new Query(
+          //grab other query params here
+          
+          if(pa.cha) {
+            this.display.channels.available = pa.cha.split(",");
+          }
+          console.log("params", pa)
+          let query = new Query(
             pa.net,
             pa.cha,
             pa.sta,
@@ -48,7 +66,10 @@ export class ParametersService {
             pa.start,
             pa.end,
             pa.metric
-          ));
+          );
+          this.setDisplay(pa);
+          query.sanitize();
+          this.query.next(query);
         }
       });
   }

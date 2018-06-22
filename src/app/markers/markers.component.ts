@@ -5,7 +5,6 @@ import { MakeMarkersService } from '../make-markers.service'
 import { DataService} from '../data.service';
 import { BinningService } from '../binning.service';
 import { Bin } from '../bin';
-import { Active } from '../active';
 
 @Component({
   selector: 'app-markers',
@@ -21,7 +20,6 @@ export class MarkersComponent implements OnInit {
 
   markers : any; //marker[];
   fitBounds: any;
-  
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
@@ -47,7 +45,8 @@ export class MarkersComponent implements OnInit {
     if( this.metric && this.bins) {
       this.markers = this.makeMarkersService.getMarkers(this.metric, this.bins);
       if(this.makeMarkersService.getLatLons().length > 0) {
-        this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons())
+        this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
+        this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit
       }
     }
 
