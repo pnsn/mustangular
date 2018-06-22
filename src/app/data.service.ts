@@ -80,7 +80,7 @@ export class DataService {
     let defaultMetric = null;
     for (let metric of this.metrics) {
       //TODO: get this from paramters
-
+      console.log(this.parameters)
       
       //add rest of channels
       

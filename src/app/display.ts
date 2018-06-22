@@ -26,9 +26,24 @@ export class Display {
     this.displayValue = "";  
     
     this.channels = {
-      "active" : null,
-      "available" : null
+      "active" : <string[]>  null,
+      "available" : <string[]> null
     };
+  }
+  
+  //TODO: make this better
+  toString() : string {
+    // "color_high" = this.coloring.high
+    let string = 
+      "&high=" + this.coloring.high +
+      "&low=" + this.coloring.low +
+      "&count=" + this.binning.count +
+      "&min=" + this.binning.min +
+      "&max=" + this.binning.max + 
+      "&value=" + this.displayValue + 
+      "&channels=" + this.channels.active; 
+      
+    return  string ;
   }
 
 }

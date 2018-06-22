@@ -26,7 +26,7 @@ export class Query {
     let queryKeys = ["net","cha","sta","loc","qual","metric"];
     for (let key of queryKeys) {
       if(this[key]){
-        this[key] = this[key].replace(/\s/gm,""); //remove spaces
+        this[key] = this[key].replace(/\s/gm,"").toUpperCase(); //remove spaces
       }
     }
     

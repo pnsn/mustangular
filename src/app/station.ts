@@ -37,7 +37,6 @@ export class Station {
               break;
             }
             case "5th Percentile" : {
-              console.log("hi")
               this.displayValue = channel.getPercentile(5);
               break;
             }
