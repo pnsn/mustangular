@@ -99,7 +99,7 @@ export class ShareDialog {
     public dialogRef: MatDialogRef<ShareDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-    url = window.location.href + data.display.toString();
+    url = window.location.href.replace(/metric=.+(&|$)/,"metric=" + data.name + "&") + data.display.toString();
     //TODO:replace metrics with active metric
     
     

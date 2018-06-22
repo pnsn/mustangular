@@ -35,8 +35,8 @@ export class Display {
   toString() : string {
     // "color_high" = this.coloring.high
     let string = 
-      "&high=" + this.coloring.high +
-      "&low=" + this.coloring.low +
+      "&high=" + this.coloring.high.replace(/#/, "%23") +
+      "&low=" + this.coloring.low.replace(/#/, "%23") +
       "&count=" + this.binning.count +
       "&min=" + this.binning.min +
       "&max=" + this.binning.max + 

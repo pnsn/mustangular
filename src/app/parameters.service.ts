@@ -29,21 +29,20 @@ export class ParametersService {
   
   setDisplay( params  : any) : void{
     let d = this.display;
-    console.log(params)
     d.coloring = {
       "high" : params.high,
       "low" : params.low
     };
     d.binning = {
-      "count" : params.count,
-      "min" : params.min,
-      "max" : params.max
+      "count" : Number(params.count),
+      "min" : Number(params.min),
+      "max" : Number(params.max) 
     };
     d.displayValue = params.value; 
     d.channels.active = params.channels; 
     
     this.display = d;
-    
+    console.log(this.display)
   }
   //TODO: sanitize
   
