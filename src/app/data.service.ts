@@ -52,10 +52,11 @@ export class DataService {
   private initialBinning(values:number[]) : any {
     let length = values.length;
     let min = Math.ceil(.05 * length);
-    let max = Math.floor(0.95 * length);  
+    let max = Math.floor(0.95 * length); 
+
     return {
-        "max" : length > 0 && values[max]? values[max] : 0,
-        "min" : length > 0 && values[min]? values[min] : 0,
+        "max" : length > 0 && values[max]? +values[max].toFixed(2) : 0,
+        "min" : length > 0 && values[min]? +values[min].toFixed(2) : 0,
         "count" : min == max || values[min] == values[max] ? 0 : 3
     }
   }
@@ -110,6 +111,7 @@ export class DataService {
         display.binning = this.parameters.binning;
       } else {
         display.binning = this.initialBinning(values);
+        console.log(display.binning);
       }
       
       metric.display = display;

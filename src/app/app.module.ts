@@ -38,12 +38,13 @@ import {
   MatSelectModule,
   MatSliderModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
 import { MarkersComponent } from './markers/markers.component';
-import { ControlsComponent, ShareDialog, ChannelsDialog } from './controls/controls.component';
+import { ControlsComponent, ChannelsDialog } from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
@@ -55,7 +56,6 @@ import { KeyComponent } from './key/key.component';
     StationComponent,
     MarkersComponent,
     ControlsComponent,
-    ShareDialog,
     ChannelsDialog,
     KeyComponent
   ],
@@ -85,6 +85,7 @@ import { KeyComponent } from './key/key.component';
     MatSelectModule,
     MatSidenavModule,
     MatSliderModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,
     FlexLayoutModule,
@@ -102,7 +103,7 @@ import { KeyComponent } from './key/key.component';
     ParametersService,
     DataService
   ],
-  entryComponents: [ShareDialog, ChannelsDialog],
+  entryComponents: [ChannelsDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

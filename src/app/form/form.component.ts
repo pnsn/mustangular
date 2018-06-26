@@ -17,7 +17,7 @@ export class FormComponent implements OnInit {
   selectedMetrics : any;
   loading: boolean = false;
   maxDate = new Date();
-  query : Query;
+  query = new Query();
   
   constructor (
     private router: Router,

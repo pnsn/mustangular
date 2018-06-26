@@ -2,7 +2,7 @@ import { Component, OnInit, SimpleChanges, Inject } from '@angular/core';
 import { Metric } from '../metric';
 import { DataService } from '../data.service';
 import { Display } from '../display';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -21,17 +21,27 @@ export class ControlsComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {}
   
-  openShareDialog(): void {
-    let dialogRef = this.dialog.open(ShareDialog, {
-      data: this.activeMetric
-    });
+  //Stupid workaround to copy text to clipboard
+  copyShareLink(): void {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.activeMetric.name + "&") + this.activeMetric.display.toString();
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
 
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log('The dialog was closed');
-      // this.animal = result;
+    //open snackbar
+    this.snackBar.open('Link copied to clipboard!', '', {
+      duration: 3000
     });
   }
   
@@ -89,27 +99,9 @@ export class ControlsComponent implements OnInit {
 }
 
 @Component({
-  selector: 'share-dialog',
-  templateUrl: './share-dialog.html',
-})
-export class ShareDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<ShareDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    url = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.data.name + "&") + this.data.display.toString();
-    //TODO:replace metrics with active metric
-    
-    
-  close(): void {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
   selector: 'channels-dialog',
   templateUrl: './channels-dialog.html',
+  styleUrls: ['./controls.component.css']
 })
 export class ChannelsDialog {
   constructor(

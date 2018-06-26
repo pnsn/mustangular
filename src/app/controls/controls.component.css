@@ -40,11 +40,11 @@
   color :#707070;
 }
 
-#form-buttons button{
+.form-section button{
   margin: 0px 10px;
 }
 
-#view-data {
+#form-buttons button {
   border-radius: 5px;
   border: solid 1px #707070;
 }
@@ -53,4 +53,13 @@
   font-weight: normal;
   color: orange;
   margin: 5px;
+}
+#share-content{
+  min-height:40px;
+  overflow: wrap;
+  white-space: pre-wrap; /* css-3 */    
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */    
+  white-space: -o-pre-wrap; /* Opera 7 */    
+  word-wrap: break-word; 
 }

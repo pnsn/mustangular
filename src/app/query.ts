@@ -30,10 +30,12 @@ export class Query {
       }
     }
     
-    var start = new Date(this.start);
-    var end = new Date(this.end);
+    var start = this.start ? new Date(this.start) : null;
+    var end = this.end ? new Date(this.end) : null;
     
-    this.start = start.toISOString().replace(/Z.*$/gim, "");
-    this.end = end.toISOString().replace(/Z.*$/gim, "");
+    if(start && end) {
+      this.start = start.toISOString().replace(/Z.*$/gim, "");
+      this.end = end.toISOString().replace(/Z.*$/gim, "");
+    }
   }
 }
