@@ -33,11 +33,14 @@
                         {{value}}
                     </mat-radio-button>
                 </mat-radio-group>
-
-                <div class="section-title">Icon Color</div>
-                <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
-                <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
-
+                
+                <div id="coloring">
+                  <div class="section-title">Icon Color</div>
+                  <span>Low</span>
+                  <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
+                  <span>High</span>
+                  <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
+                </div>
             </div>
 
             <div class="form-section" fxFlex="50">

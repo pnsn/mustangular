@@ -8,8 +8,9 @@
 }
 
 .color {
-  height:30px;
-  width:30px;
+  height:20px;
+  width:20px;
+  border-style:none;
 }
 
 #metric-section {
@@ -54,12 +55,7 @@
   color: orange;
   margin: 5px;
 }
-#share-content{
-  min-height:40px;
-  overflow: wrap;
-  white-space: pre-wrap; /* css-3 */    
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */    
-  white-space: -o-pre-wrap; /* Opera 7 */    
-  word-wrap: break-word; 
+
+#coloring span{
+  font-size: 12px;
 }
