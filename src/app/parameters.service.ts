@@ -23,7 +23,6 @@ export class ParametersService {
   
   
   getDisplay() : any { //TODO: deal with these values from URL.
-    console.log("getDisply", this.display)
     return this.display;
   }
   
@@ -42,7 +41,7 @@ export class ParametersService {
     d.channels.active = params.channels; 
     
     this.display = d;
-    console.log(this.display)
+    console.log("should happen once", this.display)
   }
   //TODO: sanitize
   
@@ -56,7 +55,7 @@ export class ParametersService {
           if(pa.cha) {
             this.display.channels.available = pa.cha.split(",");
           }
-          console.log("params", pa)
+
           let query = new Query(
             pa.net,
             pa.cha,

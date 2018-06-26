@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 export class BinningService {
 
     constructor() {}
-    private bins = new Subject<Bin[]>;
+    private bins = new Subject<Bin[]>();
    
     getBins() : Observable<Bin[]> {
       return this.bins.asObservable();

@@ -26,8 +26,7 @@ export class ControlsComponent implements OnInit {
   
   openShareDialog(): void {
     let dialogRef = this.dialog.open(ShareDialog, {
-      // width: '250px'
-      data: this.activeMetric;
+      data: this.activeMetric
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -99,7 +98,7 @@ export class ShareDialog {
     public dialogRef: MatDialogRef<ShareDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-    url = window.location.href.replace(/metric=.+(&|$)/,"metric=" + data.name + "&") + data.display.toString();
+    url = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.data.name + "&") + this.data.display.toString();
     //TODO:replace metrics with active metric
     
     

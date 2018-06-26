@@ -3,19 +3,25 @@
   max-height:360px;
   overflow:scroll;
   background-color:white;
-  padding: 5px 10px 5px 0px;
-  width: 100%;
+  padding: 5px 10px 5px 15px;
+
 }
 #key div.title {
-  font-size: 30px;
-  padding-left:10px;
+  font-size: 20px;
+  font-weight:500px;
 }
 
 #key th,td {
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
   font-weight: normal;
   padding-left: 10px;
+  border-bottom: solid 1px #e6e6e6;
+}
+
+#key table {
+  border-collapse: collapse;
+  width:100%;
 }
 
 #key .key-toggle {

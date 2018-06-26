@@ -11,19 +11,20 @@
 
   </mat-sidenav-container>
   <mat-toolbar id="header" class="mat-elevation-z5">
-    <ng-container *ngIf="activeMetric">
-      <div class="title"> {{activeMetric.title}} Metric</div>
-    </ng-container>
-    <ul id="query-info" *ngIf="query">
-      <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li> 
-      <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
-      <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
-      <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>  
-      <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
-      <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
+    <div id="header-text">
+      <ng-container *ngIf="activeMetric">
+        <div class="title" > {{activeMetric.title}} Metric</div>
+      </ng-container>
+      <ul id="query-info" *ngIf="query">
+        <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li> 
+        <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
+        <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
+        <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>  
+        <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
+        <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
 
-    </ul>
-    
+      </ul>
+    </div>
     <button mat-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
       Edit Query
     </button>
@@ -36,8 +37,8 @@
 <div class="overlay" fxLayout fxLayoutAlign="center center" *ngIf="inProgress">
   
   <div class="overlay-message" fxLayout="column" >
-    <h1 fxFlexAlign="center">{{message}}</h1>
-    <fa name="spinner" animation="spin" size="5x" fxFlexAlign="center"></fa>
+    <p fxFlexAlign="center">{{message}}</p>
+    <fa name="spinner" animation="spin" size="2x" fxFlexAlign="center"></fa>
   </div>
   <div class="overlay-background"> </div>
 </div>

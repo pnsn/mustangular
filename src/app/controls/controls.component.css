@@ -13,21 +13,21 @@
 }
 
 #metric-section {
-  padding: 10px 50px;
+  padding: 10px 15px;
   overflow: hidden;
 }
 
 .section-title {
-  font-size: 25px;
-  
+  font-size: 20px;
+  font-weight:500px;
 }
 
 .form-body {
-  padding: 10px 20px;
+  padding: 10px 15px;
 }
 
 .form-section {
-  padding: 10px 25px;
+  padding: 10px 20px;
 }
 
 .binning {
@@ -36,7 +36,8 @@
 
 .form-title {
   font-size: 20px;
-  font-color :#707070;
+  font-weight:400px;
+  color :#707070;
 }
 
 #form-buttons button{

@@ -15,10 +15,11 @@
             <div class="section-title">Channel</div>
             
             <div (click)="openChannelsDialog()">
-            <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
-              <span *ngIf="i > 0"> > </span>
-              <span> {{ channel }}</span>
-            </ng-container>
+              <div class="warning">Click to prioritize</div>
+              <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
+                <span *ngIf="i > 0"> > </span>
+                <span> {{ channel }}</span>
+              </ng-container>
             </div>
 
 

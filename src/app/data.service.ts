@@ -41,7 +41,6 @@ export class DataService {
   
   } 
   
-  
   // only happens once
   setMetrics(metrics : Metric[]) : void {
     this.metrics = metrics;
@@ -55,8 +54,8 @@ export class DataService {
     let min = Math.ceil(.05 * length);
     let max = Math.floor(0.95 * length);  
     return {
-        "max" : length > 0 ? values[max] : 0,
-        "min" : length > 0 ? values[min] : 0,
+        "max" : length > 0 && values[max]? values[max] : 0,
+        "min" : length > 0 && values[min]? values[min] : 0,
         "count" : min == max || values[min] == values[max] ? 0 : 3
     }
   }
@@ -79,11 +78,6 @@ export class DataService {
   private calculateValues () : void {
     let defaultMetric = null;
     for (let metric of this.metrics) {
-      //TODO: get this from paramters
-      console.log(this.parameters)
-      
-      //add rest of channels
-      
       let display = metric.display;
       
       if(this.metricNames.indexOf(metric.name) < 0){

@@ -3,7 +3,7 @@
   <table>
    
      <tr>
-       <th class="key-toggle">On/off</th><th>Range</th><th>Count</th>
+       <th class="key-toggle">On/off</th><th>Range</th><th></th><th>Count</th>
      </tr>
      <ng-container *ngFor="let bin of bins">
        <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
