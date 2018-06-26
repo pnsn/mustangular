@@ -11,7 +11,7 @@ export class DataService {
   private metrics : Metric[];
   private activeMetric = new Subject<Metric>();
   private metricNames : string[] = [];
-  
+
   setDisplay(parameters : any) : void {
     this.parameters = parameters;
   } 

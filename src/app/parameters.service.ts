@@ -22,7 +22,7 @@ export class ParametersService {
   private display : Display = new Display();
   
   
-  getDisplay() : any { //TODO: deal with these values from URL.
+  getDisplay() : any {
     return this.display;
   }
   
@@ -43,7 +43,6 @@ export class ParametersService {
     this.display = d;
     console.log("should happen once", this.display)
   }
-  //TODO: sanitize
   
   setQueryParameters() : void {
     this.route.queryParamMap

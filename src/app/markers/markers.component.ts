@@ -15,8 +15,10 @@ export class MarkersComponent implements OnInit {
   metric: Metric;
   //need data count, min, max
 
-  markers : any; //marker[];
+  overlays : any; //marker[];
+  overlayMaster : any;
   fitBounds: any;
+  layers : any = {};
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
@@ -29,19 +31,36 @@ export class MarkersComponent implements OnInit {
         this.makeMarkers();
       }
     );
-  }
-  
-  private toggleLayer(layer : string) {
-    console.log(layer)
-    return true;
+    
+    this.binningService.getActiveLayers().subscribe(
+      layers => { 
+        this.layers = layers;
+        this.overlays = this.overlayMaster.slice();
+        
+        for ( let layer in this.layers) {
+          if(!this.layers[layer]) {
+            let index = +layer.slice(-1);
+            this.overlays.splice(index - 1, 1);
+          }
+        }
+      }
+    );
   }
   
   private makeMarkers() : void { 
     let bins = this.binningService.makeBins(this.metric.display);
     if( this.metric && bins) {
-      this.markers = this.makeMarkersService.getMarkers(this.metric, bins);
+      this.overlayMaster = this.makeMarkersService.getMarkers(this.metric, bins);
       
       this.binningService.setBins(this.makeMarkersService.getBins());
+      
+      for(let bin of bins){
+        if (bin.count > 0){
+          this.layers[bin.layer] = true;
+        }
+      }
+      
+      this.binningService.setActiveLayers(this.layers);
       
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
@@ -50,7 +69,6 @@ export class MarkersComponent implements OnInit {
     }
 
   }
-  //TODO: prevent recentering on new icons
 
   options = {
     layers: [

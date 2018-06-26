@@ -31,9 +31,8 @@ export class Display {
     };
   }
   
-  //TODO: make this better
+  //Returns a URL friendly string of the Display
   toString() : string {
-    // "color_high" = this.coloring.high
     let string = 
       "&high=" + this.coloring.high.replace(/#/, "%23") +
       "&low=" + this.coloring.low.replace(/#/, "%23") +

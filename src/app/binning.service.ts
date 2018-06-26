@@ -8,7 +8,18 @@ export class BinningService {
 
     constructor() {}
     private bins = new Subject<Bin[]>();
-   
+    
+    private activeLayers = new Subject<any>();
+  
+    getActiveLayers() : Observable<any> {
+      return this.activeLayers.asObservable();
+  
+    }
+  
+    setActiveLayers(layers) : void {
+      this.activeLayers.next(layers);
+    }
+     
     getBins() : Observable<Bin[]> {
       return this.bins.asObservable();
     }
@@ -46,7 +57,7 @@ export class BinningService {
 
       //No data
       bins.push( new Bin (0, "#fff", 2, "no-data", 0 ,0));
-
+  
       return bins;
     }
 

@@ -16,6 +16,9 @@
   text-align: left;
   font-weight: normal;
   padding-left: 10px;
+}
+
+#key th {
   border-bottom: solid 1px #e6e6e6;
 }
 
@@ -41,11 +44,12 @@
   height:20px;
 }
 
-mat-checkbox.layer-toggle {
+:host ::ng-deep .layer-toggle .mat-checkbox-background {
  background-color: transparent !important;
- border-width: 1px;
 }
-
+:host ::ng-deep .layer-toggle .mat-checkbox-frame {
+ border: none;
+}
 tr[disabled="disabled"] {
   color:#808080;
   opacity: 0.5;

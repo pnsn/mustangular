@@ -9,7 +9,9 @@
        <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
           <td class="key-toggle">
              <div class="key-icon"  [ngStyle]="{'background-color': bin.color}">
-                <mat-checkbox  *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" [disabled]="bin.count == 0"></mat-checkbox>
+                <mat-checkbox id="{{bin.layer}}" *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" 
+                  (change)="toggleLayer($event)" [checked]="layers ? layers[bin.layer] : false" >
+                </mat-checkbox>
              </div>
           </td>
           <td *ngIf="bin.position == -1" class="key-content">< {{bin.max - 0.01 | number : '1.2-2'}}</td>

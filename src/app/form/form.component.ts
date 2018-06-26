@@ -12,7 +12,6 @@ import { ParametersService } from '../parameters.service';
 })
 
 export class FormComponent implements OnInit {
-  //TODO: get metric list form IRIS
   metrics : Metric[];
   selectedMetrics : any;
   loading: boolean = false;

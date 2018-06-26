@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Metric } from './metric';
-import { divIcon, latLng, marker} from 'leaflet';
+import { divIcon, latLng, marker, layerGroup} from 'leaflet';
 import { Station } from './station'
 import { Bin } from './bin';
 @Injectable()
@@ -22,16 +22,24 @@ export class MakeMarkersService {
   
   //Makes leaflet markers using active channels and metrics
   getMarkers(metric: Metric, bins : Bin[]): any{
-    let markers = [];
+    let markerGroups = {};
     let latlons = [];
     this.bins = bins;
+  
+    
     for(let s in metric.stations) {
       let station = metric.stations[s];
       let latlon = latLng(station.lat, station.lon);
       
       let options = this.buildIcon(station, metric.display.displayValue);
       
-      markers.push(marker(latlon, options).bindPopup(this.buildPopup(station, metric.display.displayValue)));
+      if(!markerGroups[options.binIndex]) {
+        markerGroups[options.binIndex] = [];
+      }
+      markerGroups[options.binIndex].push(marker(latlon, {icon: options.icon}).bindPopup(this.buildPopup(station, metric.display.displayValue)));
+      // markers.push();
+      
+      
       latlons.push(latlon);
     }
     this.latlons = latlons;
@@ -39,8 +47,12 @@ export class MakeMarkersService {
     for (let bin of this.bins){
       bin.setWidth(metric.display.data.count);
     }
-
-    return markers;
+    
+    let overlays = [];
+    for(let group in markerGroups){
+      overlays.push(layerGroup(markerGroups[group]));
+    }
+    return overlays;
   }
   
   private buildIcon(station: Station, displayValue:string) : any {
@@ -48,7 +60,6 @@ export class MakeMarkersService {
     let color : string;
     let activeBin : Bin;
     for (let bin of this.bins){
-      //TODO: do something when max/min is NUll
       if (value === null) {
         activeBin = this.bins[this.bins.length - 1];
       } else if (value >= bin.min && value < bin.max || bin.position == 1 && value == bin.max){
@@ -60,10 +71,11 @@ export class MakeMarkersService {
         return {
               icon: divIcon({
                 'className': 'icon',
-                'html': "<div class='icon-color' style='background-color:" + activeBin.color + "'></div>",
+                'html': "<div class='icon-color "+activeBin.layer+"' style='background-color:" + activeBin.color + "'></div>",
                 'iconAnchor': [5, 5], // Make sure icon is centered over coordinates
                 'popupAnchor':  [1 , -2]
-              })
+              }),
+              binIndex: activeBin.layer
             }
       }
 

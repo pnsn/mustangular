@@ -16,6 +16,18 @@ export class KeyComponent implements OnInit {
         this.bins = bins;
       }
     );
+    this.binningService.getActiveLayers().subscribe(
+      layers => { 
+        this.layers = layers;
+      }
+    );
+  }  
+  layers :any = {};
+
+  toggleLayer(event) : void{
+    this.layers[event.source.id] = event.checked;
+    this.binningService.setActiveLayers(this.layers);
+    console.log("updated")
   }
 
 }

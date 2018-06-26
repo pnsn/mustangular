@@ -105,6 +105,6 @@ export class ControlsComponent implements OnInit {
 })
 export class ChannelsDialog {
   constructor(
-    public dialogRef: MatDialogRef<ShareDialog>,
+    public dialogRef: MatDialogRef<ChannelsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 }
