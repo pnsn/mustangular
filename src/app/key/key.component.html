@@ -6,7 +6,7 @@
        <th class="key-toggle">On/off</th><th>Range</th><th></th><th>Count</th>
      </tr>
      <ng-container *ngFor="let bin of bins">
-       <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" >
+       <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" [className]="bin.count == 0 ? 'disabled' : 'active'">
           <td class="key-toggle">
              <div class="key-icon"  [ngStyle]="{'background-color': bin.color}">
                 <mat-checkbox id="{{bin.layer}}" *ngIf="bin.count > 0" class="layer-toggle" aria-label="toggle layer" 

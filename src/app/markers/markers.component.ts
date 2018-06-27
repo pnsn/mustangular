@@ -13,9 +13,8 @@ import { Bin } from '../bin';
 })
 export class MarkersComponent implements OnInit {
   metric: Metric;
-  //need data count, min, max
 
-  overlays : any; //marker[];
+  overlays : any; 
   overlayMaster : any;
   fitBounds: any;
   layers : any = {};

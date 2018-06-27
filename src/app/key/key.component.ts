@@ -27,7 +27,6 @@ export class KeyComponent implements OnInit {
   toggleLayer(event) : void{
     this.layers[event.source.id] = event.checked;
     this.binningService.setActiveLayers(this.layers);
-    console.log("updated")
   }
 
 }

@@ -50,7 +50,7 @@
 :host ::ng-deep .layer-toggle .mat-checkbox-frame {
  border: none;
 }
-tr[disabled="disabled"] {
+tr.disabled{
   color:#808080;
   opacity: 0.5;
 }

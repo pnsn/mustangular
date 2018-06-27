@@ -111,7 +111,6 @@ export class DataService {
         display.binning = this.parameters.binning;
       } else {
         display.binning = this.initialBinning(values);
-        console.log(display.binning);
       }
       
       metric.display = display;
