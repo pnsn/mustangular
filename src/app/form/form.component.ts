@@ -1,3 +1,5 @@
+// Entry form for MUSTANGular
+
 import { Component, OnInit } from '@angular/core';
 import { Query } from '../query';
 import { MetricsService } from '../metrics.service';
@@ -12,29 +14,34 @@ import { ParametersService } from '../parameters.service';
 })
 
 export class FormComponent implements OnInit {
-  metrics : Metric[];
-  selectedMetrics : any;
-  loading: boolean = false;
-  maxDate = new Date();
-  query = new Query();
   
   constructor (
     private router: Router,
     private metricsService: MetricsService,
     private parametersService: ParametersService
-  ) { }
+  ) {}
   
+  metrics : Metric[]; // Available metrics from MUSTANG
+  maxDate = new Date(); // Current date to prevent requests from future
+  query = new Query();// Holds all the query data
+  selectedMetrics : any; // Selected metrics
+  loading: boolean = false; // TODO: figure out if this is being used
+
   ngOnInit() {
     console.log("FormComponent onInit");
+    
+    // Get metrics to populate form
     this.getMetrics();
     
+    // Wait for query to be populated from url
     this.parametersService.getQuery().subscribe(
       query => { 
         this.query = query;
         this.selectedMetrics = query.metric ? query.metric.split(',') : [];
       }
     );
-  
+    
+    // Tells parameter service to get parameters
     this.parametersService.setQueryParameters();
   }
   
@@ -48,6 +55,11 @@ export class FormComponent implements OnInit {
       }); 
   }
 
+  // Take a string and make it capitalized 
+  upperCase = (str : string) : string => {
+    return str ? str.toUpperCase() : "";
+  }
+
   // Disable dates that haven't happened yet and dates after end date
   startFilter = (d: Date): boolean => {
     const day = d;
@@ -57,13 +69,8 @@ export class FormComponent implements OnInit {
     if( this.query.end ){
       return day < tomorrow && day < new Date(this.query.end);
     } else {
-      return day < tomorrow
+      return day < tomorrow;
     } 
-  }
-  
-  // Take a string and make it capitalized 
-  upperCase = (str : string) : string => {
-    return str ? str.toUpperCase() : "";
   }
   
   // Disable dates that haven't happened yet and dates before start date  
@@ -74,7 +81,7 @@ export class FormComponent implements OnInit {
     if( this.query.start ){
       return day < tomorrow && day > new Date(this.query.start);
     } else {
-      return day < tomorrow
+      return day < tomorrow;
     } 
   }
 

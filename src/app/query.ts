@@ -1,3 +1,14 @@
+// Describes a Query object
+// {
+//   net: string,
+//   cha: string,
+//   sta: string,
+//   loc: string,
+//   qual: string,
+//   start: string,
+//   end: string,
+//   metric: string
+// }
 export class Query {
   constructor (
     public net?: string,
@@ -9,7 +20,8 @@ export class Query {
     public end?: string,
     public metric?: string
   ) {}
-
+  
+  // Returns a string of requested query parameters
  getString(keys?: Array<string>): string {
     var str = "";
 
@@ -22,6 +34,7 @@ export class Query {
     return str;
   }
   
+  // Cleans up the query parameters so they can be used
   sanitize() : void {
     let queryKeys = ["net","cha","sta","loc","qual","metric"];
     for (let key of queryKeys) {

@@ -1,17 +1,19 @@
+// Fetches station data from IRIS FDSNWS
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Station } from './station';
+
 @Injectable()
 export class StationsService {
   
-  constructor(private http: HttpClient) { 
-   }
+  constructor (
+    private http: HttpClient
+  ) {}
    
-   //Parse text file and map to station objects
+   // Parse text file and map to station objects
    private mapStations(response: String): Object{
      var stations = {};
      var lines = response.split('\n');
@@ -27,7 +29,7 @@ export class StationsService {
      return stations;
    }
 
-   
+   // Fetch requested stations
   getStations(queryString : string) : Observable <any>{
     
     var stationsURL = 'http://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;

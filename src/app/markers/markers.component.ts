@@ -1,3 +1,4 @@
+// Generates the leaflet map and the markers on it
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../metric';
@@ -12,55 +13,85 @@ import { Bin } from '../bin';
   styleUrls: ['./markers.component.css']
 })
 export class MarkersComponent implements OnInit {
-  metric: Metric;
-
-  overlays : any; 
-  overlayMaster : any;
-  fitBounds: any;
-  layers : any = {};
+  
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
-    private binningService: BinningService) { }
+    private binningService: BinningService
+  ) {}
+    
+  activeMetric: Metric; // 
 
+  overlays : any; // Active layers
+  overlayMaster : any; // All available layers
+  fitBounds: any; // Bounds to zoom map to
+  layers : any = {}; // Layer statuses
+
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18, attribution: '...' })
+    ]
+  }; // Leaflet map options
+  
   ngOnInit() {
+    // Wait for active metric
     this.dataService.getActiveMetric().subscribe(
-      metric => { 
-        this.metric = metric;
+      activeMetric => { 
+        this.activeMetric = activeMetric;
         this.makeMarkers();
       }
     );
     
+    // Add or remove layers from the map when the layers are toggled
     this.binningService.getActiveLayers().subscribe(
       layers => { 
         this.layers = layers;
-        this.overlays = this.overlayMaster.slice();
-        
+        console.log("changed layers", this.layers)
+        this.overlays = [];
+        console.log(this.overlayMaster.length)
         for ( let layer in this.layers) {
-          if(!this.layers[layer]) {
-            let index = +layer.slice(-1);
-            this.overlays.splice(index - 1, 1);
+          if(this.layers[layer]) {
+            let index = +layer.match(/\d+$/);
+            this.overlays.push(this.overlayMaster[index])
+            console.log("add", layer)
+          } else {
+            console.log("remove", layer)
           }
         }
       }
     );
   }
   
+  updateStation(event) : void {
+    console.log(event)
+  }
+  
+  // Make the markers for the map
   private makeMarkers() : void { 
-    let bins = this.binningService.makeBins(this.metric.display);
-    if( this.metric && bins) {
-      this.overlayMaster = this.makeMarkersService.getMarkers(this.metric, bins);
+    console.log("make markers")
+    // Get the bins
+    let bins = this.binningService.makeBins(this.activeMetric.display);
+    
+    if( this.activeMetric && bins) {
+      // Make markers and recieve the overlays containing markers
+      this.overlayMaster = this.makeMarkersService.makeMarkers(this.activeMetric, bins);
       
+      // Update master bins with new bins.
       this.binningService.setBins(this.makeMarkersService.getBins());
       
+      // Initiate layers statuses
       for(let bin of bins){
         if (bin.count > 0){
           this.layers[bin.layer] = true;
         }
       }
+      console.log("layers", this.layers)
       
+      // Update layer statuses
       this.binningService.setActiveLayers(this.layers);
       
+      // Zoom map to fit the bounds
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
         this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit
@@ -69,10 +100,5 @@ export class MarkersComponent implements OnInit {
 
   }
 
-  options = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18, attribution: '...' })
-    ]
-  };
+
 }

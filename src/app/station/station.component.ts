@@ -1,6 +1,8 @@
+// TODO: Generates station graphs
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-// import { switchMap } from 'rxjs/operators';
+
 @Component({
   selector: 'app-station',
   templateUrl: './station.component.html',
@@ -13,6 +15,8 @@ export class StationComponent implements OnInit {
     private router: Router
   ) {}
 
+
+  // TODO: get all metric data
   ngOnInit() {
     // this.station = this.route.paramMap.pipe(
     //   switchMap((params: ParamMap) =>

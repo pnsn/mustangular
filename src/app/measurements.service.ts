@@ -1,25 +1,25 @@
+// Fetches measurements from MUSTANG
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { Measurement } from './measurement'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+
 // TODO: handle errors
 @Injectable()
-
-
-//fetches all metrics from IRIS
 export class MeasurementsService {
 
-  constructor(private http: HttpClient) { 
-   }
+  constructor (
+    private http: HttpClient
+  ) {}
    
-   private mapMeasurements(response: any): object{
-     return response.measurements;
-   }
-
-  
-   // Gets the measurements from the IRIS service
+  // Returns the measurements
+  private mapMeasurements(response: any): object{
+    return response.measurements;
+  }
+ 
+  // Gets the measurements from the IRIS service
   getMeasurements(queryString : string) : Observable <any>{
     var measurementsURL = 'http://service.iris.edu/mustang/measurements/1/query?output=jsonp&nodata=200' + queryString;
     var measurements = []; 
@@ -32,6 +32,4 @@ export class MeasurementsService {
     );
 
   }
-  
-
 }

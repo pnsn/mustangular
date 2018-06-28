@@ -1,3 +1,15 @@
+// Describes a Station object
+// {
+//   net: string,
+//   sta: string,
+//   lat: number,
+//   lon: number,
+//   name: string,
+//   loc: string,
+//   code: string, //NET.STA.LOC
+//   channels: any
+// }
+
 import { Channel } from './channel'
 export class Station {
   
@@ -11,9 +23,11 @@ export class Station {
       public code?: string, //NET.STA.LOC
       public channels?: any
     ){}
-    displayValue : number;
-    displayChannel : string;
     
+    displayValue : number; // Value displayed for the station
+    displayChannel : string; // Channel being used to display
+    
+    // Sets the station value according to the display value and selected channels
     setValue(displayValue : string, displayChannels : string[]) : void {
       this.displayValue = null;
       this.displayChannel = null;
@@ -56,6 +70,4 @@ export class Station {
         }
       }
     }
-  //value calculation
-  //only show values if they are from certain stations
 }

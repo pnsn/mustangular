@@ -1,6 +1,9 @@
+// Generates the key
+
 import { Component, OnInit } from '@angular/core';
 import { BinningService } from '../binning.service';
 import { Bin } from '../bin';
+
 @Component({
   selector: 'app-key',
   templateUrl: './key.component.html',
@@ -8,24 +11,33 @@ import { Bin } from '../bin';
 })
 export class KeyComponent implements OnInit {
 
-  constructor(private binningService : BinningService) { }
-  bins : Bin[];
+  constructor (
+    private binningService : BinningService
+  ) {}
+
+  bins : Bin[]; // Bins
+  layers :any = {}; // Which layers are on the map
+  
   ngOnInit() {
+    // Waits for bins to be created
     this.binningService.getBins().subscribe(
       bins => { 
         this.bins = bins;
       }
     );
+    
+    // Subscribes to changes in the metric layers 
     this.binningService.getActiveLayers().subscribe(
       layers => { 
         this.layers = layers;
       }
     );
   }  
-  layers :any = {};
-
+  
+  // Adds or removes layers on user click
   toggleLayer(event) : void{
     this.layers[event.source.id] = event.checked;
+    console.log(event.source.id)
     this.binningService.setActiveLayers(this.layers);
   }
 

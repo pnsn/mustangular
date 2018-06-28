@@ -1,3 +1,10 @@
+// Describes a Channel object
+
+// {
+//   name : string,
+//   measurements : Measurement array
+// }
+
 import { Measurement } from './measurement';
 export class Channel {
   
@@ -6,12 +13,13 @@ export class Channel {
     public measurements?: Measurement[]
   ) {}
   
-  private values : Array<number>;
-  private median? : number;
-  private average? : number;
-  private max? : number;
-  private min? : number;
+  private values : Array<number>; // Channel's possible values
+  private median? : number; // Median channel value
+  private average? : number; // Average channel value
+  private max? : number; // Maximum channel value
+  private min? : number; // Minimum channel value
   
+  // Calculates the values for the channel
   private calculateValues() : void {
     if ( !this.values || this.values.length == 0 ) {
       let values = [];
@@ -27,6 +35,7 @@ export class Channel {
     }
   }
   
+  // Calculates the median for the channel
   getMedian() : number {
     if( !this.median ) {
       this.calculateValues();
@@ -43,10 +52,9 @@ export class Channel {
       this.median = median;
     }
     return this.median;
-
-
   }
   
+  // Calculates the average value for the channel
   getAverage() : number {
     if( !this.average ) {
       this.calculateValues();
@@ -68,14 +76,15 @@ export class Channel {
     
     let index = Math.ceil(percentile / 100 * this.values.length);
     return index == this.values.length ? this.values[index - 1] : this.values[index];
-  
   }
   
+  // Returns the channel's maximum value 
   getMax() : number {
     this.calculateValues();
     return this.max;
   }
   
+  // Returns the channel's minimum value
   getMin() : number {
     this.calculateValues();
     return this.min;

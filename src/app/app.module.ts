@@ -1,7 +1,8 @@
+// This is an Angular thing that tells the apps what to import
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-
 import { AppComponent } from './app.component';
 import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
@@ -44,7 +45,7 @@ import {
 } from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
 import { MarkersComponent } from './markers/markers.component';
-import { ControlsComponent, ChannelsDialog } from './controls/controls.component';
+import { ControlsComponent, ChannelsDialog, DownloadDialog } from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
@@ -57,6 +58,7 @@ import { KeyComponent } from './key/key.component';
     MarkersComponent,
     ControlsComponent,
     ChannelsDialog,
+    DownloadDialog,
     KeyComponent
   ],
   imports: [
@@ -103,7 +105,7 @@ import { KeyComponent } from './key/key.component';
     ParametersService,
     DataService
   ],
-  entryComponents: [ChannelsDialog],
+  entryComponents: [ChannelsDialog, DownloadDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

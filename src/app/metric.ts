@@ -1,7 +1,17 @@
+// Describes a Metric object
+
+// {
+//   name : string,
+//   title : string,
+//   description : string,
+//   unit : string,
+//   display : Display,
+//   stations : Station object
+// }
+
 import { Display } from './display'
 export class Metric {
-  display : Display;
-  stations : any;
+  
   constructor (
     public name: string,
     public title: string,
@@ -12,14 +22,18 @@ export class Metric {
     this.stations = {}
   }
   
-  private values : Array<number>;
+  display : Display; // Metric's display settings
+  stations : any; // Metric's stations 
+  private values : Array<number>; // Metric's display values
   
+  // Set new values for Metric and it's stations
   updateValues() : void {
   
     let values = [];
     
     for (let s in this.stations) {
       let station = this.stations[s];
+      // New value for the stations
       station.setValue(this.display.displayValue, this.display.channels.available);
       values.push(station.displayValue);
     }
@@ -32,14 +46,16 @@ export class Metric {
     }
   
     this.values = values;
-    
     this.getActiveChannels();
   }
   
+  
+  // Returns metric's values
   getValues() : Array<number> {
     return this.values;
   }
   
+  // Return all of metric's channels 
   getChannels() : Array<string> {
     let channels = [];
     for (let s in this.stations) {
@@ -50,10 +66,10 @@ export class Metric {
         }
       }
     }
-    // channels.sort(); //Maybe shouldn't be alphabetical
     return channels;
   }
   
+  // Return the channels that are actually being used
   private getActiveChannels() : void {
     let availableChannels = this.display.channels.available;
     let activeChannels = [];

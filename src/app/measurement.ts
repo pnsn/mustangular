@@ -1,3 +1,13 @@
+// Describes a Measurement object
+// {
+//   end : string,
+//   lddate : string,
+//   qual : string,
+//   start : string,
+//   target : string,
+//   value : string
+// }
+
 export class Measurement {
 
   constructor (
