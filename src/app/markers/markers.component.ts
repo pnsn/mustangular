@@ -1,5 +1,5 @@
 // Generates the leaflet map and the markers on it
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../metric';
 import { MakeMarkersService } from '../make-markers.service'
@@ -17,7 +17,8 @@ export class MarkersComponent implements OnInit {
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
-    private binningService: BinningService
+    private binningService: BinningService,
+    private elementRef : ElementRef
   ) {}
     
   activeMetric: Metric; // 
@@ -96,6 +97,14 @@ export class MarkersComponent implements OnInit {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
         this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit
       }
+      
+      //TODO: station popup
+      // // add event listener to newly added a.merch-link element
+      // this.elementRef.nativeElement.querySelector(".station-link")
+      //   .addEventListener('click', (e) => {
+      //     let id = e.target.getId;
+      //     console.log(id)
+      //   }));
     }
 
   }

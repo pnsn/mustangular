@@ -115,6 +115,6 @@ export class MakeMarkersService {
     }
 
     string += "</ul>"; 
-    return string+"</div><button onclick='updateStation($event)'> Go to station data </button>";  
+    return string+"</div><button class='station-link' id='"+station.net+"."+station.sta+"' click='alert('station should show')'> Go to station data </button>";  
   }
 }
