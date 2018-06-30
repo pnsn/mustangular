@@ -57,6 +57,9 @@ export class MapComponent implements OnInit {
     this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
       metrics => {
         this.getStations(this.query.getString(["net","sta","loc","cha"]), metrics);
+      },
+      err => {
+          console.log("I GOT AN ERROR", err);
       }
     );
   }
@@ -67,6 +70,9 @@ export class MapComponent implements OnInit {
     this.stationsService.getStations(qString).subscribe(
       stations => {
         this.getMeasurements(this.query.getString(), metrics, stations);
+      },
+      err => {
+          console.log("I GOT AN ERROR", err.error);
       }
     );
   }
@@ -77,6 +83,9 @@ export class MapComponent implements OnInit {
     this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
         this.combineMetrics(measurements, stations, metrics)
+      },
+      err => {
+          console.log("I GOT AN ERROR", err);
       }
     );
   }

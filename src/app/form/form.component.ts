@@ -52,7 +52,11 @@ export class FormComponent implements OnInit {
       metrics => {
         this.loading = false;
         this.metrics = metrics
-      }); 
+      },
+      err => {
+          console.log("I GOT AN ERROR", err.error);
+      }
+    ); 
   }
 
   // Take a string and make it capitalized 

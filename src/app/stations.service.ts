@@ -1,10 +1,11 @@
 // Fetches station data from IRIS FDSNWS
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, throw} from 'rxjs/operators';
 import { Station } from './station';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class StationsService {
@@ -34,11 +35,16 @@ export class StationsService {
     
     var stationsURL = 'http://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
 
-    return this.http.get(stationsURL, { responseType: 'text' }).pipe(
-      map(
-        this.mapStations
+    return this.http.get(stationsURL, { responseType: 'text' })
+      .pipe(
+        map(this.mapStations),
+        catchError((error: Error) => {
+          console.log(error)
+          return Observable.throw(error);
+        })
       )
-    );
-
+  
   }
+
+  
 }
