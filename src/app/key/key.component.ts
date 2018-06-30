@@ -37,7 +37,6 @@ export class KeyComponent implements OnInit {
   // Adds or removes layers on user click
   toggleLayer(event) : void{
     this.layers[event.source.id] = event.checked;
-    console.log(event.source.id)
     this.binningService.setActiveLayers(this.layers);
   }
 

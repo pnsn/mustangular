@@ -48,16 +48,12 @@ export class MarkersComponent implements OnInit {
     this.binningService.getActiveLayers().subscribe(
       layers => { 
         this.layers = layers;
-        console.log("changed layers", this.layers)
         this.overlays = [];
-        console.log(this.overlayMaster.length)
+
         for ( let layer in this.layers) {
           if(this.layers[layer]) {
             let index = +layer.match(/\d+$/);
-            this.overlays.push(this.overlayMaster[index])
-            console.log("add", layer)
-          } else {
-            console.log("remove", layer)
+            this.overlays.push(this.overlayMaster[index]);
           }
         }
       }
@@ -70,7 +66,7 @@ export class MarkersComponent implements OnInit {
   
   // Make the markers for the map
   private makeMarkers() : void { 
-    console.log("make markers")
+
     // Get the bins
     let bins = this.binningService.makeBins(this.activeMetric.display);
     
@@ -87,7 +83,6 @@ export class MarkersComponent implements OnInit {
           this.layers[bin.layer] = true;
         }
       }
-      console.log("layers", this.layers)
       
       // Update layer statuses
       this.binningService.setActiveLayers(this.layers);

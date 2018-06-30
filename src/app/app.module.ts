@@ -45,10 +45,11 @@ import {
 } from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
 import { MarkersComponent } from './markers/markers.component';
-import { ControlsComponent, ChannelsDialog, DownloadDialog } from './controls/controls.component';
+import { ControlsComponent, ChannelsDialog} from './controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
+import { ButtonsComponent, DownloadDialog } from './buttons/buttons.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,8 @@ import { KeyComponent } from './key/key.component';
     ControlsComponent,
     ChannelsDialog,
     DownloadDialog,
-    KeyComponent
+    KeyComponent,
+    ButtonsComponent
   ],
   imports: [
     BrowserModule,

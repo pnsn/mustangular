@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, throw} from 'rxjs/operators';
+import { catchError, map} from 'rxjs/operators';
 import { Station } from './station';
 import 'rxjs/add/observable/throw';
 
@@ -19,20 +19,28 @@ export class MeasurementsService {
   private mapMeasurements(response: any): object{
     return response.measurements;
   }
+  
+  private url : string = "http://service.iris.edu/mustang/measurements/1/query?nodata=200";
  
   // Gets the measurements from the IRIS service
-  getMeasurements(queryString : string) : Observable <any>{
-    var measurementsURL = 'http://service.iris.edu/mustang/measurements/1/query?output=jsonp&nodata=200' + queryString;
-    var measurements = []; 
-  
-    return this.http.jsonp(measurementsURL, 'callback').pipe(
-      map(this.mapMeasurements),
+  getMeasurements(queryString : string, type? : string) : Observable <any>{
+    this.url += queryString;
+    
+    let measurementsURL = this.url;
+    
+    if (type){
+      measurementsURL += "&output=type";
+    } else {
+      measurementsURL += "&output=jsonp";
+    }
+    
+    
+    return this.http.jsonp(measurementsURL, 'callback')
+      .pipe(
+        map(this.mapMeasurements),
         catchError((error: Error) => {
-          console.log(error)
           return Observable.throw(error);
         })
-      )
-    );
-
+      );
   }
 }

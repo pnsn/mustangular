@@ -16,10 +16,10 @@
         <div class="title" > {{activeMetric.title}} Metric</div>
       </ng-container>
       <ul id="query-info" *ngIf="query">
-        <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li> 
+        <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li>
         <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
         <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
-        <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>  
+        <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>
         <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
         <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
 
@@ -28,9 +28,6 @@
     <button mat-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
       Edit Query
     </button>
-    <!-- <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-toggle">
-      <fa name="arrow-circle-right" size="3x"></fa>
-    </button> -->
   </mat-toolbar>
 </div>
 

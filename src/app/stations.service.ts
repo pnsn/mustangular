@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, throw} from 'rxjs/operators';
+import { catchError, map} from 'rxjs/operators';
 import { Station } from './station';
 import 'rxjs/add/observable/throw';
 
@@ -39,7 +39,6 @@ export class StationsService {
       .pipe(
         map(this.mapStations),
         catchError((error: Error) => {
-          console.log(error)
           return Observable.throw(error);
         })
       )

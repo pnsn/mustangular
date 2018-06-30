@@ -5,7 +5,7 @@ import { Component, OnInit, SimpleChanges, Inject } from '@angular/core';
 import { Metric } from '../metric';
 import { DataService } from '../data.service';
 import { Display } from '../display';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-controls',
@@ -16,9 +16,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/m
 export class ControlsComponent implements OnInit {
   
   constructor(
-    private dataService: DataService,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar
+    private dataService: DataService
   ) {}
   
   metrics: Metric[]; // Copy of all metric data
@@ -42,27 +41,7 @@ export class ControlsComponent implements OnInit {
         this.metrics = this.dataService.getMetrics();
     });
   }
-  
-  // Copies share metric link to clipboard 
-  copyShareLink(): void {
-    //This is from stackoverflow
-    let selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.activeMetric.name + "&") + this.activeMetric.display.toString();
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
 
-    // Open copy link snackbar
-    this.snackBar.open('Link copied to clipboard!', '', {
-      duration: 3000
-    });
-  }
   
   // Opens dialog to sort channels
   openChannelsDialog(): void {
@@ -74,24 +53,6 @@ export class ControlsComponent implements OnInit {
       this.display.channels.available = result;
       this.valueChanged();
     });
-  }
-  
-  // Opens dialog to select download type
-  // TODO: add download types
-  openDownloadDialog(): void {
-    let dialogRef = this.dialog.open(DownloadDialog, {
-      data: {url: "test"}
-    });
-    
-    // dialogRef.afterClosed().subscribe(result => {
-    //
-    // });
-  }
-  
-  // Opens help dialog
-  //TODO: this
-  showHelp(): void {
-    console.log("HELP!")
   }
   
   // When metric is changed, switch display data to new metric
@@ -124,7 +85,6 @@ export class ControlsComponent implements OnInit {
   }
 }
 
-
 // Dialog for channel sorter
 @Component({
   selector: 'channels-dialog',
@@ -134,17 +94,5 @@ export class ControlsComponent implements OnInit {
 export class ChannelsDialog {
   constructor(
     public dialogRef: MatDialogRef<ChannelsDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-}
-
-// Dialog for download type selector
-@Component({
-  selector: 'download-dialog',
-  templateUrl: './download-dialog.html',
-  styleUrls: ['./controls.component.css']
-})
-export class DownloadDialog {
-  constructor(
-    public dialogRef: MatDialogRef<DownloadDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 }

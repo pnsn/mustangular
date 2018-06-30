@@ -59,6 +59,7 @@ export class FormComponent implements OnInit {
     ); 
   }
 
+  
   // Take a string and make it capitalized 
   upperCase = (str : string) : string => {
     return str ? str.toUpperCase() : "";
@@ -96,3 +97,4 @@ export class FormComponent implements OnInit {
     this.router.navigate(['../map'], { queryParams: this.query});
   }
 }
+

@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { Metric } from './metric';
-import { divIcon, latLng, marker, layerGroup} from 'leaflet';
+import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
 import { Station } from './station'
 import { Bin } from './bin';
 
@@ -44,7 +44,14 @@ export class MakeMarkersService {
       let latlon = latLng(station.lat, station.lon);
       
       let options = this.buildIcon(station, metric.display.displayValue);
-      markerGroups[options.binIndex].push(marker(latlon, {icon: options.icon}).bindPopup(this.buildPopup(station, metric.display.displayValue)));
+      let m = new Marker(latlon, {icon: options.icon}).bindPopup(this.buildPopup(station, metric.display.displayValue));
+      
+      let self = this;
+      m.on('popupopen', function() {
+        console.log('hi')
+      });
+      //
+      markerGroups[options.binIndex].push(m);
       latlons.push(latlon);
     }
     
@@ -57,7 +64,7 @@ export class MakeMarkersService {
     for(let group in markerGroups){
       this.overlays.push(layerGroup(markerGroups[group]));
     }
-    console.log(markerGroups)
+
     return this.overlays;
   }
   
@@ -115,6 +122,6 @@ export class MakeMarkersService {
     }
 
     string += "</ul>"; 
-    return string+"</div><button class='station-link' id='"+station.net+"."+station.sta+"' click='alert('station should show')'> Go to station data </button>";  
+    return string+"</div><button class='station-link' id='"+station.net+"."+station.sta+"'> Go to station data </button>";  
   }
 }

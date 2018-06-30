@@ -1,0 +1,8 @@
+#control-buttons button{
+  margin: 0px 10px;
+}
+
+.download-button {
+  border-radius: 5px;
+  border: solid 1px #707070;
+}

@@ -78,17 +78,7 @@
 <div class="form-section">
 
     <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes</div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <button mat-icon-button (click)="openDownloadDialog()">
-            <fa name="download" size="2x"></fa>
-        </button>
-        <button mat-icon-button (click)="copyShareLink()">
-            <fa name="share-square" size="2x"></fa>
-        </button>
-        <button mat-icon-button (click)="showHelp()">
-            <fa name="question-circle" size="2x"></fa>
-        </button>
-    </div>
+    <app-buttons [metric]="activeMetric"></app-buttons>
 
 </div>
 <mat-divider></mat-divider>
