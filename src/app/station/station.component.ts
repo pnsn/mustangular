@@ -1,32 +1,77 @@
 // TODO: Generates station graphs
 
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit , Inject} from '@angular/core';
+import { MakeMarkersService } from '../make-markers.service'
+import { DataService} from '../data.service';
+import { Station } from '../Station';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Metric } from '../Metric';
 
 @Component({
   selector: 'app-station',
-  templateUrl: './station.component.html',
-  styleUrls: ['./station.component.css']
+  template: ''
 })
 export class StationComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router
+    private makeMarkersService: MakeMarkersService,
+    private dataService: DataService,
+    public dialog: MatDialog
   ) {}
 
-
+  activeStation : Station;
+  metrics: Metric[]; // Copy of all metric data
+  activeMetric : Metric; // Currently active metric
+  
+  
   // TODO: get all metric data
   ngOnInit() {
-    // this.station = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     this.service.getHero(params.get('station')))
-    //
-    // );
+    console.log("station init")
+    this.makeMarkersService.getActiveStation().subscribe(
+      activeStation => { 
+        this.activeStation = activeStation;
+        this.openStationDialog();
+        console.log("hi",this.activeStation);
+      }
+    );
     
-    let stationCode = this.route.snapshot.paramMap.get('station');
-    console.log(stationCode)
-    // this.hero$ = this.service.getHero(id);
+    this.dataService.getActiveMetric().subscribe(
+      activeMetric => {
+        this.activeMetric = Object.assign(activeMetric);
+        this.metrics = this.dataService.getMetrics();
+    });
   }
 
+
+  // Opens dialog to sort channels
+  openStationDialog(): void {
+    let dialogRef = this.dialog.open(StationDialog, {
+      data: {
+        station: this.activeStation,
+        metric: this.activeMetric
+      }
+    });
+    
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.valueChanged();
+    // });
+  }
+  
+}
+
+// Dialog for channel sorter
+@Component({
+  selector: 'station-dialog',
+  templateUrl: './station.component.html',
+  styleUrls: ['./station.component.css']
+})
+
+export class StationDialog {
+  constructor(
+    public dialogRef: MatDialogRef<StationDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    
+    station = data.station;
+    metric = data.metric;
+    
 }

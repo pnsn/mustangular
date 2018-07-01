@@ -32,12 +32,13 @@ export class CombineMetricsService {
       for (let m of measurements[metric.name]){
         let stationCode = m.net + "." + m.sta;
         let station = combinedMetric.stations[stationCode];
-        
+
         if(stations[stationCode]) {
           
           // Create station if its the first pass 
           if (!station) {
             station = Object.create(stations[stationCode]);
+            station.code = stationCode;
             station.channels = {};
             combinedMetric.display.data.count++;
           }

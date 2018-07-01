@@ -10,7 +10,7 @@ import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
-import { StationComponent } from './station/station.component';
+import { StationComponent , StationDialog} from './station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MetricsService } from './metrics.service';
 import { MeasurementsService } from './measurements.service';
@@ -60,6 +60,7 @@ import { ButtonsComponent, DownloadDialog } from './buttons/buttons.component';
     ControlsComponent,
     ChannelsDialog,
     DownloadDialog,
+    StationDialog,
     KeyComponent,
     ButtonsComponent
   ],
@@ -107,7 +108,7 @@ import { ButtonsComponent, DownloadDialog } from './buttons/buttons.component';
     ParametersService,
     DataService
   ],
-  entryComponents: [ChannelsDialog, DownloadDialog],
+  entryComponents: [ChannelsDialog, DownloadDialog, StationDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

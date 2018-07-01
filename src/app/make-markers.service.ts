@@ -1,19 +1,28 @@
 // Takes a metric and the bins and creates marker layers for the map
 
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Metric } from './metric';
 import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
 import { Station } from './station'
 import { Bin } from './bin';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class MakeMarkersService {
 
-  constructor() { }
+  constructor(private zone : NgZone) { }
  
   private latlons = []; // Array of coordinates
   private bins : Bin[]; // local copy of bins
   private overlays : Array<any>;
+  
+  private activeStation = new Subject<Station>();
+  
+  getActiveStation() : Observable<Station> {
+    return this.activeStation.asObservable();
+  }
+  
   // Returns array of coordinates
   getLatLons() : any {
     return this.latlons;
@@ -30,7 +39,7 @@ export class MakeMarkersService {
     let latlons = [];
     this.overlays = [];
     this.bins = bins;
-
+    let self = this;
     
     for (let bin of this.bins){
       if(!markerGroups[bin.layer]) {
@@ -44,12 +53,20 @@ export class MakeMarkersService {
       let latlon = latLng(station.lat, station.lon);
       
       let options = this.buildIcon(station, metric.display.displayValue);
-      let m = new Marker(latlon, {icon: options.icon}).bindPopup(this.buildPopup(station, metric.display.displayValue));
+      let m = new Marker(latlon, {icon: options.icon});
       
-      let self = this;
-      m.on('popupopen', function() {
-        console.log('hi')
+      
+      m.on('click', function() {
+        
+        self.zone.run( () => {
+
+          self.activeStation.next(station);
+          //display station popup
+        }
+        //programmatically add popup here
       });
+      
+      m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
       //
       markerGroups[options.binIndex].push(m);
       latlons.push(latlon);
@@ -104,11 +121,10 @@ export class MakeMarkersService {
   private buildPopup(station:Station, displayValue:string) : string {
     let value = station.displayValue;
     value = Math.round(value * 10 ) / 10;
-    
-    var string = "<div>";
-    string += "Station: " + station.sta + "</div>" 
-    + "<div> Displayed value: " + value 
-    + "</div>" + "<div> Network: " + station.net + "</div>"
+
+    let string = "<h3>" + station.net + "." + station.sta + "</h3>" 
+    + "<span> Click to view data</span>"
+    + "<div> Value: ("+station.displayChannel+ ") " + value 
     + "<div> Channels: <ul id='channel-list'>";
     
     for (let channel in station.channels ) {
@@ -122,6 +138,6 @@ export class MakeMarkersService {
     }
 
     string += "</ul>"; 
-    return string+"</div><button class='station-link' id='"+station.net+"."+station.sta+"'> Go to station data </button>";  
+    return string;
   }
 }

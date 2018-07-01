@@ -93,13 +93,6 @@ export class MarkersComponent implements OnInit {
         this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit
       }
       
-      //TODO: station popup
-      // // add event listener to newly added a.merch-link element
-      // this.elementRef.nativeElement.querySelector(".station-link")
-      //   .addEventListener('click', (e) => {
-      //     let id = e.target.getId;
-      //     console.log(id)
-      //   }));
     }
 
   }
