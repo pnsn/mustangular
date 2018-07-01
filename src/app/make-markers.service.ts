@@ -5,8 +5,7 @@ import { Metric } from './metric';
 import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
 import { Station } from './station'
 import { Bin } from './bin';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 
 @Injectable()
 export class MakeMarkersService {
@@ -62,7 +61,7 @@ export class MakeMarkersService {
 
           self.activeStation.next(station);
           //display station popup
-        }
+        });
         //programmatically add popup here
       });
       

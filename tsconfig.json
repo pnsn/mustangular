@@ -20,8 +20,5 @@
       "dom"
     ]
   },
-  "paths": {
-    "@angular/*": ["../node_modules/@angular/*"]
-  },
   "preserveWhitespaces": "off"
 }

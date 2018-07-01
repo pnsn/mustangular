@@ -3,9 +3,9 @@
 import { Component, OnInit , Inject} from '@angular/core';
 import { MakeMarkersService } from '../make-markers.service'
 import { DataService} from '../data.service';
-import { Station } from '../Station';
+import { Station } from '../station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { Metric } from '../Metric';
+import { Metric } from '../metric';
 
 @Component({
   selector: 'app-station',
@@ -71,7 +71,7 @@ export class StationDialog {
     public dialogRef: MatDialogRef<StationDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
-    station = data.station;
-    metric = data.metric;
+    station = this.data.station;
+    metric = this.data.metric;
     
 }

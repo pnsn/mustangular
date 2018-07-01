@@ -1,8 +1,7 @@
 // Takes in station, metric, and measurement data and makes an object
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import { Metric } from './metric';
 import { Channel } from './channel';
 import { Measurement } from './measurement';

@@ -1,8 +1,7 @@
 // Gets parameters from URL
 
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 import { ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import { Query } from './query';

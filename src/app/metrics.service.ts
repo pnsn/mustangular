@@ -1,8 +1,8 @@
 // Get metric information from MUSTANG
 
+
+import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { Metric } from './metric'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class MetricsService {
       .pipe(
         map(this.mapMetrics),
         catchError((error: Error) => {
-          return Observable.throw(error);
+          return observableThrowError(error);
         })
     );
   }

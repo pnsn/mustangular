@@ -3,8 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Bin } from './bin';
 import * as Rainbow from 'rainbowvis.js'
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 
 @Injectable()
 export class BinningService {

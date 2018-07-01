@@ -1,11 +1,12 @@
 // Fetches station data from IRIS FDSNWS
 
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { catchError, map} from 'rxjs/operators';
 import { Station } from './station';
-import 'rxjs/add/observable/throw';
+
 
 @Injectable()
 export class StationsService {
@@ -39,7 +40,7 @@ export class StationsService {
       .pipe(
         map(this.mapStations),
         catchError((error: Error) => {
-          return Observable.throw(error);
+          return observableThrowError(error);
         })
       )
   

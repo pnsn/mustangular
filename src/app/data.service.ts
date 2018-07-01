@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Metric } from './metric';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject ,  Observable } from 'rxjs';
 @Injectable()
 export class DataService {
 
