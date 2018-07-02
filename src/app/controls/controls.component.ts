@@ -1,7 +1,7 @@
 // Component handles the right side form controls
 // Contains popups for sorting channels and downloading info
 
-import { Component, OnInit, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnInit, SimpleChanges, Inject} from '@angular/core';
 import { Metric } from '../metric';
 import { DataService } from '../data.service';
 import { Display } from '../display';
@@ -41,17 +41,27 @@ export class ControlsComponent implements OnInit {
         this.metrics = this.dataService.getMetrics();
     });
   }
-
   
   // Opens dialog to sort channels
   openChannelsDialog(): void {
+          console.log(this.display.channels.available)
     let dialogRef = this.dialog.open(ChannelsDialog, {
-      data: this.display.channels.available
+
+      data: {
+        channels: this.display.channels.available,
+        options: {  
+          onUpdate: (event: any) => {
+            this.valueChanged();
+          }
+        },
+        handle : '.handle'
+    }
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      this.display.channels.available = result;
-      this.valueChanged();
+      if(result){
+        this.display.channels.available = result;
+      }
     });
   }
   
@@ -95,4 +105,8 @@ export class ChannelsDialog {
   constructor(
     public dialogRef: MatDialogRef<ChannelsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
+    
+    channels = data.channels;
+    console.log(channels)
+    channelSorterOptions = data.options;
 }

@@ -14,7 +14,7 @@ export class MetricsService {
   constructor (
     private http: HttpClient
   ) {}
-   
+  
   // Returns metrics
   // TODO: is this needed??
   private mapMetrics(response: any): any{
@@ -23,11 +23,11 @@ export class MetricsService {
 
   // Gets requested metric data
   getMetrics(metric?: String) : Observable <Metric[]>{
-    var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?format=jsonp&nodata=200';
+    var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric)
       metricsURL += metric;
-
-    return this.http.jsonp(metricsURL, 'callback')
+      console.log("Metrics Service activated")
+    return this.http.jsonp(metricsURL,"callback")
       .pipe(
         map(this.mapMetrics),
         catchError((error: Error) => {

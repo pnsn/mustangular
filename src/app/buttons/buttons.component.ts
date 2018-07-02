@@ -56,6 +56,7 @@ export class ButtonsComponent implements OnInit {
   // Opens help dialog
   //TODO: this
   showHelp(): void {
+    alert("HELP ME")
     console.log("HELP!")
   }
 }

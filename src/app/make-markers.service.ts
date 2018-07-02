@@ -54,15 +54,10 @@ export class MakeMarkersService {
       let options = this.buildIcon(station, metric.display.displayValue);
       let m = new Marker(latlon, {icon: options.icon});
       
-      
       m.on('click', function() {
-        
         self.zone.run( () => {
-
           self.activeStation.next(station);
-          //display station popup
         });
-        //programmatically add popup here
       });
       
       m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
@@ -80,7 +75,7 @@ export class MakeMarkersService {
     for(let group in markerGroups){
       this.overlays.push(layerGroup(markerGroups[group]));
     }
-
+    console.log(this.overlays)
     return this.overlays;
   }
   

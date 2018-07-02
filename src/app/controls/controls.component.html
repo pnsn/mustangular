@@ -33,14 +33,6 @@
                         {{value}}
                     </mat-radio-button>
                 </mat-radio-group>
-                
-                <div id="coloring">
-                  <div class="section-title">Icon Color</div>
-                  <span>Low</span>
-                  <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
-                  <span>High</span>
-                  <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
-                </div>
             </div>
 
             <div class="form-section" fxFlex="50">
@@ -60,8 +52,16 @@
                     <input matInput required type="number" placeholder="Number of bins" [(ngModel)]="display.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
                 </mat-form-field>
             </div>
-        </div>
 
+        </div>
+        <div class="form-section" id="coloring">
+          <div class="section-title">Icon Color</div>
+          <span>Low</span>
+          <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
+            <span>to</span>
+          <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
+          <span>High</span>
+        </div>
         <mat-divider></mat-divider>
     </div>
     <div class="form-section" id="form-buttons">

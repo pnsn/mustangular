@@ -1,18 +1,19 @@
 // Generates the leaflet map and the markers on it
-import { Component, OnInit, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ElementRef, OnDestroy} from '@angular/core';
 import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
 import { Metric } from '../metric';
 import { MakeMarkersService } from '../make-markers.service'
 import { DataService} from '../data.service';
 import { BinningService } from '../binning.service';
 import { Bin } from '../bin';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-markers',
   templateUrl: './markers.component.html',
   styleUrls: ['./markers.component.css']
 })
-export class MarkersComponent implements OnInit {
+export class MarkersComponent implements OnInit, OnDestroy {
   
   constructor(
     private makeMarkersService: MakeMarkersService,
@@ -20,7 +21,7 @@ export class MarkersComponent implements OnInit {
     private binningService: BinningService,
     private elementRef : ElementRef
   ) {}
-    
+  subscription : Subscription = new Subscription();
   activeMetric: Metric; // 
 
   overlays : any; // Active layers
@@ -35,38 +36,42 @@ export class MarkersComponent implements OnInit {
     ]
   }; // Leaflet map options
   
+  ngOnDestroy() {
+    console.log("Markers should be destroyed")
+    this.subscription.unsubscribe();
+  }
+  
   ngOnInit() {
     // Wait for active metric
-    this.dataService.getActiveMetric().subscribe(
+    const sub = this.dataService.getActiveMetric().subscribe(
       activeMetric => { 
         this.activeMetric = activeMetric;
         this.makeMarkers();
       }
     );
-    
+    this.subscription.add(sub);
     // Add or remove layers from the map when the layers are toggled
-    this.binningService.getActiveLayers().subscribe(
+    const sub1 = this.binningService.getActiveLayers().subscribe(
       layers => { 
         this.layers = layers;
         this.overlays = [];
-
+        console.log("layers", this.layers)
         for ( let layer in this.layers) {
+
           if(this.layers[layer]) {
             let index = +layer.match(/\d+$/);
-            this.overlays.push(this.overlayMaster[index]);
+            if(this.overlayMaster[index]) {
+              this.overlays.push(this.overlayMaster[index]);
+            }
           }
         }
       }
     );
-  }
-  
-  updateStation(event) : void {
-    console.log(event)
+    this.subscription.add(sub1);
   }
   
   // Make the markers for the map
   private makeMarkers() : void { 
-
     // Get the bins
     let bins = this.binningService.makeBins(this.activeMetric.display);
     

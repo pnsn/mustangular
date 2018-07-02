@@ -26,12 +26,10 @@ export class StationComponent implements OnInit {
   
   // TODO: get all metric data
   ngOnInit() {
-    console.log("station init")
     this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
         this.activeStation = activeStation;
         this.openStationDialog();
-        console.log("hi",this.activeStation);
       }
     );
     
@@ -41,20 +39,39 @@ export class StationComponent implements OnInit {
         this.metrics = this.dataService.getMetrics();
     });
   }
+  
+  convertDataToChart(station : Station) : Array<object>{
+    let results = [];
+    for (let c in station.channels){
+      let chan = station.channels[c];
+      let ch = {
+        name: chan.name,
+        series:[];
+      }
+      for (let m of chan.measurements){
+        ch.series.push({
+          value: m.value,
+          name: new Date(m.start)
+        })
+      
+      }
+      results.push(ch)
+    }
+    return results;
+  }
 
 
   // Opens dialog to sort channels
   openStationDialog(): void {
+    let values = this.convertDataToChart(this.activeStation);
+    
     let dialogRef = this.dialog.open(StationDialog, {
       data: {
         station: this.activeStation,
-        metric: this.activeMetric
+        metric: this.activeMetric,
+        values: values
       }
     });
-    
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.valueChanged();
-    // });
   }
   
 }
@@ -74,4 +91,22 @@ export class StationDialog {
     station = this.data.station;
     metric = this.data.metric;
     
+    xAxisLabel = "Start Date";
+    yAxisLabel = this.metric.unit;
+    
+    legendTitle = "Channels"
+    
+    colorScheme = {
+      domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
+      
+    };
+    
+    onSelect(event) : void {
+      console.log(event)
+    }
+    
+    view = [800, 500];
+    
+    results = this.data.values;
+
 }

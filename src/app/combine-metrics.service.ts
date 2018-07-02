@@ -1,13 +1,13 @@
 // Takes in station, metric, and measurement data and makes an object
 
-import { Injectable } from '@angular/core';
+import { Injectable , OnDestroy} from '@angular/core';
 import { Subject ,  Observable } from 'rxjs';
 import { Metric } from './metric';
 import { Channel } from './channel';
 import { Measurement } from './measurement';
 
 @Injectable()
-export class CombineMetricsService {
+export class CombineMetricsService implements OnDestroy{
 
   constructor() { }
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
@@ -23,9 +23,10 @@ export class CombineMetricsService {
     
     // Go through each metric
     for (let metric of metrics){
-      
       // Create a new metric object (See: metric.ts)
-      let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, metric.tables[0].columns[0].name);
+      let unit = metric.tables[0].columns[0].description.match(/(?<=<p>)(.*)(?=<\/p>)/i)[0];
+
+      let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, unit);
       
       // Sort through measurements and add them to correct metric
       for (let m of measurements[metric.name]){

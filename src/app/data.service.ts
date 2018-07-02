@@ -37,7 +37,6 @@ export class DataService {
   updateMetrics(metrics : Metric[], activeMetricName : string) : void {
     this.metrics = metrics;
     this.setActiveMetric(activeMetricName);
-  
   } 
   
   // only happens once

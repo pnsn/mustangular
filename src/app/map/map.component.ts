@@ -1,6 +1,6 @@
 // Initiates data requests and handles top info bar
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy} from '@angular/core';
 import { MetricsService } from '../metrics.service';
 import { Metric } from '../metric';
 import { MeasurementsService } from '../measurements.service';
@@ -9,14 +9,16 @@ import { Query } from '../query';
 import { CombineMetricsService} from '../combine-metrics.service';
 import { ParametersService } from '../parameters.service';
 import { DataService } from '../data.service';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  providers: [MetricsService, CombineMetricsService, MeasurementsService, StationsService, ParametersService]
 })
 
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit,OnDestroy {
 
   constructor (
     private metricsService: MetricsService,
@@ -31,12 +33,11 @@ export class MapComponent implements OnInit {
   activeMetric : Metric; // Metric currently being viewed 
   message: string; // Status display message
   inProgress: boolean = true; // Is data still being processed?
-  
+  subscription : Subscription = new Subscription();
   ngOnInit() {
-    console.log("Map Component onInit");
     
     // Wait for query parameters to be populated
-    this.parametersService.getQuery().subscribe(
+    const sub = this.parametersService.getQuery().subscribe(
       query => { 
         this.query = query;
         
@@ -46,15 +47,19 @@ export class MapComponent implements OnInit {
         }
       }
     );
-    
+    this.subscription.add(sub);
     // Initiates query parameter fetching
     this.parametersService.setQueryParameters();
+  }
+  
+  ngOnDestroy () {
+    this.subscription.unsubscribe();
   }
   
   // Get list of available metrics from IRIS
   private getMetrics(): void {
     this.message = "Requesting Metrics from MUSTANG.";
-    this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
+    const sub = this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
       metrics => {
         this.getStations(this.query.getString(["net","sta","loc","cha"]), metrics);
       },
@@ -62,12 +67,15 @@ export class MapComponent implements OnInit {
           console.log("I GOT AN ERROR", err);
       }
     );
+    this.subscription.add(sub);
+    
+
   }
   
   // Get list of all stations from IRIS FDSNWS
   private getStations(qString:string, metrics:Metric[]): void {
     this.message = "Accessing FDSNWS Station Information";
-    this.stationsService.getStations(qString).subscribe(
+    const sub = this.stationsService.getStations(qString).subscribe(
       stations => {
         this.getMeasurements(this.query.getString(), metrics, stations);
       },
@@ -75,25 +83,26 @@ export class MapComponent implements OnInit {
           console.log("I GOT AN ERROR", err.error);
       }
     );
+    this.subscription.add(sub);
   }
   
   // Get measurements from MUSTANG
   private getMeasurements(qString:string, metrics:Metric[], stations:object): void {
     this.message = "Requesting Measurements from MUSTANG";
-    this.measurementsService.getMeasurements(qString).subscribe(
+    const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
-        this.combineMetrics(measurements, stations, metrics)
+        this.combineMetrics(measurements, stations, metrics);
       },
       err => {
           console.log("I GOT AN ERROR", err);
       }
     );
+    this.subscription.add(sub);
   }
   
   // Combine all the data and update status
   private combineMetrics(measurements:object, stations:object, metrics:Metric[]){
     this.message = "Processing Data.";
-    
     // Wait for active metric
     this.dataService.getActiveMetric().subscribe(
       activeMetric => { 
@@ -102,13 +111,13 @@ export class MapComponent implements OnInit {
     );
     
     // Wait for metric data
-    this.combineMetricsService.getMetrics().subscribe(
+    const sub = this.combineMetricsService.getMetrics().subscribe(
       metrics => {
         this.dataService.setDisplay(this.parametersService.getDisplay());
         this.dataService.setMetrics(metrics);
       }
     )
-    
+    this.subscription.add(sub);
     // Combine measurements/metrics/stations
     this.combineMetricsService.combineMetrics(measurements, stations, metrics);
 

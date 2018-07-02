@@ -1,19 +1,21 @@
 // Entry form for MUSTANGular
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Query } from '../query';
 import { MetricsService } from '../metrics.service';
 import { Metric } from '../metric';
 import { Router } from '@angular/router';
 import { ParametersService } from '../parameters.service';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.css'],
+  providers: [MetricsService, ParametersService]
 })
 
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit,OnDestroy {
   
   constructor (
     private router: Router,
@@ -26,37 +28,42 @@ export class FormComponent implements OnInit {
   query = new Query();// Holds all the query data
   selectedMetrics : any; // Selected metrics
   loading: boolean = false; // TODO: figure out if this is being used
-
+  subscription : Subscription = new Subscription();
+  
   ngOnInit() {
-    console.log("FormComponent onInit");
     
     // Get metrics to populate form
     this.getMetrics();
     
     // Wait for query to be populated from url
-    this.parametersService.getQuery().subscribe(
+    const sub = this.parametersService.getQuery().subscribe(
       query => { 
         this.query = query;
         this.selectedMetrics = query.metric ? query.metric.split(',') : [];
       }
     );
-    
+    this.subscription.add(sub);
     // Tells parameter service to get parameters
     this.parametersService.setQueryParameters();
+  }
+  
+  ngOnDestroy (){
+    this.subscription.unsubscribe();
   }
   
   // Get list of available metrics from IRIS
   private getMetrics(): void {
     this.loading= true;
-    this.metricsService.getMetrics().subscribe(
+    const sub = this.metricsService.getMetrics().subscribe(
       metrics => {
         this.loading = false;
-        this.metrics = metrics
+        this.metrics = metrics;
       },
       err => {
           console.log("I GOT AN ERROR", err.error);
       }
     ); 
+    this.subscription.add(sub);
   }
 
   
