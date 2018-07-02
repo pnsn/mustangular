@@ -64,6 +64,7 @@ export class MapComponent implements OnInit,OnDestroy {
         this.getStations(this.query.getString(["net","sta","loc","cha"]), metrics);
       },
       err => {
+        this.message = "Unable to fetch Metrics from MUSTANG. Please return to form and try again."
           console.log("I GOT AN ERROR", err);
       }
     );
@@ -74,12 +75,13 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Get list of all stations from IRIS FDSNWS
   private getStations(qString:string, metrics:Metric[]): void {
-    this.message = "Accessing FDSNWS Station Information";
+    this.message = "Accessing FDSNWS Station Information.";
     const sub = this.stationsService.getStations(qString).subscribe(
       stations => {
         this.getMeasurements(this.query.getString(), metrics, stations);
       },
       err => {
+         this.message = "Unable to fetch station information from FDSNWS. Please check parameters and try again."
           console.log("I GOT AN ERROR", err.error);
       }
     );
@@ -88,12 +90,13 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Get measurements from MUSTANG
   private getMeasurements(qString:string, metrics:Metric[], stations:object): void {
-    this.message = "Requesting Measurements from MUSTANG";
+    this.message = "Requesting Measurements from MUSTANG.";
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
         this.combineMetrics(measurements, stations, metrics);
       },
       err => {
+         this.message = "Unable to fetch Measurements from MUSTANG. Please return to form and try again."
           console.log("I GOT AN ERROR", err);
       }
     );
