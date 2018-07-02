@@ -31,7 +31,6 @@ export class FormComponent implements OnInit,OnDestroy {
   //TODO: Fix two way binding of selected metrics
   loading: boolean = false; // TODO: figure out if this is being used
   subscription : Subscription = new Subscription();
-  
   ngOnInit() {
     
     // Get metrics to populate form
@@ -62,6 +61,7 @@ export class FormComponent implements OnInit,OnDestroy {
         for(let metric of metrics){
           this.metrics.push({name: metric.name.toUpperCase(), title: metric.title});
         }
+        this.selectedMetrics = this.initialMetrics.slice();
       },
       err => {
           console.log("I GOT AN ERROR", err.error);
@@ -74,12 +74,8 @@ export class FormComponent implements OnInit,OnDestroy {
     return this.initialMetrics.indexOf(metricName) >= 0;
   }
   
-  
   onMetricSelect(event) : void {
-    console.log(event)
-    if(event && this.selectedMetrics != event){
-      this.selectedMetrics = event;
-    }
+    this.selectedMetrics = event;
   }
   
   // Take a string and make it capitalized 
