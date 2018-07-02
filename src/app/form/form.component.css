@@ -41,4 +41,5 @@ mat-selection-list {
   height:350px;
   overflow:scroll;
   margin-bottom: 3px;
+  width:100%;
 }

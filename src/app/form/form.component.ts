@@ -23,10 +23,11 @@ export class FormComponent implements OnInit,OnDestroy {
     private parametersService: ParametersService
   ) {}
   
-  metrics : Metric[]; // Available metrics from MUSTANG
+  metrics : any = []; // Available metrics from MUSTANG
   maxDate = new Date(); // Current date to prevent requests from future
   query = new Query();// Holds all the query data
-  selectedMetrics : any = []; // Selected metrics
+  selectedMetrics : string[] = []; // Selected metrics
+  initialMetrics : string[] = [];
   //TODO: Fix two way binding of selected metrics
   loading: boolean = false; // TODO: figure out if this is being used
   subscription : Subscription = new Subscription();
@@ -40,8 +41,7 @@ export class FormComponent implements OnInit,OnDestroy {
     const sub = this.parametersService.getQuery().subscribe(
       query => { 
         this.query = query;
-        this.selectedMetrics = query.metric ? query.metric.split(',') : [];
-        console.log(this.selectedMetrics)
+        this.initialMetrics = query.metric ? query.metric.split(',') : [];
       }
     );
     this.subscription.add(sub);
@@ -59,13 +59,27 @@ export class FormComponent implements OnInit,OnDestroy {
     const sub = this.metricsService.getMetrics().subscribe(
       metrics => {
         this.loading = false;
-        this.metrics = metrics;
+        for(let metric of metrics){
+          this.metrics.push({name: metric.name.toUpperCase(), title: metric.title});
+        }
       },
       err => {
           console.log("I GOT AN ERROR", err.error);
       }
     ); 
     this.subscription.add(sub);
+  }
+  
+  metricSelected(metricName : String) : boolean {
+    return this.initialMetrics.indexOf(metricName) >= 0;
+  }
+  
+  
+  onMetricSelect(event) : void {
+    console.log(event)
+    if(event && this.selectedMetrics != event){
+      this.selectedMetrics = event;
+    }
   }
   
   // Take a string and make it capitalized 
