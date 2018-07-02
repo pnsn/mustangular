@@ -26,7 +26,8 @@ export class FormComponent implements OnInit,OnDestroy {
   metrics : Metric[]; // Available metrics from MUSTANG
   maxDate = new Date(); // Current date to prevent requests from future
   query = new Query();// Holds all the query data
-  selectedMetrics : any; // Selected metrics
+  selectedMetrics : any = []; // Selected metrics
+  //TODO: Fix two way binding of selected metrics
   loading: boolean = false; // TODO: figure out if this is being used
   subscription : Subscription = new Subscription();
   
@@ -40,6 +41,7 @@ export class FormComponent implements OnInit,OnDestroy {
       query => { 
         this.query = query;
         this.selectedMetrics = query.metric ? query.metric.split(',') : [];
+        console.log(this.selectedMetrics)
       }
     );
     this.subscription.add(sub);
@@ -65,7 +67,6 @@ export class FormComponent implements OnInit,OnDestroy {
     ); 
     this.subscription.add(sub);
   }
-
   
   // Take a string and make it capitalized 
   upperCase = (str : string) : string => {

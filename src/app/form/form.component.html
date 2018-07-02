@@ -61,19 +61,17 @@
                 <p fxFlex="100">Dates start at beginning of day</p>
             </div>
             <div id="submit" fxFlex="50"  fxLayout="column" fxLayoutAlign="center start">
-               
-                <mat-form-field>
-                    <mat-select placeholder="Metric(s)" multiple required name="metric" [(ngModel)]="selectedMetrics">
-                        <mat-option *ngFor="let metric of metrics" [value]="metric.name.toUpperCase()">{{metric.title}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <p fxFlex="100"> Select one or more metrics</p>
-                
+                <p> Select one or more metrics</p>
+                <mat-selection-list [(ngModel)]="selectedMetrics" name="metric" required>
+                  <mat-list-option *ngFor="let metric of metrics" [value]="metric.name.toUpperCase()">
+                    {{metric.title}}
+                  </mat-list-option>
+                </mat-selection-list>
+
                 <div fxLayout="row" fxLayoutAlign="start end">
                   <p fxFlex="60">Unspecified values will act as wildcards.</p>
-                  <button mat-raised-button color="primary" type="submit" [disabled]="!queryForm.form.valid">Submit Query</button>
+                  <button mat-raised-button color="primary" type="submit" [disabled]="!queryForm.form.valid">Submit</button>
                 </div>
-
             </div>
             <!--TODO: add information about form values (i.e. '&', ',') -->
         </form>

@@ -44,7 +44,6 @@ export class ControlsComponent implements OnInit {
   
   // Opens dialog to sort channels
   openChannelsDialog(): void {
-          console.log(this.display.channels.available)
     let dialogRef = this.dialog.open(ChannelsDialog, {
 
       data: {
@@ -107,6 +106,5 @@ export class ChannelsDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
     channels = data.channels;
-    console.log(channels)
     channelSorterOptions = data.options;
 }

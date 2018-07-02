@@ -36,3 +36,9 @@ h2 {
   margin-top:30px;
   font-weight:500;
 }
+mat-selection-list {
+  border:solid 1px #cccccc;
+  height:350px;
+  overflow:scroll;
+  margin-bottom: 3px;
+}

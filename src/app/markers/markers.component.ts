@@ -55,7 +55,6 @@ export class MarkersComponent implements OnInit, OnDestroy {
       layers => { 
         this.layers = layers;
         this.overlays = [];
-        console.log("layers", this.layers)
         for ( let layer in this.layers) {
 
           if(this.layers[layer]) {
