@@ -28,15 +28,21 @@ export class StationComponent implements OnInit {
   ngOnInit() {
     this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
-        this.activeStation = activeStation;
-        this.openStationDialog();
+        if(activeStation){
+          this.activeStation = activeStation;
+          this.openStationDialog();
+        }
+
       }
     );
     
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
-        this.activeMetric = Object.assign(activeMetric);
-        this.metrics = this.dataService.getMetrics();
+        if(activeMetric){
+          this.activeMetric = Object.assign(activeMetric);
+          this.metrics = this.dataService.getMetrics();
+        }
+
     });
   }
   

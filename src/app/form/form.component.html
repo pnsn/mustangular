@@ -1,8 +1,11 @@
 <div id="form" fxLayoutAlign="center center">
 
     <mat-card fxFlex="60" >
-        <div id="form-title">
+        <div id="form-title" fxFlex>
           <h1>MUSTANGular v2.0</h1>
+          <p class="info-text">
+              Put that info text I forgot about here
+          </p>
           <mat-divider></mat-divider>
           <h2> Enter your query below</h2>
         </div>
@@ -58,17 +61,28 @@
                       <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <p fxFlex="100">Dates start at beginning of day</p>
+                <p fxFlex>Dates start at beginning of day.</p>
             </div>
-            <div id="submit" fxFlex="50"  fxLayout="column" fxLayoutAlign="center start">
-                <p> Select one or more metrics*</p>
+            <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
+                <p *ngIf="selectedMetrics.length < 1"> Select one or more metrics*</p>
+                <p *ngIf="selectedMetrics.length == 1"> 1 metric selected</p>
+                <p *ngIf="selectedMetrics.length > 1"> {{selectedMetrics.length}} metrics selected.</p>
                 <mat-selection-list [ngModel]="selectedMetrics" (ngModelChange)="onMetricSelect($event)" name="metric">
+                  <div fxLayout="column" *ngIf="loading" fxLayoutAlign="center center">
+                    <div *ngIf="message">
+                      {{message}}
+                    </div>
+                    <fa name="spinner" animation="spin" size="2x"></fa>
+                  </div>
                   <mat-list-option *ngFor="let metric of metrics" [value]="metric.name">
                     {{metric.title}}
                   </mat-list-option>
                 </mat-selection-list>
-                <div fxLayout="row" fxLayoutAlign="start end">
-                  <p fxFlex="60">Unspecified values will act as wildcards.</p>
+                <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
+                  <div fxLayout="column" fxLayoutAlign="start">
+                    <p fxFlex>Unspecified values will act as wildcards.</p>
+                  </div>
+
                   <button mat-raised-button color="primary" type="submit" [disabled]="!(queryForm.form.valid && selectedMetrics.length > 0)">Submit</button>
                 </div>
             </div>

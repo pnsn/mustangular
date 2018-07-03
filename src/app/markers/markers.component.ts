@@ -45,8 +45,11 @@ export class MarkersComponent implements OnInit, OnDestroy {
     // Wait for active metric
     const sub = this.dataService.getActiveMetric().subscribe(
       activeMetric => { 
-        this.activeMetric = activeMetric;
-        this.makeMarkers();
+        if(activeMetric) {
+          this.activeMetric = activeMetric;
+          this.makeMarkers();
+        }
+
       }
     );
     this.subscription.add(sub);

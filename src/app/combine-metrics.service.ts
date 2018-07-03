@@ -1,7 +1,7 @@
 // Takes in station, metric, and measurement data and makes an object
 
 import { Injectable} from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
+import { Subject ,  Observable} from 'rxjs';
 import { Metric } from './metric';
 import { Channel } from './channel';
 import { Measurement } from './measurement';
@@ -20,16 +20,18 @@ export class CombineMetricsService {
   // Combines metrics with station data and measurements 
   combineMetrics(measurements: any, stations: any, metrics: any) : void {
     let combinedMetrics = new Array<Metric>();
-    
+    let measurementCount = 0;
     // Go through each metric
     for (let metric of metrics){
       // Create a new metric object (See: metric.ts)
-      let unit = metric.tables[0].columns[0].description.match(/(?<=<p>)(.*)(?=<\/p>)/i)[0];
+      let r = new RegExp('<\/*p>', 'g');
+      let unit = metric.tables[0].columns[0].description.replace(r, "");
 
       let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, unit);
       
       // Sort through measurements and add them to correct metric
       for (let m of measurements[metric.name]){
+        measurementCount++;
         let stationCode = m.net + "." + m.sta;
         let station = combinedMetric.stations[stationCode];
 
@@ -62,9 +64,14 @@ export class CombineMetricsService {
 
       }
       combinedMetrics.push(combinedMetric);
+
     }
-    
-    // Sends metrics out to subscriptions
-    this.metrics.next(combinedMetrics);
+  
+    if(measurementCount > 0){
+      // Sends metrics out to subscriptions
+      this.metrics.next(combinedMetrics);
+    } else {
+      this.metrics.next();  
+    }
   }
 }

@@ -118,6 +118,9 @@ export class DataService {
       }
 
     }
-    this.activeMetric.next(defaultMetric);
+    if (defaultMetric) {
+      this.activeMetric.next(defaultMetric);
+    } 
+
   }
 }

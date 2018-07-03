@@ -65,7 +65,7 @@ export class MapComponent implements OnInit,OnDestroy {
       },
       err => {
         this.message = "Unable to fetch Metrics from MUSTANG. Please return to form and try again."
-          console.log("I GOT AN ERROR", err);
+        console.log("I GOT AN ERROR", err);
       }
     );
     this.subscription.add(sub);
@@ -110,21 +110,26 @@ export class MapComponent implements OnInit,OnDestroy {
     this.dataService.getActiveMetric().subscribe(
       activeMetric => { 
         this.activeMetric = activeMetric;
+        this.inProgress = false;
+        this.message = "Processing Complete."; //hide the blocker thingy      
       }
     );
     
     // Wait for metric data
     const sub = this.combineMetricsService.getMetrics().subscribe(
       metrics => {
-        this.dataService.setDisplay(this.parametersService.getDisplay());
-        this.dataService.setMetrics(metrics);
+        if(metrics && metrics.length > 0){
+          this.dataService.setDisplay(this.parametersService.getDisplay());
+          this.dataService.setMetrics(metrics);
+        } else {
+          this.message = "No data returned. Please return to form and try again."
+        }
       }
-    )
+    ) 
     this.subscription.add(sub);
     // Combine measurements/metrics/stations
     this.combineMetricsService.combineMetrics(measurements, stations, metrics);
 
-    this.inProgress = false;
-    this.message = "Processing Complete."; //hide the blocker thingy
+
   }
 }

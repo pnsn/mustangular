@@ -1,6 +1,6 @@
 <form #controlForm="ngForm" (ngSubmit)="onSubmit(controlForm)" *ngIf="activeMetric">
     <div id="metric-section" class="mat-elevation-z3">
-        <div class="section-title"> Metrics</div>
+        <div class="section-title"> Available Metrics</div>
 
         <mat-radio-group class="select-active" [ngModel]="activeMetric.name" (ngModelChange)="metricChanged($event)" name="metric">
             <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name" [disabled]="metric.display.data.count < 1">
@@ -10,32 +10,43 @@
     </div>
 
     <div class="form-body">
-        <div class="form-title"> Display options for {{activeMetric.title}}</div>
+        <div class="form-title"> Options for {{activeMetric.title}}</div>
         <div class="form-section" fxFlex="100">
-            <div class="section-title">Channel</div>
+            <div class="section-title">Channel Priority</div>
             
             <div (click)="openChannelsDialog()">
               <div class="warning">Click to prioritize</div>
-              <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
-                <span *ngIf="i > 0"> > </span>
-                <span> {{ channel }}</span>
-              </ng-container>
+              <button mat-button>
+                <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
+                  <span *ngIf="i > 0"> > </span>
+                  <span> {{ channel }}</span>
+                </ng-container>
+              </button>
             </div>
 
 
         </div>
         <mat-divider></mat-divider>
         <div fxLayout="row">
-            <div class="form-section" fxFlex="50">
+            <div class="form-section" fxFlex="55">
                 <div class="section-title">Value</div>
                 <mat-radio-group class="select-active" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="values">
                     <mat-radio-button *ngFor="let value of displayValues" [value]="value" [name]="value">
                         {{value}}
                     </mat-radio-button>
                 </mat-radio-group>
+                
+                <div id="coloring">
+                  <div class="section-title">Icon Color</div>
+                  <span>Low</span>
+                  <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
+                    <span>to</span>
+                  <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
+                  <span>High</span>
+                </div>
             </div>
 
-            <div class="form-section" fxFlex="50">
+            <div class="form-section" fxFlex="45">
                 <div class="section-title">Binning </div>
                 <!-- <mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider> -->
 
@@ -54,14 +65,7 @@
             </div>
 
         </div>
-        <div class="form-section" id="coloring">
-          <div class="section-title">Icon Color</div>
-          <span>Low</span>
-          <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
-            <span>to</span>
-          <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
-          <span>High</span>
-        </div>
+
         <mat-divider></mat-divider>
     </div>
     <div class="form-section" id="form-buttons">
@@ -75,11 +79,14 @@
         </div>
     </div>
 </form>
-<div class="form-section">
-
-    <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes</div>
-    <app-buttons [metric]="activeMetric"></app-buttons>
-
+<div class="form-section" fxLayoutAlign="center">
+    <div *ngIf="!changed">Everything is up to date.</div>
+    <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
 </div>
+
+<div class="form-section" >
+    <app-buttons [metric]="activeMetric"></app-buttons>
+</div>
+
 <mat-divider></mat-divider>
 <app-key></app-key>

@@ -29,8 +29,9 @@ export class FormComponent implements OnInit,OnDestroy {
   selectedMetrics : string[] = []; // Selected metrics
   initialMetrics : string[] = [];
   //TODO: Fix two way binding of selected metrics
-  loading: boolean = false; // TODO: figure out if this is being used
+  loading: boolean = true; // TODO: figure out if this is being used
   subscription : Subscription = new Subscription();
+  message : string;
   ngOnInit() {
     
     // Get metrics to populate form
@@ -64,6 +65,7 @@ export class FormComponent implements OnInit,OnDestroy {
         this.selectedMetrics = this.initialMetrics.slice();
       },
       err => {
+        this.message = "Cannot fetch metrics. Please try again."
           console.log("I GOT AN ERROR", err.error);
       }
     ); 
