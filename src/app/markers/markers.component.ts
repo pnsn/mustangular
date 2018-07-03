@@ -37,7 +37,6 @@ export class MarkersComponent implements OnInit, OnDestroy {
   }; // Leaflet map options
   
   ngOnDestroy() {
-    console.log("Markers should be destroyed")
     this.subscription.unsubscribe();
   }
   

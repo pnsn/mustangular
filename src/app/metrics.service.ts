@@ -26,7 +26,6 @@ export class MetricsService {
     var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric)
       metricsURL += metric;
-      console.log("Metrics Service activated")
     return this.http.jsonp(metricsURL,"callback")
       .pipe(
         map(this.mapMetrics),

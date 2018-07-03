@@ -75,7 +75,7 @@ export class MakeMarkersService {
     for(let group in markerGroups){
       this.overlays.push(layerGroup(markerGroups[group]));
     }
-    console.log(this.overlays)
+
     return this.overlays;
   }
   

@@ -36,7 +36,7 @@ export class ControlsComponent implements OnInit {
     // Subscribe to changes of the active metric and update display/metric data
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
-        console.log(activeMetric)
+
         if(activeMetric) {
           this.activeMetric = Object.assign(activeMetric);
           this.display = activeMetric.display;
