@@ -105,6 +105,6 @@ export class ChannelsDialog {
     public dialogRef: MatDialogRef<ChannelsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
-    channels = data.channels;
-    channelSorterOptions = data.options;
+    channels = this.data.channels;
+    channelSorterOptions = this.data.options;
 }

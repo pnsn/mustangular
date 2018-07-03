@@ -46,7 +46,7 @@ export class StationComponent implements OnInit {
       let chan = station.channels[c];
       let ch = {
         name: chan.name,
-        series:[];
+        series:[]
       }
       for (let m of chan.measurements){
         ch.series.push({

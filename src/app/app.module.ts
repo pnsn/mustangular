@@ -48,7 +48,6 @@ import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
 import { ButtonsComponent, DownloadDialog } from './buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { d3 } from '@swimlane/ngx-charts/release/d3';
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +95,7 @@ import { d3 } from '@swimlane/ngx-charts/release/d3';
     FlexLayoutModule,
     AngularFontAwesomeModule,
     ColorPickerModule,
-    NgxChartsModule
+    NgxChartsModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [

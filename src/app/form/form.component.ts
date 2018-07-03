@@ -70,7 +70,7 @@ export class FormComponent implements OnInit,OnDestroy {
     this.subscription.add(sub);
   }
   
-  metricSelected(metricName : String) : boolean {
+  metricSelected(metricName : string) : boolean {
     return this.initialMetrics.indexOf(metricName) >= 0;
   }
   

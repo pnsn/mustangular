@@ -1,13 +1,13 @@
 // Takes in station, metric, and measurement data and makes an object
 
-import { Injectable , OnDestroy} from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Subject ,  Observable } from 'rxjs';
 import { Metric } from './metric';
 import { Channel } from './channel';
 import { Measurement } from './measurement';
 
 @Injectable()
-export class CombineMetricsService implements OnDestroy{
+export class CombineMetricsService {
 
   constructor() { }
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
