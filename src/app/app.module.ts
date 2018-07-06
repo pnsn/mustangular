@@ -16,7 +16,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MakeMarkersService } from './make-markers.service';
 import { BinningService } from './binning.service';
 import { ParametersService } from './parameters.service';
-import { DataService } from './data.service'
+import { DataService } from './data.service';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -83,12 +83,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatFormFieldModule,
     MatListModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule,
+    // MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
-    MatSliderModule,
+    // MatSliderModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,

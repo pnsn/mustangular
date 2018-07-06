@@ -38,11 +38,8 @@ export class StationComponent implements OnInit {
     
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
-        if(activeMetric){
-          this.activeMetric = Object.assign(activeMetric);
-          this.metrics = this.dataService.getMetrics();
-        }
-
+        this.activeMetric = Object.assign(activeMetric);
+        this.metrics = this.dataService.getMetrics();
     });
   }
   
@@ -58,8 +55,8 @@ export class StationComponent implements OnInit {
         ch.series.push({
           value: m.value,
           name: new Date(m.start)
-        })
-      
+        });
+        
       }
       results.push(ch)
     }
@@ -69,6 +66,7 @@ export class StationComponent implements OnInit {
 
   // Opens dialog to sort channels
   openStationDialog(): void {
+        console.log("openeed")
     let values = this.convertDataToChart(this.activeStation);
     
     let dialogRef = this.dialog.open(StationDialog, {
@@ -93,11 +91,11 @@ export class StationDialog {
   constructor(
     public dialogRef: MatDialogRef<StationDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
+
     station = this.data.station;
     metric = this.data.metric;
     
-    xAxisLabel = "Start Date";
+    xAxisLabel = "Measurement Start Date";
     yAxisLabel = this.metric.unit;
     
     legendTitle = "Channels"

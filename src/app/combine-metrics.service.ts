@@ -21,48 +21,54 @@ export class CombineMetricsService {
   combineMetrics(measurements: any, stations: any, metrics: any) : void {
     let combinedMetrics = new Array<Metric>();
     let measurementCount = 0;
+    console.log(measurements)
     // Go through each metric
     for (let metric of metrics){
+      console.log(metric.name)
       // Create a new metric object (See: metric.ts)
       let r = new RegExp('<\/*p>', 'g');
       let unit = metric.tables[0].columns[0].description.replace(r, "");
 
       let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, unit);
       
-      // Sort through measurements and add them to correct metric
-      for (let m of measurements[metric.name]){
-        measurementCount++;
-        let stationCode = m.net + "." + m.sta;
-        let station = combinedMetric.stations[stationCode];
+      if(measurements[metric.name]) {
+        // Sort through measurements and add them to correct metric
+        for (let m of measurements[metric.name]){
+          measurementCount++;
+          let stationCode = m.net + "." + m.sta;
+          let station = combinedMetric.stations[stationCode];
 
-        if(stations[stationCode]) {
+          if(stations[stationCode]) {
           
-          // Create station if its the first pass 
-          if (!station) {
-            station = Object.create(stations[stationCode]);
-            station.code = stationCode;
-            station.channels = {};
-            combinedMetric.display.data.count++;
-          }
+            // Create station if its the first pass 
+            if (!station) {
+              station = Object.create(stations[stationCode]);
+              station.code = stationCode;
+              station.channels = {};
+              combinedMetric.display.data.count++;
+            }
           
-          // Add channel to station
-          let channelCode = m.cha;
-          let channels = station.channels;
+            // Add channel to station
+            let channelCode = m.cha;
+            let channels = station.channels;
           
-          if (!channels[channelCode]) {
-            channels[channelCode] = new Channel(channelCode);
-            channels[channelCode].measurements = new Array<Measurement>();
-          }
+            if (!channels[channelCode]) {
+              channels[channelCode] = new Channel(channelCode);
+              channels[channelCode].measurements = new Array<Measurement>();
+            }
           
-          // Add measurement to channel
-          channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.qual, m.start, m.target, m.value));
+            // Add measurement to channel
+            channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.qual, m.start, m.target, m.value));
         
-          station.channels = channels;
+            station.channels = channels;
 
-          combinedMetric.stations[stationCode] = station;
+            combinedMetric.stations[stationCode] = station;
+          }
+
         }
-
+      
       }
+
       combinedMetrics.push(combinedMetric);
 
     }

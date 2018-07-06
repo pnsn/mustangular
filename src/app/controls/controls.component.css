@@ -72,3 +72,11 @@
   
   height:30px;
 }
+#openChannelsDialog{
+  border-radius: 5px;
+  border: solid 1px #cccccc;
+  padding: 10px;
+}
+#openChannelsDialog:hover{
+  background-color: #f2efe9;
+}

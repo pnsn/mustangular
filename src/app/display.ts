@@ -66,9 +66,9 @@ export class Display {
     let string = 
       "&high=" + this.coloring.high.replace(/#/, "%23") +
       "&low=" + this.coloring.low.replace(/#/, "%23") +
-      "&count=" + this.binning.count +
-      "&min=" + this.binning.min +
-      "&max=" + this.binning.max + 
+      "&bincount=" + this.binning.count +
+      "&binmin=" + this.binning.min +
+      "&binmax=" + this.binning.max + 
       "&value=" + this.displayValue + 
       "&channels=" + this.channels.active; 
     return  string ;

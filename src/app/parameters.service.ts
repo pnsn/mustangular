@@ -35,9 +35,9 @@ export class ParametersService {
       "low" : params.low
     };
     d.binning = {
-      "count" : Number(params.count),
-      "min" : Number(params.min),
-      "max" : Number(params.max) 
+      "count" : Number(params.bincount),
+      "min" : Number(params.binmin),
+      "max" : Number(params.binmax) 
     };
     d.displayValue = params.value; 
     d.channels.active = params.channels; 

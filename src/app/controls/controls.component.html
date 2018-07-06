@@ -13,15 +13,12 @@
         <div class="form-title"> Options for {{activeMetric.title}}</div>
         <div class="form-section" fxFlex="100">
             <div class="section-title">Channel Priority</div>
-            
-            <div (click)="openChannelsDialog()">
-              <div class="warning">Click to prioritize</div>
-              <button mat-button>
-                <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
-                  <span *ngIf="i > 0"> > </span>
-                  <span> {{ channel }}</span>
-                </ng-container>
-              </button>
+            <div class="warning">Click to prioritize</div>
+            <div (click)="openChannelsDialog()" id="openChannelsDialog">
+              <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
+                <span *ngIf="i > 0"> > </span>
+                <span> {{ channel }}</span>
+              </ng-container>
             </div>
 
 
