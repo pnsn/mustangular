@@ -1,10 +1,10 @@
-<h1 mat-dialog-title>Drag to Reorder Channels</h1>
+<div mat-dialog-title>Drag to Reorder Channels</div>
 <div mat-dialog-content>
   <div [sortablejs]="channels" [sortablejsOptions]="channelSorterOptions">
       
       <mat-list id="channels-list" *ngFor="let channel of channels"> 
         <mat-list-item [disableRipple]="true">
-          <fa matListIcon name="bars" class="handle" size="1x"></fa>
+          <fa matListIcon name="sort" class="handle" size="1x"></fa>
           {{ channel }}
         </mat-list-item>
       </mat-list>

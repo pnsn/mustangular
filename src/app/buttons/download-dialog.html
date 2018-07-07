@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   Download:
   <ng-container *ngFor="let type of types">
-      <button [mat-dialog-close]="type" mat-button color="secondary" (click)="download(type)">{{type}}</button>
+      <button [mat-dialog-close]="type" mat-button color="secondary"> {{type}} </button>
   </ng-container>
 </div>
 <div mat-dialog-actions>

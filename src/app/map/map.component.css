@@ -58,14 +58,9 @@
   margin-right: 15px;
 }
 
-#header-text {
-  max-width: calc(100% - 50px);
-}
-
 #query-info {
   list-style-type: none;
   margin: 0;
-  overflow: hidden;
   font-size: 20px;
   color: #707070;
   padding: 0px;

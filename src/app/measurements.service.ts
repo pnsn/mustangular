@@ -21,6 +21,10 @@ export class MeasurementsService {
     return response.measurements;
   }
   
+  private getUrl() : string {
+    return this.url;
+  }
+  
   private url : string = "http://service.iris.edu/mustang/measurements/1/query?nodata=200";
  
   // Gets the measurements from the IRIS service

@@ -66,7 +66,6 @@ export class StationComponent implements OnInit {
 
   // Opens dialog to sort channels
   openStationDialog(): void {
-        console.log("openeed")
     let values = this.convertDataToChart(this.activeStation);
     
     let dialogRef = this.dialog.open(StationDialog, {

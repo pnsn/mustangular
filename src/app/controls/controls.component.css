@@ -63,20 +63,34 @@
   
 }
 #coloring span{
-  font-size: 12px;
+  font-spanize: 12px;
 }
 .color {
   margin:0 5px;
 }
 #channels-list {
   
-  height:30px;
+  min-height:40px;
 }
 #openChannelsDialog{
   border-radius: 5px;
   border: solid 1px #cccccc;
   padding: 10px;
+  margin-top:5px;
 }
 #openChannelsDialog:hover{
   background-color: #f2efe9;
+}
+fa {
+  color: #cccccc;
+}
+.mat-dialog-title{
+  margin-bottom: 5px;
+}
+.channels-dialog span.warning {
+    font-size: 14px;
+}
+
+mat-list-item{
+/*  border-top: solid 1px #cccccc;*/
 }

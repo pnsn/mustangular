@@ -11,24 +11,23 @@
     </mat-sidenav>
 
   </mat-sidenav-container>
-  <mat-toolbar id="header" class="mat-elevation-z5">
-    <div id="header-text" >
-      <ng-container *ngIf="activeMetric">
-        <div class="title"fxFlex="45" > {{activeMetric.title}} Metric</div>
-      </ng-container>
-      <ul id="query-info" *ngIf="query">
-        <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li>
-        <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
-        <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
-        <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>
-        <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
-        <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
+  <mat-toolbar id="header" class="mat-elevation-z5" fxFlexLayout="column" >
+    <ng-container *ngIf="activeMetric" >
+      <div class="title"> {{activeMetric.title}} Metric</div>
+    </ng-container>
+    <ul id="query-info" *ngIf="query" fxFlex="auto" >
+      <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li>
+      <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
+      <li *ngIf="query.sta"> Sta: <span> {{query.sta}} </span> </li>
+      <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>
+      <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
+      <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
 
-      </ul>
-    </div>
+    </ul>
     <button mat-button color="primary" id="edit-query" routerLink="/form" queryParamsHandling="merge">
       Edit Query
     </button>
+
   </mat-toolbar>
 </div>
 

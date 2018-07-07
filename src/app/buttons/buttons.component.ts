@@ -1,6 +1,7 @@
 import { Component, OnInit , Input, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import { Metric } from '../metric';
+import { MeasurementsService } from '../measurements.service'
 @Component({
   selector: 'app-buttons',
   templateUrl: './buttons.component.html',
@@ -9,7 +10,8 @@ import { Metric } from '../metric';
 export class ButtonsComponent implements OnInit {
   @Input() metric : Metric;
   constructor(public dialog: MatDialog,
-    public snackBar: MatSnackBar) {
+    public snackBar: MatSnackBar,
+    public measurementsService: MeasurementsService) {
   }
 
   ngOnInit() {
@@ -46,6 +48,8 @@ export class ButtonsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Open download snackbar
+        console.log(result)
+        window.open(this.measurementsService.getUrl() + "&output="+result);
         this.snackBar.open('Downloading '+ result, '', {
           duration: 3000
         });
@@ -72,10 +76,6 @@ export class DownloadDialog {
   constructor(
     public dialogRef: MatDialogRef<DownloadDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
-    download(type: string): void{
-      console.log(type)
-    }
     
     types = ["xml", "csv", "text", "json", "jsonp"];
     //show download
