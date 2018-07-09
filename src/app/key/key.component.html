@@ -14,7 +14,7 @@
                 </mat-checkbox>
              </div>
           </td>
-          <td [ngSwitch]="bin.position" class=".key-content">
+          <td [ngSwitch]="bin.position" class="key-content">
             <ng-template ngSwitchCase="-1">< {{bin.max - 0.01 | number : '1.2-2'}}</ng-template>
             <ng-template ngSwitchCase="0">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</ng-template>
             <ng-template ngSwitchCase="1">≥ {{bin.min | number : '1.2-2'}}</ng-template>

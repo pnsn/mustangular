@@ -78,7 +78,12 @@
 #channels-list {
   min-height:40px;
 }
-.channels-dialog span.warning {
-    font-size: 14px;
+mat-list {
+  mat-list-item {
+    height: 35px;
+  } 
+  .mat-list-icon {
+    color: $secondary;
+  }
 }
 
