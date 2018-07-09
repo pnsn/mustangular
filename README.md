@@ -1,24 +1,22 @@
 # MUSTANGular V2.0
-
-## Preface
-MUSTANGular Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)
+MUSTANGular is an Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 
 ## General Information:
 ### Data:
 
-The metric information is from the IRIS MUSTANG metric service.  ( https://service.iris.edu/mustang/metrics/1 )
+The metric information is from the [IRIS MUSTANG metric service](https://service.iris.edu/mustang/metrics/1).  
 
-The station data is from the IRIS FDNSWS service.  ( https://service.iris.edu/fdsnws/station/1/ )
+The station data is from the [IRIS FDNSWS service](https://service.iris.edu/fdsnws/station/1/).  
 
-The measurements information is from the IRIS MUSTANG measurements service.  ( https://service.iris.edu/mustang/measurements/1 )
+The measurements information is from the [IRIS MUSTANG measurements service](https://service.iris.edu/mustang/measurements/1).  
 
 ### Form:
 
 The form allows users to request measurements from MUSTANG. The form cannot be submitted until a date range and one or more metrics are selected.
 
-See: https://service.iris.edu/mustang/measurements/1 for more information on input parameters.
+See: [MUSTANG measurements service](https://service.iris.edu/mustang/measurements/1) for more information on input parameters.
 
 ### Parameters:
 The map view can be altered and shared using URL parameters. Accepted URL parameters for changing the map view are:
@@ -34,7 +32,7 @@ The map view can be altered and shared using URL parameters. Accepted URL parame
 
 The display channel is selected based on the user's prioritization of the channels. MUSTANGular will display data for a station using the first channel, in order of the prioritized list, that has data. 
 
-### Displayed Values:
+### Display Values:
 
 MUSTANGular displays data for a station using one channel at a time. (See: Channel Precendence) The display value indicates what value is shown for the station. Possible values are: 
 
