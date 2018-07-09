@@ -46,7 +46,7 @@ import { ControlsComponent, ChannelsDialog} from './controls/controls.component'
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
-import { ButtonsComponent, DownloadDialog } from './buttons/buttons.component';
+import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
@@ -59,6 +59,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ChannelsDialog,
     DownloadDialog,
     StationDialog,
+    HelpDialog,
     KeyComponent,
     ButtonsComponent
   ],
@@ -83,12 +84,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatFormFieldModule,
     MatListModule,
     MatNativeDateModule,
-    // MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
-    // MatSliderModule,
     MatSnackBarModule,
     MatToolbarModule,
     MatTooltipModule,
@@ -103,7 +102,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     BinningService,
     DataService
   ],
-  entryComponents: [ChannelsDialog, DownloadDialog, StationDialog],
+  entryComponents: [ChannelsDialog, DownloadDialog, StationDialog, HelpDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

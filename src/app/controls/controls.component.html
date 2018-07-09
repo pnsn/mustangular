@@ -75,17 +75,9 @@
             <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
                 Update
             </button>
-            <!-- <button mat-button color="primary" id="view-data" [disabled]="true">
-                View Data
-            </button> -->
         </div>
     </div>
 </form>
-<div class="form-section" fxLayoutAlign="center">
-    <div *ngIf="!changed" class="status">Everything is up to date.</div>
-    <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
-</div>
-
 <div class="form-section" >
     <app-buttons [metric]="activeMetric"></app-buttons>
 </div>

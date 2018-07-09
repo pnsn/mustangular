@@ -9,7 +9,8 @@ import { MeasurementsService } from '../measurements.service'
 })
 export class ButtonsComponent implements OnInit {
   @Input() metric : Metric;
-  constructor(public dialog: MatDialog,
+  constructor(
+  public dialog: MatDialog,
     public snackBar: MatSnackBar,
     public measurementsService: MeasurementsService) {
   }
@@ -57,11 +58,21 @@ export class ButtonsComponent implements OnInit {
     });
   }
   
-  // Opens help dialog
-  //TODO: this
-  showHelp(): void {
-    alert("HELP ME")
-    console.log("HELP!")
+  openHelpDialog(): void {
+    let dialogRef = this.dialog.open(HelpDialog, {
+      data: {url: "test"}
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Open download snackbar
+        console.log(result)
+        window.open(this.measurementsService.getUrl() + "&output="+result);
+        this.snackBar.open('Downloading '+ result, '', {
+          duration: 3000
+        });
+      }
+    });
   }
 }
 
@@ -78,6 +89,21 @@ export class DownloadDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
     types = ["xml", "csv", "text", "json", "jsonp"];
+    //show download
+    
+}
+
+
+// Dialog for download type selector
+@Component({
+  selector: 'help-dialog',
+  templateUrl: './help-dialog.html',
+  styleUrls: ['./buttons.component.scss']
+})
+export class HelpDialog {
+  constructor(
+    public dialogRef: MatDialogRef<HelpDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
     //show download
     
 }

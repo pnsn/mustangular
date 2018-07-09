@@ -1,29 +1,29 @@
 <h1 mat-dialog-title fxLayoutAlign="center center">{{station.code}} {{metric.title}}</h1>
 <mat-divider></mat-divider>
 <div mat-dialog-content >
-
-  <ngx-charts-line-chart
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="results"
-    [xAxis]="true"
-    [yAxis]="true"
-    [legend]="true"
-    [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    (select)="onSelect($event)"
-    [roundDomains]="true"
-    [animations]="false"
-    [timeline]="true"
-    [legendTitle]="legendTitle">
-  </ngx-charts-line-chart>
-
-</div>
-  <div>
-    <span class="info-text" fxFlexAlign="center" >Click and drag on timeline to zoom graph.</span>
+  <div id="chart-parent">
+    <ngx-charts-line-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="results"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      (select)="onSelect($event)"
+      [roundDomains]="true"
+      [animations]="false"
+      [timeline]="true"
+      [legendTitle]="legendTitle">
+    </ngx-charts-line-chart>
   </div>
-<div mat-dialog-actions>
- <button mat-raised-button [mat-dialog-close]>Done</button>
+</div>
+
+<span class="info-text" fxLayoutAlign="center center" >Click and drag on timeline to zoom graph.</span>
+
+<div mat-dialog-actions  fxLayoutAlign="end">
+ <button mat-raised-button [mat-dialog-close] >Done</button>
 </div>

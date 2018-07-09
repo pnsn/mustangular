@@ -37,7 +37,7 @@
     <p fxFlexAlign="center" [ngClass]="{'warning': error }">{{message}}</p>
     <fa name="spinner" animation="spin" size="2x" fxFlexAlign="center" *ngIf="!error"></fa>
     <button fxFlexAlign="center" mat-stroked-button color="primary" *ngIf="error" routerLink="/form" queryParamsHandling="merge">
-      Edit Query
+      Return to form
     </button>
   </div>
   <div class="overlay-background"> </div>
