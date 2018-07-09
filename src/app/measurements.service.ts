@@ -21,7 +21,7 @@ export class MeasurementsService {
     return response.measurements;
   }
   
-  private getUrl() : string {
+  getUrl() : string {
     return this.url;
   }
   

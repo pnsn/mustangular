@@ -5,7 +5,7 @@ import { MeasurementsService } from '../measurements.service'
 @Component({
   selector: 'app-buttons',
   templateUrl: './buttons.component.html',
-  styleUrls: ['./buttons.component.css']
+  styleUrls: ['./buttons.component.scss']
 })
 export class ButtonsComponent implements OnInit {
   @Input() metric : Metric;
@@ -70,7 +70,7 @@ export class ButtonsComponent implements OnInit {
 @Component({
   selector: 'download-dialog',
   templateUrl: './download-dialog.html',
-  styleUrls: ['./buttons.component.css']
+  styleUrls: ['./buttons.component.scss']
 })
 export class DownloadDialog {
   constructor(

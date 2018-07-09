@@ -1,0 +1,84 @@
+@import "styles.scss";
+
+.section-title {
+  font-size: 20px;
+  font-weight:500px;
+}
+
+
+#metric-section {
+  padding: 10px 15px;
+  overflow: hidden;
+
+}
+
+.select-active {
+  display: inline-flex;
+  flex-direction: column;
+
+  mat-radio-button {
+    margin: 5px;
+  }
+}
+
+.form-body {
+  padding: 10px 15px;
+}
+
+.form-section {
+  padding: 10px 20px;
+}
+
+.binning {
+  width: 100px;
+}
+.mat-form-field-wrapper{
+  padding-bottom: 2px;
+}
+
+.form-section button{
+  margin: 0px 10px;
+}
+
+
+.status {
+  font-weight: normal;
+  color: $accent;
+}
+
+
+#coloring {
+  margin-top: 5p;
+  .color {
+    margin:0 5px;
+    height:20px;
+    width:20px;
+    border-style:none;  
+  }
+  span{
+    font-size: 12px;
+  }
+}
+
+
+#openChannelsDialog{
+  border-radius: 2px;
+  border: solid 1px $border;
+  padding: 10px;
+  margin-top:5px;
+  &:hover{
+    background-color: $background;
+  }
+}
+
+//Channels Dialog
+.mat-dialog-title{
+  margin-bottom: 5px;
+}
+#channels-list {
+  min-height:40px;
+}
+.channels-dialog span.warning {
+    font-size: 14px;
+}
+

@@ -10,7 +10,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
-  styleUrls: ['./controls.component.css']
+  styleUrls: ['./controls.component.scss']
 })
 
 export class ControlsComponent implements OnInit {
@@ -102,7 +102,7 @@ export class ControlsComponent implements OnInit {
 @Component({
   selector: 'channels-dialog',
   templateUrl: './channels-dialog.html',
-  styleUrls: ['./controls.component.css']
+  styleUrls: ['./controls.component.scss']
 })
 export class ChannelsDialog {
   constructor(

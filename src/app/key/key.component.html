@@ -1,5 +1,5 @@
 <div id="key">
-  <div class="title"> Key</div>
+  <div class="form-title"> Key</div>
   <table>
    
      <tr>
@@ -14,10 +14,13 @@
                 </mat-checkbox>
              </div>
           </td>
-          <td *ngIf="bin.position == -1" class="key-content">< {{bin.max - 0.01 | number : '1.2-2'}}</td>
-          <td *ngIf="bin.position == 0" class="key-content">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</td>
-          <td *ngIf="bin.position == 1" class="key-content">≥ {{bin.min | number : '1.2-2'}}</td>
-          <td *ngIf="bin.position == 2" class="key-content"> No data.</td>
+          <td [ngSwitch]="bin.position" class=".key-content">
+            <ng-template ngSwitchCase="-1">< {{bin.max - 0.01 | number : '1.2-2'}}</ng-template>
+            <ng-template ngSwitchCase="0">{{bin.min | number : '1.2-2' }} - {{bin.max - ( bin.min == bin.max && bin.min == 0 ? 0 : 0.01 )| number : '1.2-2'}}</ng-template>
+            <ng-template ngSwitchCase="1">≥ {{bin.min | number : '1.2-2'}}</ng-template>
+            <ng-template ngSwitchCase="2">No data.</ng-template>
+            
+          </td>
           <td class="key-content">{{bin.count}}</td>
           <td><div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div></td>
        </tr>

@@ -83,7 +83,7 @@ export class StationComponent implements OnInit {
 @Component({
   selector: 'station-dialog',
   templateUrl: './station.component.html',
-  styleUrls: ['./station.component.css']
+  styleUrls: ['./station.component.scss']
 })
 
 export class StationDialog {

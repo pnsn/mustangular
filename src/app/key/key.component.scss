@@ -1,0 +1,46 @@
+@import "styles.scss";
+#key {
+  max-height:360px;
+  overflow:scroll;
+  background-color:white;
+  padding: 5px 10px 5px 15px;
+  table {  border-collapse: collapse;  width:100%;}
+
+  th,td {
+    font-size: 16px;
+    text-align: left;
+    font-weight: normal;
+    padding: 2px 0px;
+  }
+  .key-toggle {
+    width: 55px;
+  }
+  .key-icon {
+    width:20px;
+    height:20px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .key-content {
+    color: $secondary;
+    text-align:center;
+  }
+  th {
+    text-align:center;
+    border-bottom: solid 1px $border;
+  }
+  tr.disabled{
+    color:$secondary;
+    opacity: 0.5;
+  }
+  .histogram  {
+    height:20px;
+  }
+}
+
+:host ::ng-deep .layer-toggle .mat-checkbox-background {
+ background-color: transparent !important;
+}
+:host ::ng-deep .layer-toggle .mat-checkbox-frame {
+ border: none;
+}

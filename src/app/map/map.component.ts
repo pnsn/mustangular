@@ -14,7 +14,7 @@ import { Subscription } from "rxjs";
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
+  styleUrls: ['./map.component.scss'],
   providers: [MetricsService, CombineMetricsService, MeasurementsService, StationsService, ParametersService]
 })
 
@@ -34,6 +34,7 @@ export class MapComponent implements OnInit,OnDestroy {
   message: string; // Status display message
   inProgress: boolean = true; // Is data still being processed?
   subscription : Subscription = new Subscription();
+  error: boolean = false;
   ngOnInit() {
     
     // Wait for query parameters to be populated
@@ -65,7 +66,7 @@ export class MapComponent implements OnInit,OnDestroy {
       },
       err => {
         this.message = "Unable to fetch Metrics from MUSTANG. Please return to form and try again."
-        console.log("I GOT AN ERROR", err);
+        this.error = true;
       }
     );
     this.subscription.add(sub);
@@ -82,7 +83,7 @@ export class MapComponent implements OnInit,OnDestroy {
       },
       err => {
          this.message = "Unable to fetch station information from FDSNWS. Please check parameters and try again."
-          console.log("I GOT AN ERROR", err.error);
+        this.error = true;
       }
     );
     this.subscription.add(sub);
@@ -97,7 +98,7 @@ export class MapComponent implements OnInit,OnDestroy {
       },
       err => {
          this.message = "Unable to fetch Measurements from MUSTANG. Please return to form and try again."
-          console.log("I GOT AN ERROR", err);
+        this.error = true;
       }
     );
     this.subscription.add(sub);
@@ -123,6 +124,7 @@ export class MapComponent implements OnInit,OnDestroy {
           this.dataService.setMetrics(metrics);
         } else {
           this.message = "No data returned. Please return to form and try again."
+          this.error = true;
         }
       }
     ) 

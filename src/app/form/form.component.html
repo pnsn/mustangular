@@ -4,7 +4,7 @@
         <div id="form-title" fxFlex>
           <h1>MUSTANGular v2.0</h1>
           <p fxFlex="40" class="info-text">
-              An Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map.
+              An Angular application that displays station metrics from the IRIS MUSTANG service on a Leaflet map.
               <a href="https://github.com/pnsn/mustangular#mustangular">More info...</a>
           </p>
           <mat-divider></mat-divider>
@@ -47,27 +47,30 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
-                <div fxLayout="row">
-                  <mat-form-field fxFlex="50" >
+                <div fxLayout="row" fxLayoutGap="5%">
+                  <mat-form-field fxFlex="47.5%" >
                       <input matInput [matDatepicker]="startDate" placeholder="Start Date" required  
                         [matDatepickerFilter]="startFilter" name="start" [(ngModel)]="query.start">
                       <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                       <mat-datepicker #startDate></mat-datepicker>
                   </mat-form-field>
 
-                  <mat-form-field fxFlex="50">
+                  <mat-form-field fxFlex="47.5%">
                       <input matInput [matDatepicker]="endDate" required placeholder="End Date" 
                         [matDatepickerFilter]="endFilter"  name="end" [(ngModel)]="query.end">
                       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                       <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <p fxFlex>Dates start at beginning of day.</p>
+                <span class="info-text" fxFlex>Dates start at beginning of day.</span>
             </div>
             <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
-                <p *ngIf="selectedMetrics.length < 1"> Select one or more metrics*</p>
-                <p *ngIf="selectedMetrics.length == 1"> 1 metric selected</p>
-                <p *ngIf="selectedMetrics.length > 1"> {{selectedMetrics.length}} metrics selected.</p>
+                <span [ngSwitch]="selectedMetrics.length" class=".info-text" [ngClass]="{'warning':selectedMetrics.length==0}">
+                  <ng-template ngSwitchCase="0">Select one or more metrics*</ng-template>
+                  <ng-template ngSwitchCase="1">1 metric selected</ng-template>
+                  <ng-template ngSwitchDefault>{{selectedMetrics.length}} metrics selected.</ng-template>
+                </span> 
+                     
                 <mat-selection-list [ngModel]="selectedMetrics" (ngModelChange)="onMetricSelect($event)" name="metric">
                   <div fxLayout="column" *ngIf="loading" fxLayoutAlign="center center">
                     <div *ngIf="message">
@@ -81,7 +84,7 @@
                 </mat-selection-list>
                 <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
                   <div fxLayout="column" fxLayoutAlign="start">
-                    <p fxFlex>Unspecified values will act as wildcards.</p>
+                    <span class="info-text" fxFlex>Unspecified values will act as wildcards.</span>
                   </div>
 
                   <button mat-raised-button color="primary" type="submit" [disabled]="!(queryForm.form.valid && selectedMetrics.length > 0)">Submit</button>

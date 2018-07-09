@@ -1,0 +1,84 @@
+@import "styles.scss";
+.overlay {
+  position: absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  z-index:100;
+
+  .overlay-background {
+    width:100%;
+    height:100%;
+    position: absolute;
+    background-color:$background;
+  }
+
+  .overlay-message {
+    font-weight:normal;
+    font-size:30px;
+    z-index:101;  
+    display:inline-block;
+    color: $secondary;
+    fa {
+      color: $primary;
+    }
+  }
+}
+
+#header {
+  font-family: "Helvetica Neue", sans-serif !important;
+  font-weight: normal;
+  position:fixed;
+  z-index:20;
+  top: 0px;
+  min-height: 70px;
+  overflow:wrap;
+  background-color: $background;
+  .title {
+    color: $primary;
+    float:left;
+    display: inline;
+    font-size: 30px;
+    margin-right: 15px;
+  }
+}
+
+#query-info {
+  list-style-type: none;
+  margin: 0;
+  font-size: 20px;
+  color: $secondary;
+  padding: 0px;
+  
+  li {
+    display: inline;
+    padding:5px;
+  }
+  span {
+    color: black;
+    padding: 5px;
+  }
+}
+
+mat-sidenav-container {
+  margin-top: 70px;
+  height:900px; /*fallback*/
+  height:calc(100% - 70px);
+  width:100%;
+  position:fixed;
+  #sidebar {
+    width:350px;
+  }
+}
+
+#edit-query {
+  right:30px;
+  position:absolute;
+  border-radius: 5px;
+  border: solid 1px $border;
+}
+
+

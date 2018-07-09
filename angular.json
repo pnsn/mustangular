@@ -26,7 +26,8 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css",
+              "src/theme.scss",
+              "src/styles.scss",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/@swimlane/ngx-charts/release/index.css"
             ],
@@ -136,7 +137,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

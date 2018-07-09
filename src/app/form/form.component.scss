@@ -1,0 +1,41 @@
+@import "styles.scss";
+
+#form {
+  height:100%;
+  font-weight:normal;
+  background-color: $background;
+
+  #form-title {
+    h1 {
+      color: $primary;
+      margin-top:0px;
+      display: inline-block;
+    }
+    
+    p.info-text {
+      margin:0px;
+      float:right;
+      max-height:50px;
+      overflow:scroll;
+    }
+  }
+  
+  h2 {
+    color: $accent;
+    margin-top:30px;
+    font-weight:500;
+  }
+  
+  mat-form-field {
+    width:100%;
+  }
+  
+  mat-selection-list {
+    border:solid 1px $border;
+    height:350px;
+    overflow:scroll;
+    margin-bottom: 3px;
+    width:100%;
+  }
+}
+

@@ -11,7 +11,7 @@ import { Subscription } from "rxjs";
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css'],
+  styleUrls: ['./form.component.scss'],
   providers: [MetricsService, ParametersService]
 })
 
