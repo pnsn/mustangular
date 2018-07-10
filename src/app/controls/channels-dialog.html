@@ -1,4 +1,7 @@
 <div mat-dialog-title>Drag to Reorder Channels</div>
+
+<mat-divider></mat-divider>
+
 <div mat-dialog-content>
   <mat-list id="channels-list" [sortablejs]="channels" [sortablejsOptions]="channelSorterOptions">
    
@@ -6,9 +9,10 @@
       <fa matListIcon name="sort" class="handle"></fa>
       {{ channel }}
     </mat-list-item>
+  
   </mat-list>
-
 </div>
+
 <div mat-dialog-actions  fxLayoutAlign="end">
  <button mat-raised-button [mat-dialog-close]="channels">Done</button>
 </div>

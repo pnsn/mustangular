@@ -28,8 +28,7 @@ export class FormComponent implements OnInit,OnDestroy {
   query = new Query();// Holds all the query data
   selectedMetrics : string[] = []; // Selected metrics
   initialMetrics : string[] = [];
-  //TODO: Fix two way binding of selected metrics
-  loading: boolean = true; // TODO: figure out if this is being used
+  loading: boolean = true; 
   subscription : Subscription = new Subscription();
   message : string;
   ngOnInit() {
@@ -66,7 +65,6 @@ export class FormComponent implements OnInit,OnDestroy {
       },
       err => {
         this.message = "Cannot fetch metrics. Please try again."
-          console.log("I GOT AN ERROR", err.error);
       }
     ); 
     this.subscription.add(sub);

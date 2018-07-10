@@ -111,7 +111,6 @@ export class MakeMarkersService {
   }
   
   // Builds the station information popup
-  // TODO: link to station
   private buildPopup(station:Station, displayValue:string) : string {
     let value = station.displayValue;
     value = Math.round(value * 10 ) / 10;

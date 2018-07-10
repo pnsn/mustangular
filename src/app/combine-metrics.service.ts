@@ -21,10 +21,10 @@ export class CombineMetricsService {
   combineMetrics(measurements: any, stations: any, metrics: any) : void {
     let combinedMetrics = new Array<Metric>();
     let measurementCount = 0;
-    console.log(measurements)
+    
     // Go through each metric
     for (let metric of metrics){
-      console.log(metric.name)
+
       // Create a new metric object (See: metric.ts)
       let r = new RegExp('<\/*p>', 'g');
       let unit = metric.tables[0].columns[0].description.replace(r, "");

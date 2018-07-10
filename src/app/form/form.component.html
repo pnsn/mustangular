@@ -1,6 +1,6 @@
 <div id="form" fxLayoutAlign="center center">
-
     <mat-card fxFlex="60" >
+        
         <div id="form-title" fxFlex>
           <h1>MUSTANGular v2.0</h1>
           <p fxFlex="40" class="info-text">
@@ -10,8 +10,10 @@
           <mat-divider></mat-divider>
           <h2> Enter your query below</h2>
         </div>
+        
         <form #queryForm="ngForm" (ngSubmit)="onSubmit()" fxLayout='row' fxLayoutGap="3%">
             <div fxFlex="47">
+                
                 <mat-form-field>
                     <input matInput placeholder="Network(s)" name="net" [(ngModel)]="query.net"
                       (ngModelChange)="query.net = query.net.toUpperCase()">
@@ -19,6 +21,7 @@
                           <mat-icon>close</mat-icon>
                       </button>
                 </mat-form-field>
+                
                 <mat-form-field>
                     <input matInput placeholder="Channel(s)" name="cha" [(ngModel)]="query.cha" 
                       (ngModelChange)="query.cha = query.cha.toUpperCase()">
@@ -26,6 +29,7 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
+                
                 <mat-form-field>
                     <input matInput placeholder="Station(s)" name="sta" [(ngModel)]="query.sta" 
                       (ngModelChange)="query.sta = query.sta.toUpperCase()">
@@ -33,6 +37,7 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
+                
                 <mat-form-field>
                     <input matInput placeholder="Location(s)" name="loc" [(ngModel)]="query.loc" 
                       (ngModelChange)="query.loc = query.loc.toUpperCase()">
@@ -40,6 +45,7 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
+                
                 <mat-form-field>
                     <input matInput placeholder="Quality(s)" name="qual" [(ngModel)]="query.qual" 
                       (ngModelChange)="query.qual = query.qual.toUpperCase()">
@@ -47,6 +53,7 @@
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
+                
                 <div fxLayout="row" fxLayoutGap="5%">
                   <mat-form-field fxFlex="47.5%" >
                       <input matInput [matDatepicker]="startDate" placeholder="Start Date" required  
@@ -62,9 +69,13 @@
                       <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>
                 </div>
+                
                 <span class="info-text" fxFlex>Dates start at beginning of day.</span>
+                
             </div>
+            
             <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
+                
                 <span [ngSwitch]="selectedMetrics.length" class=".info-text" [ngClass]="{'warning':selectedMetrics.length==0}">
                   <ng-template ngSwitchCase="0">Select one or more metrics*</ng-template>
                   <ng-template ngSwitchCase="1">1 metric selected</ng-template>
@@ -78,19 +89,24 @@
                     </div>
                     <fa name="spinner" animation="spin" size="2x"></fa>
                   </div>
+                  
                   <mat-list-option *ngFor="let metric of metrics" [value]="metric.name">
                     {{metric.title}}
                   </mat-list-option>
                 </mat-selection-list>
+                
                 <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
+                 
                   <div fxLayout="column" fxLayoutAlign="start">
                     <span class="info-text" fxFlex>Unspecified values will act as wildcards.</span>
                   </div>
 
                   <button mat-raised-button color="primary" type="submit" [disabled]="!(queryForm.form.valid && selectedMetrics.length > 0)">Submit</button>
                 </div>
+                
             </div>
             <!--TODO: add information about form values (i.e. '&', ',') -->
         </form>
+        
     </mat-card>
 </div>

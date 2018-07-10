@@ -2,14 +2,12 @@
 
 .section-title {
   font-size: 20px;
-  font-weight:500px;
+  font-weight: 500px;
 }
-
 
 #metric-section {
   padding: 10px 15px;
   overflow: hidden;
-
 }
 
 .select-active {
@@ -32,6 +30,7 @@
 .binning {
   width: 100px;
 }
+
 .mat-form-field-wrapper{
   padding-bottom: 2px;
 }
@@ -40,33 +39,34 @@
   margin: 0px 10px;
 }
 
-
 .status {
   font-weight: normal;
   color: $accent;
 }
 
-
 #coloring {
   margin-top: 5p;
   .color {
-    margin:0 5px;
-    height:20px;
-    width:20px;
-    border-style:none;  
+    &:hover{
+      cursor: pointer;
+    }
+    margin: 0 5px;
+    height: 20px;
+    width: 20px;
+    border-style: none;  
   }
   span{
     font-size: 12px;
   }
 }
 
-
 #openChannelsDialog{
   border-radius: 2px;
   border: solid 1px $border;
   padding: 10px;
-  margin-top:5px;
+  margin-top: 5px;
   &:hover{
+    cursor: pointer;
     background-color: $background;
   }
 }
@@ -75,9 +75,11 @@
 .mat-dialog-title{
   margin-bottom: 5px;
 }
+
 #channels-list {
-  min-height:40px;
+  min-height: 40px;
 }
+
 mat-list {
   mat-list-item {
     height: 35px;

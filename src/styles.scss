@@ -1,18 +1,20 @@
 //Global styles
 @import '~@angular/material/theming';
 
+// Main app colors, uses Material color specifications
 $app-primary: mat-palette($mat-deep-purple);
 $app-accent:  mat-palette($mat-orange, A200, A100, A400);
 $app-warn:    mat-palette($mat-red);
 
 
-// Create your Sass color vars (will be available in all the project)
+// Create your Sass color variables
 $primary: mat-color($app-primary);
 $accent: mat-color($app-accent);
 $warning: mat-color($app-warn);
 $background: #f2efe9;
 $border: #cccccc;
 $secondary: #707070;
+
 html,body { 
   margin: 0px;
   font-family: "Helvetica Neue", sans-serif !important;
@@ -30,6 +32,7 @@ html,body {
   font-weight:400px;
   color : $primary;
 }
+
 .warning {
   font-weight: normal;
   color: $warning;

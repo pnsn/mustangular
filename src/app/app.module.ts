@@ -48,6 +48,7 @@ import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './key/key.component';
 import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,7 +101,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   providers: [
     MakeMarkersService,
     BinningService,
-    DataService
+    DataService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   entryComponents: [ChannelsDialog, DownloadDialog, StationDialog, HelpDialog],
   bootstrap: [AppComponent]

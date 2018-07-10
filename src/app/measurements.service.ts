@@ -1,14 +1,11 @@
 // Fetches measurements from MUSTANG
 
-
 import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders , HttpErrorResponse} from '@angular/common/http';
 import { catchError, map} from 'rxjs/operators';
 import { Station } from './station';
 
-
-// TODO: handle errors
 @Injectable()
 export class MeasurementsService {
 

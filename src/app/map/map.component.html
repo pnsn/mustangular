@@ -1,5 +1,5 @@
-
 <app-station></app-station>
+
 <mat-sidenav-container id="content">
 
   <mat-sidenav-content class="mat-elevation-z1">
@@ -11,10 +11,13 @@
   </mat-sidenav>
 
 </mat-sidenav-container>
+
 <mat-toolbar id="header" class="mat-elevation-z5" fxFlexLayout="column" >
+  
   <ng-container *ngIf="activeMetric" >
     <div class="title primary"> {{activeMetric.title}} Metric</div>
   </ng-container>
+  
   <ul id="query-info" *ngIf="query" fxFlex="auto" >
     <li> Dates: <span> {{query.start | date:'shortDate'}} - {{query.end | date:'shortDate'}}</span></li>
     <li *ngIf="query.net"> Net: <span> {{query.net}} </span> </li>
@@ -22,25 +25,28 @@
     <li *ngIf="query.cha"> Cha: <span> {{query.cha}} </span> </li>
     <li *ngIf="query.loc"> Loc: <span> {{query.loc}} </span> </li>
     <li *ngIf="query.qual"> Qual: <span> {{query.qual}} </span> </li>
-
   </ul>
+  
   <button mat-stroked-button color="primary" routerLink="/form" queryParamsHandling="merge">
     Edit Query
   </button>
 
 </mat-toolbar>
 
-
 <div class="overlay" fxLayout fxLayoutAlign="center center" *ngIf="inProgress">
   
   <div class="overlay-message" fxLayout="column" >
     <p fxFlexAlign="center" [ngClass]="{'warning': error }">{{message}}</p>
+    
     <fa name="spinner" animation="spin" size="2x" fxFlexAlign="center" *ngIf="!error"></fa>
+    
     <button fxFlexAlign="center" mat-stroked-button color="primary" *ngIf="error" routerLink="/form" queryParamsHandling="merge">
       Return to form
     </button>
   </div>
+  
   <div class="overlay-background"> </div>
+  
 </div>
 
 

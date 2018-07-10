@@ -1,7 +1,10 @@
+// Handles dialogs and logic for downloading, help text, and sharing
+
 import { Component, OnInit , Input, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import { Metric } from '../metric';
 import { MeasurementsService } from '../measurements.service'
+
 @Component({
   selector: 'app-buttons',
   templateUrl: './buttons.component.html',
@@ -9,8 +12,9 @@ import { MeasurementsService } from '../measurements.service'
 })
 export class ButtonsComponent implements OnInit {
   @Input() metric : Metric;
+  
   constructor(
-  public dialog: MatDialog,
+    public dialog: MatDialog,
     public snackBar: MatSnackBar,
     public measurementsService: MeasurementsService) {
   }
@@ -40,7 +44,6 @@ export class ButtonsComponent implements OnInit {
   }
   
   // Opens dialog to select download type
-  // TODO: add download types
   openDownloadDialog(): void {
     let dialogRef = this.dialog.open(DownloadDialog, {
       data: {url: "test"}
@@ -48,8 +51,8 @@ export class ButtonsComponent implements OnInit {
     
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        
         // Open download snackbar
-        console.log(result)
         window.open(this.measurementsService.getUrl() + "&output="+result);
         this.snackBar.open('Downloading '+ result, '', {
           duration: 3000
@@ -58,20 +61,10 @@ export class ButtonsComponent implements OnInit {
     });
   }
   
+  // Opens help dialog
   openHelpDialog(): void {
     let dialogRef = this.dialog.open(HelpDialog, {
       data: {url: "test"}
-    });
-    
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Open download snackbar
-        console.log(result)
-        window.open(this.measurementsService.getUrl() + "&output="+result);
-        this.snackBar.open('Downloading '+ result, '', {
-          duration: 3000
-        });
-      }
     });
   }
 }
@@ -94,7 +87,7 @@ export class DownloadDialog {
 }
 
 
-// Dialog for download type selector
+// Dialog for help information
 @Component({
   selector: 'help-dialog',
   templateUrl: './help-dialog.html',

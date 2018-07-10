@@ -1,13 +1,11 @@
 // Get metric information from MUSTANG
 
-
 import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Metric } from './metric'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
-// TODO: handle errors
 @Injectable()
 export class MetricsService {
 
@@ -16,7 +14,6 @@ export class MetricsService {
   ) {}
   
   // Returns metrics
-  // TODO: is this needed??
   private mapMetrics(response: any): any{
     return response.metrics;
   }

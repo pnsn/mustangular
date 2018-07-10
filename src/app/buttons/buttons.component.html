@@ -1,20 +1,24 @@
 <div id="control-buttons" fxLayout="row" fxLayoutAlign="center center">
+  
   <button mat-icon-button 
     (click)="openDownloadDialog()"
     matTooltip="Open data in new tab"
     aria-label="Button that opens dialog to select download type.">
     <fa name="external-link" size="2x"></fa>
   </button>
+  
   <button mat-icon-button 
     (click)="copyShareLink()"
     matTooltip="Copy link to clipboard"
     aria-label="Button that copies link to clipboard.">
     <fa name="copy" size="2x"></fa>
   </button>
+  
   <button mat-icon-button 
     (click)="openHelpDialog()"
     matTooltip="Show help information"
     aria-label="Button that displays help dialog.">
     <fa name="question-circle" size="2x"></fa>
   </button>
+
 </div>

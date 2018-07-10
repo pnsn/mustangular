@@ -10,6 +10,7 @@ import { CombineMetricsService} from '../combine-metrics.service';
 import { ParametersService } from '../parameters.service';
 import { DataService } from '../data.service';
 import { Subscription } from "rxjs";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -26,7 +27,8 @@ export class MapComponent implements OnInit,OnDestroy {
     private measurementsService: MeasurementsService,
     private stationsService: StationsService,
     private parametersService: ParametersService,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router,
   ) {}
   
   query : Query; // Query parameters
@@ -43,8 +45,10 @@ export class MapComponent implements OnInit,OnDestroy {
         this.query = query;
         
         // Start requesting data
-        if (this.query.metric.length > 0) {
+        if (this.query.metric) {
           this.getMetrics();
+        } else {
+          this.router.navigate(['../form'], { queryParams: this.query});
         }
       }
     );

@@ -1,4 +1,4 @@
-// TODO: Generates station graphs
+// Generates station graphs
 
 import { Component, OnInit , Inject} from '@angular/core';
 import { MakeMarkersService } from '../make-markers.service'
@@ -11,6 +11,7 @@ import { Metric } from '../metric';
   selector: 'app-station',
   template: ''
 })
+
 export class StationComponent implements OnInit {
 
   constructor(
@@ -23,8 +24,6 @@ export class StationComponent implements OnInit {
   metrics: Metric[]; // Copy of all metric data
   activeMetric : Metric; // Currently active metric
   
-  
-  // TODO: get all metric data
   ngOnInit() {
     this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
@@ -43,6 +42,7 @@ export class StationComponent implements OnInit {
     });
   }
   
+  // Formats data for chart
   convertDataToChart(station : Station) : Array<object>{
     let results = [];
     for (let c in station.channels){
@@ -73,7 +73,8 @@ export class StationComponent implements OnInit {
         station: this.activeStation,
         metric: this.activeMetric,
         values: values
-      }
+      },
+      width: '60%'
     });
   }
   
@@ -104,9 +105,9 @@ export class StationDialog {
       
     };
     
-    onSelect(event) : void {
-      console.log(event)
-    }
+    // onSelect(event) : void {
+    //   console.log(event)
+    // }
     
     view = [800, 500];
     

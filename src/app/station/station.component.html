@@ -1,5 +1,7 @@
 <h1 mat-dialog-title fxLayoutAlign="center center">{{station.code}} {{metric.title}}</h1>
+
 <mat-divider></mat-divider>
+
 <div mat-dialog-content >
   <div id="chart-parent">
     <ngx-charts-line-chart
@@ -13,7 +15,6 @@
       [showYAxisLabel]="true"
       [xAxisLabel]="xAxisLabel"
       [yAxisLabel]="yAxisLabel"
-      (select)="onSelect($event)"
       [roundDomains]="true"
       [animations]="false"
       [timeline]="true"

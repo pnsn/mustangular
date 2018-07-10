@@ -48,10 +48,10 @@ export class MarkersComponent implements OnInit, OnDestroy {
           this.activeMetric = activeMetric;
           this.makeMarkers();
         }
-
       }
     );
     this.subscription.add(sub);
+    
     // Add or remove layers from the map when the layers are toggled
     const sub1 = this.binningService.getActiveLayers().subscribe(
       layers => { 
@@ -96,7 +96,7 @@ export class MarkersComponent implements OnInit, OnDestroy {
       // Zoom map to fit the bounds
       if(this.makeMarkersService.getLatLons().length > 0) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
-        this.fitBounds.options = { padding: [400, 400] }; //TODO: make this zoom out a bit
+        this.fitBounds.options = { padding: [400, 400] };
       }
       
     }

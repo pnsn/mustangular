@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserModule, By} from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormComponent } from './form.component';
-import {DebugElement } from '@angular/core';
+import { FormComponent } from 'form.component';
+import { DebugElement } from '@angular/core';
 
 describe('FormComponent', () => {
   let component: FormComponent;
@@ -29,14 +29,13 @@ describe('FormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
-  it('should be valid', async(() => {
-    comp.ngForm.
-  
-  }));
-  
-  it('should submit', async(()=>{
-  
-  
-  });
+  //
+  // it('should be valid', async(() => {
+  //
+  // }));
+  //
+  // it('should submit', async(()=>{
+  //
+  //
+  // });
 });
