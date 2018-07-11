@@ -7,9 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Data:
 
 The metric information is from the [IRIS MUSTANG metric service](https://service.iris.edu/mustang/metrics/1).  
-
 The station data is from the [IRIS FDNSWS service](https://service.iris.edu/fdsnws/station/1/).  
-
 The measurements information is from the [IRIS MUSTANG measurements service](https://service.iris.edu/mustang/measurements/1).  
 
 ### Form:
@@ -28,7 +26,7 @@ The map view can be altered and shared using URL parameters. Accepted URL parame
     high = color (hex) : sets the high color, defaults to green.  
     low = color (hex) : sets the low color, defaults to red.
 
-### Channel Precedence:
+### Channel Priority:
 
 The display channel is selected based on the user's prioritization of the channels. MUSTANGular will display data for a station using the first channel, in order of the prioritized list, that has data. 
 
@@ -71,6 +69,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
+`ng build --prod --base-href /mustang/mustangular/`
 
 ## Running unit tests
 

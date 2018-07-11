@@ -76,11 +76,17 @@
             
             <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
                 
-                <span [ngSwitch]="selectedMetrics.length" class=".info-text" [ngClass]="{'warning':selectedMetrics.length==0}">
-                  <ng-template ngSwitchCase="0">Select one or more metrics*</ng-template>
-                  <ng-template ngSwitchCase="1">1 metric selected</ng-template>
-                  <ng-template ngSwitchDefault>{{selectedMetrics.length}} metrics selected.</ng-template>
-                </span> 
+              <span *ngIf="selectedMetrics.length==0" class="info-text warning"> 
+                Select one or more metrics*
+              </span>
+              
+              <span *ngIf="selectedMetrics.length==1" class="info-text status">
+                1 metric selected
+              </span>
+              
+              <span *ngIf="selectedMetrics.length> 1" class="info-text status">
+                {{selectedMetrics.length}} metrics selected.
+              </span> 
                      
                 <mat-selection-list [ngModel]="selectedMetrics" (ngModelChange)="onMetricSelect($event)" name="metric">
                   <div fxLayout="column" *ngIf="loading" fxLayoutAlign="center center">

@@ -16,13 +16,13 @@
       margin:0px;
       float:right;
       max-height:50px;
-      overflow:scroll;
+      overflow-y:scroll;
     }
   }
   
   h2 {
     color: $accent;
-    margin-top:30px;
+    margin:10px 0px;
     font-weight:500;
   }
   
