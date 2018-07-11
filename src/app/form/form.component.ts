@@ -27,10 +27,11 @@ export class FormComponent implements OnInit,OnDestroy {
   maxDate = new Date(); // Current date to prevent requests from future
   query = new Query();// Holds all the query data
   selectedMetrics : string[] = []; // Selected metrics
-  initialMetrics : string[] = [];
-  loading: boolean = true; 
-  subscription : Subscription = new Subscription();
-  message : string;
+  initialMetrics : string[] = []; // Metrics from URL
+  loading: boolean = true;  // Are metrics still loading?
+  subscription : Subscription = new Subscription(); // Handles connections
+  message : string; // Error messages
+  
   ngOnInit() {
     
     // Get metrics to populate form
@@ -44,6 +45,7 @@ export class FormComponent implements OnInit,OnDestroy {
       }
     );
     this.subscription.add(sub);
+    
     // Tells parameter service to get parameters
     this.parametersService.setQueryParameters();
   }
@@ -70,10 +72,12 @@ export class FormComponent implements OnInit,OnDestroy {
     this.subscription.add(sub);
   }
   
+  // Check if metric should be selected
   metricSelected(metricName : string) : boolean {
     return this.initialMetrics.indexOf(metricName) >= 0;
   }
   
+  // Store selected metric
   onMetricSelect(event) : void {
     this.selectedMetrics = event;
   }

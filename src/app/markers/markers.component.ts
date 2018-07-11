@@ -21,24 +21,21 @@ export class MarkersComponent implements OnInit, OnDestroy {
     private binningService: BinningService,
     private elementRef : ElementRef
   ) {}
-  subscription : Subscription = new Subscription();
-  activeMetric: Metric; // 
-
+  
+  subscription : Subscription = new Subscription(); // Used to close connections
+  activeMetric: Metric; // Currently viewed metric
   overlays : any; // Active layers
   overlayMaster : any; // All available layers
   fitBounds: any; // Bounds to zoom map to
   layers : any = {}; // Layer statuses
 
+  // Leaflet map options
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18, attribution: '...' })
     ]
-  }; // Leaflet map options
-  
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  };
   
   ngOnInit() {
     // Wait for active metric
@@ -69,6 +66,11 @@ export class MarkersComponent implements OnInit, OnDestroy {
       }
     );
     this.subscription.add(sub1);
+  }
+  
+  // Close connections when navigating away
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   
   // Make the markers for the map

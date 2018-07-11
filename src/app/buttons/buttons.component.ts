@@ -11,7 +11,7 @@ import { MeasurementsService } from '../measurements.service'
   styleUrls: ['./buttons.component.scss']
 })
 export class ButtonsComponent implements OnInit {
-  @Input() metric : Metric;
+  @Input() metric : Metric; // Gets metric from parent component
   
   constructor(
     public dialog: MatDialog,
@@ -50,11 +50,10 @@ export class ButtonsComponent implements OnInit {
     });
     
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        
+      if (result) {       
         // Open download snackbar
         window.open(this.measurementsService.getUrl() + "&output="+result);
-        this.snackBar.open('Downloading '+ result, '', {
+        this.snackBar.open('Opened '+ result + 'in new tab.', '', {
           duration: 3000
         });
       }
@@ -82,8 +81,6 @@ export class DownloadDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
     types = ["xml", "csv", "text", "json", "jsonp"];
-    //show download
-    
 }
 
 
@@ -97,6 +94,5 @@ export class HelpDialog {
   constructor(
     public dialogRef: MatDialogRef<HelpDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    //show download
     
 }

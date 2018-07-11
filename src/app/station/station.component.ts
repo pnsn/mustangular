@@ -20,11 +20,12 @@ export class StationComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  activeStation : Station;
+  activeStation : Station; // Selected station
   metrics: Metric[]; // Copy of all metric data
   activeMetric : Metric; // Currently active metric
   
   ngOnInit() {
+    // Get station when it is selected
     this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
         if(activeStation){
@@ -35,6 +36,7 @@ export class StationComponent implements OnInit {
       }
     );
     
+    // Get currently selected metric
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
         this.activeMetric = Object.assign(activeMetric);

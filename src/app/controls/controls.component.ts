@@ -1,5 +1,5 @@
 // Component handles the right side form controls
-// Contains popups for sorting channels and downloading info
+// Contains popups for sorting channels
 
 import { Component, OnInit, SimpleChanges, Inject} from '@angular/core';
 import { Metric } from '../metric';
@@ -36,13 +36,11 @@ export class ControlsComponent implements OnInit {
     // Subscribe to changes of the active metric and update display/metric data
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
-
         if(activeMetric) {
           this.activeMetric = Object.assign(activeMetric);
           this.display = activeMetric.display;
           this.metrics = this.dataService.getMetrics();
         }
-
     });
   }
   

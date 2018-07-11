@@ -1,3 +1,5 @@
+// Main app component, doesn't really do anything
+
 import { Component } from '@angular/core';
 
 @Component({

@@ -35,8 +35,9 @@ export class MapComponent implements OnInit,OnDestroy {
   activeMetric : Metric; // Metric currently being viewed 
   message: string; // Status display message
   inProgress: boolean = true; // Is data still being processed?
-  subscription : Subscription = new Subscription();
-  error: boolean = false;
+  subscription : Subscription = new Subscription(); // Handles connections
+  error: boolean = false; // Is there an error?
+  
   ngOnInit() {
     
     // Wait for query parameters to be populated
@@ -53,6 +54,7 @@ export class MapComponent implements OnInit,OnDestroy {
       }
     );
     this.subscription.add(sub);
+    
     // Initiates query parameter fetching
     this.parametersService.setQueryParameters();
   }
@@ -74,8 +76,6 @@ export class MapComponent implements OnInit,OnDestroy {
       }
     );
     this.subscription.add(sub);
-    
-
   }
   
   // Get list of all stations from IRIS FDSNWS
@@ -135,7 +135,5 @@ export class MapComponent implements OnInit,OnDestroy {
     this.subscription.add(sub);
     // Combine measurements/metrics/stations
     this.combineMetricsService.combineMetrics(measurements, stations, metrics);
-
-
   }
 }
