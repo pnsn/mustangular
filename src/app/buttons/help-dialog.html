@@ -4,29 +4,16 @@
 
 <div mat-dialog-content id="help-dialog">
   <p>MUSTANGular is an Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)</p>
+  
+  <a href="https://github.com/pnsn/mustangular" target="_blank">See GitHub for more information.</a>
 
   <h2 id="generalinformation">General Information:</h2>
 
   <h3 id="data">Data:</h3>
 
-  <p>The metric information is from the <a href="https://service.iris.edu/mustang/metrics/1">IRIS MUSTANG metric service</a>. <br />
-  The station data is from the <a href="https://service.iris.edu/fdsnws/station/1/">IRIS FDNSWS service</a>. <br />
-  The measurements information is from the <a href="https://service.iris.edu/mustang/measurements/1">IRIS MUSTANG measurements service</a>.  </p>
-
-  <h3 id="parameters">Parameters:</h3>
-
-  <p>The map view can be altered and shared using URL parameters. Accepted URL parameters for changing the map view are:</p>
-
-  <pre>
-    <code>
-      binmax = # (float) : sets maximum binning value, defaults to 95th percentile
-      binmin = # (float) : sets minimum binning value, defaults to 5th percentile
-      bincount = # (int) : sets number of bins, defaults to 3
-      view = maximum | minimum | average | 5thpercentile | 95thpercentile (string) : sets the display value for the station, defaults to average
-      high = color (hex) : sets the high color, defaults to green.  
-      low = color (hex) : sets the low color, defaults to red.
-    </code>
-  </pre>
+  <p>The metric information is from the <a href="https://service.iris.edu/mustang/metrics/1" target="_blank">IRIS MUSTANG metric service</a>. <br />
+  The station data is from the <a href="https://service.iris.edu/fdsnws/station/1/" target="_blank">IRIS FDNSWS service</a>. <br />
+  The measurements information is from the <a href="https://service.iris.edu/mustang/measurements/1" target="_blank">IRIS MUSTANG measurements service</a>.  </p>
 
   <h3 id="channelpriority">Channel Priority:</h3>
 
@@ -35,16 +22,13 @@
   <h3 id="displayvalues">Display Values:</h3>
 
   <p>MUSTANGular displays data for a station using one channel at a time. (See: Channel Precendence) The display value indicates what value is shown for the station. Possible values are: </p>
-
-  <pre>
-    <code>
-      maximum : highest measurement for the channel
-      minimum : lowest measurement for the channel
-      average : average of the measurements for the channel 
-      5thpercentile = 5th percentile of the measurements for the channel
-      95thpercentile = 5th percentile of measurements for the channel
-    </code>
-  </pre>
+  <ul>
+    <li>maximum : highest measurement for the channel</li>
+    <li>minimum : lowest measurement for the channel</li>
+    <li>average : average of the measurements for the channel </li>
+    <li>5thpercentile = 5th percentile of the measurements for the channel</li>
+    <li>95thpercentile = 5th percentile of measurements for the channel</li>
+  </ul>
 
   <h3 id="binning">Binning:</h3>
 

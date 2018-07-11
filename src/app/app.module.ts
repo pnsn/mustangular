@@ -49,6 +49,8 @@ import { KeyComponent } from './key/key.component';
 import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,6 +98,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     AngularFontAwesomeModule,
     ColorPickerModule,
     NgxChartsModule,
+    NoopAnimationsModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [
