@@ -40,8 +40,8 @@ export class ParametersService {
       "max" : Number(params.binmax) 
     };
     d.displayValue = params.value; 
-    d.channels.active = params.channels; 
-    
+    d.channels.active = params.channels ? params.channels.split() : null; 
+    d.channels.available = params.cha ? params.cha.split() : null
     this.display = d;
   }
   
@@ -53,10 +53,6 @@ export class ParametersService {
           var pa = params["params"];
           //grab other query params here
           
-          if(pa.cha) {
-            this.display.channels.available = pa.cha.split(",");
-          }
-
           let query = new Query(
             pa.net,
             pa.cha,

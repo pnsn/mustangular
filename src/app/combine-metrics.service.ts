@@ -5,7 +5,7 @@ import { Subject ,  Observable} from 'rxjs';
 import { Metric } from './metric';
 import { Channel } from './channel';
 import { Measurement } from './measurement';
-
+import { Station } from './station';
 @Injectable()
 export class CombineMetricsService {
 
@@ -42,23 +42,22 @@ export class CombineMetricsService {
           
             // Create station if its the first pass 
             if (!station) {
-              station = Object.create(stations[stationCode]);
+              station = Object.assign(stations[stationCode]);
               station.code = stationCode;
-              station.channels = {};
+              station.qual = "M";
               combinedMetric.display.data.count++;
             }
-          
+
             // Add channel to station
-            let channelCode = m.cha;
+            let loc = m.loc ? m.loc : "--";
+            let channelCode = loc + "." + m.cha;
             let channels = station.channels;
-          
-            if (!channels[channelCode]) {
-              channels[channelCode] = new Channel(channelCode);
-              channels[channelCode].measurements = new Array<Measurement>();
-            }
-          
+            
+            if (!channels[channelCode]){
+              channels[channelCode] = new Channel(channelCode, loc, m.cha);
+            } 
             // Add measurement to channel
-            channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.qual, m.start, m.target, m.value));
+            channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.start, m.value));
         
             station.channels = channels;
 

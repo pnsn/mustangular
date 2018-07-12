@@ -10,9 +10,13 @@ export class Channel {
   
   constructor (
     public name: string,
-    public measurements?: Measurement[]
-  ) {}
-  
+    public loc = "",
+    public cha = ""
+  ) {
+
+    this.measurements = new Array<Measurement>();
+  }
+  public measurements: Measurement[];
   private values : Array<number>; // Channel's possible values
   private median? : number; // Median channel value
   private average? : number; // Average channel value

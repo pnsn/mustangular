@@ -19,19 +19,21 @@ export class Station {
       public lat: number,
       public lon: number,
       public name: string,
-      public loc?: string, 
-      public code?: string, //NET.STA.LOC
-      public channels?: any
-    ){}
-    
+    ){
+      this.code = ""; //NET.STA.LOC
+      this.channels = {};
+      this.displayValue = null;
+      this.displayChannel = null;
+      this.qual = "";
+    }
+    code: string
+    channels: any;
+    qual: string;
     displayValue : number; // Value displayed for the station
     displayChannel : string; // Channel being used to display
     
     // Sets the station value according to the display value and selected channels
     setValue(displayValue : string, displayChannels : string[]) : void {
-      this.displayValue = null;
-      this.displayChannel = null;
-      
       for (let displayChannel of displayChannels ){
         if ( this.channels[displayChannel] ) {
           let channel = this.channels[displayChannel];

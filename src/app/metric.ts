@@ -30,7 +30,7 @@ export class Metric {
   updateValues() : void {
   
     let values = [];
-    
+    console.log(this.display.channels.available)
     for (let s in this.stations) {
       let station = this.stations[s];
       // New value for the stations

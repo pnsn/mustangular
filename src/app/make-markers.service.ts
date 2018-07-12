@@ -120,14 +120,15 @@ export class MakeMarkersService {
     + "<div> Value: ("+station.displayChannel+ ") " + value 
     + "<div> Channels: <ul id='channel-list'>";
     
-    for (let channel in station.channels ) {
+    for (let c in station.channels ) {
+      let channel = station.channels[c];
+      
       string += "<li"
       
-      if (channel == station.displayChannel) {
+      if (channel.name == station.displayChannel) {
         string += " class='active channel'";
       }
-      
-      string += ">" + channel + "</li>";
+      string += ">" +channel.name + "</li>";
     }
 
     string += "</ul>"; 

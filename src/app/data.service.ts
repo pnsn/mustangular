@@ -89,11 +89,7 @@ export class DataService {
         display.displayValue = "Average";
       }
       
-      if(this.parameters.channels.length > 0) {
-        display.channels.available = this.parameters.channels.available;    
-      } else {
-        display.channels.available = this.sortChannels(metric.getChannels()); 
-      }
+      display.channels.available = this.sortChannels(metric.getChannels()); 
       
       metric.updateValues();
       
