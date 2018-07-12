@@ -71,7 +71,6 @@ export class StationComponent implements OnInit {
       }
       results.push(ch)
     }
-    console.log(, );
     return {
       "values": results,
       "start": start.toISOString().replace(/T.*$/gim, ""),
@@ -127,7 +126,8 @@ export class StationDialog {
     select(event) : void {
       if(typeof event === 'string' || event instanceof String) {
         let url = "https://service.iris.edu/mustang/noise-pdf/1/query?target=";
-        window.open(url + this.station.code +"."+ event + "." + this.station.qual + "&starttime=" + this.data.start + "&endtime=" +this.data.end+"&format=plot");
+        window.open(url + this.station.code +"."+ event + "." + this.station.qual + 
+        "&starttime=" + this.data.start + "&endtime=" +this.data.end+"&format=plot");
       }
     }
 }
