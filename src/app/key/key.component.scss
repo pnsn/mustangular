@@ -31,9 +31,14 @@
     color:$secondary;
     opacity: 0.5;
   }
-  .histogram  {
-    height:20px;
+  .histogram-parent{
+   width:85px; 
+    .histogram  {
+      height:20px;
+    }
+    
   }
+
 }
 
 :host ::ng-deep .layer-toggle .mat-checkbox-background {

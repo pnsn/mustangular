@@ -42,7 +42,8 @@ export class CombineMetricsService {
           
             // Create station if its the first pass 
             if (!station) {
-              station = Object.assign(stations[stationCode]);
+              let s = stations[stationCode];
+              station = new Station (s.net, s.sta, s.lat, s.lon, s.name);
               station.code = stationCode;
               station.qual = "M";
               combinedMetric.display.data.count++;
@@ -58,9 +59,9 @@ export class CombineMetricsService {
             } 
             // Add measurement to channel
             channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.start, m.value));
-        
-            station.channels = channels;
 
+            station.channels = channels;
+            
             combinedMetric.stations[stationCode] = station;
           }
 
@@ -69,7 +70,7 @@ export class CombineMetricsService {
       }
 
       combinedMetrics.push(combinedMetric);
-
+      console.log(combinedMetric)
     }
   
     if(measurementCount > 0){

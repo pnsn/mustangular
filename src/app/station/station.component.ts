@@ -44,7 +44,7 @@ export class StationComponent implements OnInit {
   }
   
   // Formats data for chart
-  convertDataToChart(station : Station) : Array<object>{
+  convertDataToChart(station : Station) : any{
     let results = [];
     let start,end : Date;
 

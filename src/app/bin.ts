@@ -11,7 +11,7 @@ export class Bin {
   ){}
   
   setWidth(count : number) : void {
-   this.width = 100 * this.count / count;
+   this.width = 85 * this.count / count;
   }
 
 }

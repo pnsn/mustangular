@@ -75,8 +75,12 @@
         <mat-divider></mat-divider>
         
     </div>
-    
+    <div class="form-section" fxLayoutAlign="center">
+        <div *ngIf="!changed" class="status">Everything is up to date.</div>
+        <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
+    </div>
     <div class="form-section" id="form-buttons">
+      
         <div fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
                 Update

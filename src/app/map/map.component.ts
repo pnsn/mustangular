@@ -98,6 +98,7 @@ export class MapComponent implements OnInit,OnDestroy {
     this.message = "Requesting Measurements from MUSTANG.";
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
+        console.log(measurements)
         this.combineMetrics(measurements, stations, metrics);
       },
       err => {

@@ -1,5 +1,5 @@
 <div id="key">
-  <div class="form-title"> Key</div>
+  <div class="form-title">Key</div>
   <table>
    
      <tr>
@@ -26,7 +26,7 @@
           
           <td class="key-content">{{bin.count}}</td>
           
-          <td>
+          <td class="histogram-parent">
             <div *ngIf="bin.count > 0" class="histogram" [ngStyle]="{'background-color': bin.color, 'width': bin.width + 'px' }" ></div>
           </td>
        </tr>
