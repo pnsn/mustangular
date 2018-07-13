@@ -43,6 +43,7 @@ export class CombineMetricsService {
             // Create station if its the first pass 
             if (!station) {
               let s = stations[stationCode];
+              // Copy data from stations
               station = new Station (s.net, s.sta, s.lat, s.lon, s.name);
               station.code = stationCode;
               station.qual = "M";
@@ -70,7 +71,6 @@ export class CombineMetricsService {
       }
 
       combinedMetrics.push(combinedMetric);
-      console.log(combinedMetric)
     }
   
     if(measurementCount > 0){
