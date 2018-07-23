@@ -50,6 +50,7 @@ import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.c
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { ColoringComponent } from './coloring/coloring.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
     StationDialog,
     HelpDialog,
     KeyComponent,
-    ButtonsComponent
+    ButtonsComponent,
+    ColoringComponent
   ],
   imports: [
     BrowserModule,

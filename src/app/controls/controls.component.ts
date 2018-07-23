@@ -6,7 +6,6 @@ import { Metric } from '../metric';
 import { DataService } from '../data.service';
 import { Display } from '../display';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -83,6 +82,10 @@ export class ControlsComponent implements OnInit {
         this.display = this.activeMetric.display;
       }
     }
+    this.valueChanged();
+  }
+  changeColoring(coloring){
+    this.activeMetric.display.coloring = coloring;
     this.valueChanged();
   }
   

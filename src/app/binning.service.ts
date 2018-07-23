@@ -9,6 +9,67 @@ import { Subject ,  Observable } from 'rxjs';
 export class BinningService {
 
     constructor() {}
+    private colorings : any[] = [
+    {
+      name:"rainbow",
+      title: "Rainbow",
+      colors: ["purple", "blue", "cyan", "green", "yellow", "orange", "red"],
+      outliers: ["black", "gray", "white"]
+    },
+    {
+      name:"jet",
+      title:"Jet",
+      colors:["blue", "cyan", "white", "yellow", "red"],
+      outliers: ["black", "gray", "silver"]
+    },
+    {
+      name:"polar",
+      title:"Polar",
+      colors:["blue", "white", "red"],
+      outliers: ["black", "gray", "white"]
+    },
+    {
+      name:"hot",
+      title:"Hot",
+      colors:["black", "red", "orange", "yellow", "white"],
+    outliers: ["blue", "green", "silver"]
+    },
+    {
+      name:"red_to_green",
+      title:"Red to Green",
+      colors:["red", "white", "green"],
+      outliers: ["black", "gray", "silver"]
+    },
+    {
+      name:"ocean",
+      title:"Ocean",
+      colors:["black", "blue", "cyan", "white"],
+      outliers: ["red", "gray", "silver"]
+    },
+    {
+      name:"cool",
+      title:"Cool",
+      colors:["cyan", "blue", "purple"],
+      outliers: ["black", "gray", "white"]
+    },
+    {
+      name:"split",
+      title:"Split",
+      colors:["blue", "black", "red"],
+      outliers: ["gray", "silver", "white"]
+    },
+    {
+      name:"gray",
+      title:"Gray",
+      colors:["black", "gray", "white"],
+      outliers["blue", "green", "red"]
+    },
+    {
+      name:"seis",
+      title:"Seis",
+      colors:["red", "orange", "yellow", "green", "blue"],
+      outliers["black", "gray", "white"]  
+    }];
     
     private bins = new Subject<Bin[]>(); // Subscribeable bins
     private activeLayers = new Subject<any>(); // Subscribeable layer statuses
@@ -33,23 +94,43 @@ export class BinningService {
       this.bins.next(bins);
     }
     
+    getColorings() : any[] {
+      return this.colorings;
+    }
+    
     // Creates the bins
     makeBins(display: any): Bin[] {
       let binning = display.binning;
       let data = display.data;
-      let coloring = display.coloring;
       
+      let coloring : any;
+      for (let c of this.colorings){
+        if (c.name == display.coloring){
+          coloring = c;
+        }
+      }
+      if(!coloring){
+        coloring = this.colorings[0];
+      }
+      
+      //reference self's coloring
       let bins = new Array < Bin > ();
       let rainbow = new Rainbow();
       let binWidth = (binning.max - binning.min) / binning.count;
       let min = binning.min;
 
       //Low outliers
-      bins.push(new Bin( 0, "#000", -1, "icon-group-0", binning.min, data.min));
+      bins.push(new Bin( 0, coloring.outliers[0], -1, "icon-group-0", binning.min, data.min));
      
       //Middle bins 
       rainbow.setNumberRange(0, binning.count > 1 ? binning.count - 1 : 1);
-      rainbow.setSpectrum(coloring.low, coloring.high);
+      
+      if (display.invert) {
+        rainbow.setSpectrumByArray(coloring.colors.reverse());
+      } else {
+        rainbow.setSpectrumByArray(coloring.colors);
+      }
+      
       var max;
       for (var i = 0; i < binning.count; i++) {
           max = min + binWidth;
@@ -58,10 +139,10 @@ export class BinningService {
       }
   
       // High outlier
-      bins.push( new Bin (0, "#808080", 1, "icon-group-" + (binning.count + 1), data.max, binning.max));
+      bins.push( new Bin (0, coloring.outliers[1], 1, "icon-group-" + (binning.count + 1), data.max, binning.max));
 
       //No data
-      bins.push( new Bin (0, "#fff", 2, "no-data" + (binning.count + 2), 0 ,0));
+      bins.push( new Bin (0, coloring.outliers[2], 2, "no-data" + (binning.count + 2), 0 ,0));
   
       return bins;
     }

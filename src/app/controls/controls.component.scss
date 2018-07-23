@@ -2,7 +2,7 @@
 
 .section-title {
   font-size: 20px;
-  font-weight: 500px;
+  font-weight: 400;
 }
 
 #metric-section {
@@ -35,24 +35,17 @@
   padding-bottom: 2px;
 }
 
-.form-section button{
-  margin: 0px 10px;
+.form-buttons {
+  padding-top:0px;
+}
+
+
+#coloring-title {
+  margin-top: 20px;
 }
 
 #coloring {
-  margin-top: 5p;
-  .color {
-    &:hover{
-      cursor: pointer;
-    }
-    margin: 0 5px;
-    height: 20px;
-    width: 20px;
-    border-style: none;  
-  }
-  span{
-    font-size: 12px;
-  }
+  padding-top: 0px;
 }
 
 #openChannelsDialog{
@@ -82,7 +75,8 @@ mat-list {
     height: 35px;
   }
   .handle{
-    float:right;
+    margin-right: 40px;
+    margin-left:-16px;
   }
    cursor: move;
 

@@ -30,15 +30,13 @@ export class ParametersService {
   // Sets display with url parameters
   setDisplay( params  : any) : void{
     let d = this.display;
-    d.coloring = {
-      "high" : params.high,
-      "low" : params.low
-    };
+    d.coloring = params.coloring;
     d.binning = {
       "count" : Number(params.bincount),
       "min" : Number(params.binmin),
       "max" : Number(params.binmax) 
     };
+    d.invert = params.invert;
     d.displayValue = params.value; 
     d.channels.active = params.channels ? params.channels.split() : null; 
     d.channels.available = params.cha ? params.cha.split() : null;

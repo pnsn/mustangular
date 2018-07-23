@@ -1,0 +1,6 @@
+<mat-select placeholder="Colorings" [ngModel]="metricColoring" (ngModelChange)="selectionChanged($event)">
+  <mat-option *ngFor="let coloring of colorings" [value]="coloring.name" >
+    <div>{{coloring.title}}</div>
+    <div matLine class="spectrum" [style.background]="coloring.background"></div>
+  </mat-option>
+</mat-select>

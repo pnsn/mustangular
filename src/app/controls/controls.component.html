@@ -43,15 +43,7 @@
                     </mat-radio-button>
                 </mat-radio-group>
                 
-                <div id="coloring">
-                  <div class="section-title">Icon Color</div>
-                  <span>Low</span>
-                  <input class="color" [(colorPicker)]="display.coloring.low" [cpPosition]="left" [style.background]="display.coloring.low" (colorPickerChange)="valueChanged()" name="low" />
-                    <span>to</span>
-                  <input class="color" [(colorPicker)]="display.coloring.high" [cpPosition]="left" [style.background]="display.coloring.high" (colorPickerChange)="valueChanged()" name="high" />
-                  <span>High</span>
-                </div>
-                
+                <div fxFlexAlign="start end" class="section-title" id="coloring-title">Map Coloring</div>
             </div>
 
             <div class="form-section" fxFlex="45">
@@ -71,7 +63,14 @@
             </div>
 
         </div>
+        <div id="coloring" class="form-section" fxLayout="row">
 
+          <app-coloring fxFlex="70"
+            [metricColoring]="activeMetric.display.coloring"
+            (changeColoring)="changeColoring($event)">
+          </app-coloring>
+          <mat-checkbox fxFlex="25" name="toggle-invert" (ngModelChange)="valueChanged()" [(ngModel)]="activeMetric.display.invert">Invert</mat-checkbox>
+        </div>
         <mat-divider></mat-divider>
         
     </div>
@@ -79,7 +78,7 @@
         <div *ngIf="!changed" class="status">Everything is up to date.</div>
         <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
     </div>
-    <div class="form-section" id="form-buttons">
+    <div class="form-section form-buttons">
       
         <div fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
@@ -90,7 +89,7 @@
     
 </form>
 
-<div class="form-section" >
+<div class="form-section form-buttons" >
     <app-buttons [metric]="activeMetric"></app-buttons>
 </div>
 

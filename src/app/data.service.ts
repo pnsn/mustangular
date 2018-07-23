@@ -55,7 +55,7 @@ export class DataService {
     return {
         "max" : length > 0 && values[max]? +values[max].toFixed(2) : 0,
         "min" : length > 0 && values[min]? +values[min].toFixed(2) : 0,
-        "count" : min == max || values[min] == values[max] ? 0 : 3
+        "count" : min == max || values[min] == values[max] ? 0 : 5
     }
   }
   
@@ -89,16 +89,17 @@ export class DataService {
         display.displayValue = "Average";
       }
       
+      display.invert = this.parameters.invert ? this.parameters.invert : false;
       display.channels.available = this.sortChannels(metric.getChannels()); 
       
       metric.updateValues();
       
       let values = metric.getValues();
 
-      if(this.parameters.coloring.high && this.parameters.coloring.low) {
+      if(this.parameters.coloring) {
         display.coloring = this.parameters.coloring;
       } else {
-        display.coloring = {"high" : "#008000", "low" : "#FF0000"};
+        display.coloring = "red_to_green";
       }
       
       if(this.parameters.binning && this.parameters.binning.max && this.parameters.binning.min && this.parameters.binning.count ){

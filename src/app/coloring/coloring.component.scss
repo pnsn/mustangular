@@ -1,0 +1,11 @@
+div {
+  display: inline-block;
+  width:50%;
+}
+.spectrum{
+  height: 15px; 
+}
+
+::ng-deep .mat-select-panel{
+    width:190px;  
+}

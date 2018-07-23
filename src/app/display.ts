@@ -24,11 +24,11 @@
 
 export class Display {
   data : any;
-  coloring : any;
+  coloring : string;
   binning : any;
   displayValue : string;
   channels: any;
-  
+  invert: boolean;
   constructor(){
     
     // Data's max, min, and number of data points
@@ -38,11 +38,10 @@ export class Display {
       "count": 0
     };
     
+    this.invert = false;
+    
     // High and low color selections
-    this.coloring = {
-      "low" : null,
-      "high" : null
-    };
+    this.coloring = null;
     
     // Upper and lower bounds for bins and number of bins
     this.binning = {
@@ -64,8 +63,8 @@ export class Display {
   //Returns a URL friendly string of the Display
   toString() : string {
     let string = 
-      "&high=" + this.coloring.high.replace(/#/, "%23") +
-      "&low=" + this.coloring.low.replace(/#/, "%23") +
+      "&coloring=" + this.coloring +
+      "&invert=" + this.invert + 
       "&bincount=" + this.binning.count +
       "&binmin=" + this.binning.min +
       "&binmax=" + this.binning.max + 

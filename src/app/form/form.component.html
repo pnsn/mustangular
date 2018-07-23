@@ -104,14 +104,14 @@
                 <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
                  
                   <div fxLayout="column" fxLayoutAlign="start">
-                    <span class="info-text" fxFlex>Unspecified values will act as wildcards.</span>
+                    <span class="info-text" fxFlex>Empty fields, comma separated lists, and wildcards (? and *) allowed.</span>
                   </div>
 
                   <button mat-raised-button color="primary" type="submit" [disabled]="!(queryForm.form.valid && selectedMetrics.length > 0)">Submit</button>
                 </div>
                 
             </div>
-            <!--TODO: add information about form values (i.e. '&', ',') -->
+
         </form>
         
     </mat-card>
