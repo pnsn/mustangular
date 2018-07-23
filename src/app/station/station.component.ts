@@ -29,7 +29,6 @@ export class StationComponent implements OnInit, OnDestroy {
     const sub = this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
         if(activeStation){
-          console.log("activeStation", activeStation)
           this.activeStation = activeStation;
           this.openStationDialog();
         }
@@ -92,7 +91,6 @@ export class StationComponent implements OnInit, OnDestroy {
   // Opens dialog to sort channels
   openStationDialog(): void {
     let results = this.convertDataToChart(this.activeStation);
-    console.log("open me")
     let dialogRef = this.dialog.open(StationDialog, {
       data: {
         station: this.activeStation,

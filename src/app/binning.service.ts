@@ -126,11 +126,11 @@ export class BinningService {
       rainbow.setNumberRange(0, binning.count > 1 ? binning.count - 1 : 1);
       
       if (display.invert) {
-        rainbow.setSpectrumByArray(coloring.colors.reverse());
+        rainbow.setSpectrumByArray(coloring.colors.slice().reverse());
       } else {
         rainbow.setSpectrumByArray(coloring.colors);
       }
-      
+
       var max;
       for (var i = 0; i < binning.count; i++) {
           max = min + binWidth;

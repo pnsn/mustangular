@@ -61,8 +61,6 @@ export class ParametersService {
             pa.end,
             pa.metric
           );
-          
-          console.log(query.cha)
           this.setDisplay(pa);
           query.sanitize();
           this.query.next(query);
