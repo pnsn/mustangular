@@ -76,9 +76,25 @@
 }
 
 mat-list {
-  mat-list-item {
+  mat-list-item{
+    border-top:dotted 1px $border;
+    border-bottom: none;
     height: 35px;
-  } 
+  }
+  .handle{
+    float:right;
+  }
+   cursor: move;
+
+  /* ghostClass */
+  .ghost {
+    opacity: .5;
+  }
+  /* chosenClass */
+  .chosen {
+    border: none;
+    background-color: $background;
+  }
   .mat-list-icon {
     color: $secondary;
   }

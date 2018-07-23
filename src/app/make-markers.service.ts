@@ -57,6 +57,7 @@ export class MakeMarkersService {
       m.on('click', function() {
         self.zone.run( () => {
           self.activeStation.next(station);
+          console.log("station clicked")
         });
       });
       

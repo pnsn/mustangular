@@ -68,7 +68,7 @@ export class MapComponent implements OnInit,OnDestroy {
     this.message = "Requesting Metrics from MUSTANG.";
     const sub = this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
       metrics => {
-        this.getStations(this.query.getString(["net","sta","loc","cha"]), metrics);
+        this.getStations(this.query.getString(["net","sta"]), metrics);
       },
       err => {
         this.message = "Unable to fetch Metrics from MUSTANG. Please return to form and try again."
@@ -127,7 +127,7 @@ export class MapComponent implements OnInit,OnDestroy {
           this.dataService.setDisplay(this.parametersService.getDisplay());
           this.dataService.setMetrics(metrics);
         } else {
-          this.message = "No data returned. Please return to form and try again."
+          this.message = "No data returned from MUSTANG. Please return to form and try again."
           this.error = true;
         }
       }

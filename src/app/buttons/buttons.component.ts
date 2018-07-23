@@ -80,7 +80,7 @@ export class DownloadDialog {
     public dialogRef: MatDialogRef<DownloadDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
     
-    types = ["xml", "csv", "text", "json", "jsonp"];
+    types = ["xml", "csv", "text", "json"];
 }
 
 

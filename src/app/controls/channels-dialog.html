@@ -6,7 +6,7 @@
   <mat-list id="channels-list" [sortablejs]="channels" [sortablejsOptions]="channelSorterOptions">
    
     <mat-list-item [disableRipple]="true" *ngFor="let channel of channels">
-      <fa matListIcon name="sort" class="handle"></fa>
+      <mat-icon matListIcon class="handle">drag_indicator</mat-icon>
       {{ channel }}
     </mat-list-item>
   

@@ -87,6 +87,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatListModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,
     MatSelectModule,

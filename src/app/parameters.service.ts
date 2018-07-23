@@ -41,7 +41,7 @@ export class ParametersService {
     };
     d.displayValue = params.value; 
     d.channels.active = params.channels ? params.channels.split() : null; 
-    d.channels.available = params.cha ? params.cha.split() : null
+    d.channels.available = params.cha ? params.cha.split() : null;
     this.display = d;
   }
   
@@ -63,6 +63,8 @@ export class ParametersService {
             pa.end,
             pa.metric
           );
+          
+          console.log(query.cha)
           this.setDisplay(pa);
           query.sanitize();
           this.query.next(query);

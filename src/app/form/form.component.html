@@ -4,7 +4,7 @@
         <div id="form-title" fxFlex>
           <h1>MUSTANGular v2.0</h1>
           <p fxFlex="40" class="info-text">
-              An Angular application that displays station metrics from the IRIS MUSTANG service on a Leaflet map.
+              An app for displaying IRIS MUSTANG metrics on a map.
               <a href="https://github.com/pnsn/mustangular#mustangular">More info...</a>
           </p>
           <mat-divider></mat-divider>
@@ -77,7 +77,7 @@
             <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
                 
               <span *ngIf="selectedMetrics.length==0" class="info-text warning"> 
-                Select one or more metrics*
+                Select one or more metrics *
               </span>
               
               <span *ngIf="selectedMetrics.length==1" class="info-text status">

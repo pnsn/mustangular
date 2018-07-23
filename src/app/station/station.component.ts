@@ -1,17 +1,18 @@
 // Generates station graphs
 
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
 import { MakeMarkersService } from '../make-markers.service'
 import { DataService} from '../data.service';
 import { Station } from '../station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Metric } from '../metric';
+import { Subscription } from "rxjs";
 @Component({
   selector: 'app-station',
   template: ''
 })
 
-export class StationComponent implements OnInit {
+export class StationComponent implements OnInit, OnDestroy {
 
   constructor(
     private makeMarkersService: MakeMarkersService,
@@ -22,12 +23,13 @@ export class StationComponent implements OnInit {
   activeStation : Station; // Selected station
   metrics: Metric[]; // Copy of all metric data
   activeMetric : Metric; // Currently active metric
-  
+  subscription : Subscription = new Subscription(); // Handles connections
   ngOnInit() {
     // Get station when it is selected
-    this.makeMarkersService.getActiveStation().subscribe(
+    const sub = this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
         if(activeStation){
+          console.log("activeStation", activeStation)
           this.activeStation = activeStation;
           this.openStationDialog();
         }
@@ -35,12 +37,20 @@ export class StationComponent implements OnInit {
       }
     );
     
+    this.subscription.add(sub);
+    
     // Get currently selected metric
-    this.dataService.getActiveMetric().subscribe(
+    const sub1 = this.dataService.getActiveMetric().subscribe(
       activeMetric => {
         this.activeMetric = Object.assign(activeMetric);
         this.metrics = this.dataService.getMetrics();
     });
+    
+    this.subscription.add(sub1);
+  }
+  
+  ngOnDestroy () {
+    this.subscription.unsubscribe();
   }
   
   // Formats data for chart
@@ -82,7 +92,7 @@ export class StationComponent implements OnInit {
   // Opens dialog to sort channels
   openStationDialog(): void {
     let results = this.convertDataToChart(this.activeStation);
-
+    console.log("open me")
     let dialogRef = this.dialog.open(StationDialog, {
       data: {
         station: this.activeStation,

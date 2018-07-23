@@ -53,7 +53,9 @@ export class ControlsComponent implements OnInit {
         options: {  
           onUpdate: (event: any) => {
             this.valueChanged();
-          }
+          },
+          ghostClass: "ghost",
+          chosenClass: "chosen"
         },
         handle : '.handle'
     }
