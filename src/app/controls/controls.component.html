@@ -63,13 +63,13 @@
             </div>
 
         </div>
-        <div id="coloring" class="form-section" fxLayout="row">
+        <div id="coloring" class="form-section" fxLayout="row" fxLayoutGap="5%">
 
-          <app-coloring fxFlex="70"
+          <app-coloring fxFlex="75"
             [metricColoring]="activeMetric.display.coloring"
             (changeColoring)="changeColoring($event)">
           </app-coloring>
-          <mat-checkbox fxFlex="25" name="toggle-invert" (ngModelChange)="valueChanged()" [(ngModel)]="activeMetric.display.invert">Invert</mat-checkbox>
+          <mat-checkbox fxFlex="20" name="toggle-invert" (ngModelChange)="valueChanged()" [(ngModel)]="activeMetric.display.invert">Invert</mat-checkbox>
         </div>
         <mat-divider></mat-divider>
         

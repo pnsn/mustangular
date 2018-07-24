@@ -18,6 +18,7 @@
     height:20px;
     margin-left:auto;
     margin-right:auto;
+    border: solid 1px $border;
   }
   .key-content {
     color: $secondary;
@@ -34,16 +35,16 @@
   .histogram-parent{
    width:85px; 
     .histogram  {
+      border: solid 1px $border;
       height:20px;
     }
-    
   }
-
 }
 
 :host ::ng-deep .layer-toggle .mat-checkbox-background {
  background-color: transparent !important;
 }
+
 :host ::ng-deep .layer-toggle .mat-checkbox-frame {
  border: none;
 }

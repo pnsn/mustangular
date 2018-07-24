@@ -8,9 +8,12 @@ import { BinningService } from '../binning.service';
 })
 export class ColoringComponent implements OnInit {
   @Input() metricColoring : String; // Gets coloring from parent component
- @Output() changeColoring = new EventEmitter<string>(); //Sends coloring back to parent
+  @Output() changeColoring = new EventEmitter<string>(); //Sends coloring back to parent
+  
   colorings : any[];
+  currentColoring : string;
   constructor(private binningService : BinningService) { }
+  
   ngOnInit() {
     this.colorings = this.binningService.getColorings();
     for (let coloring of this.colorings){
@@ -22,11 +25,21 @@ export class ColoringComponent implements OnInit {
       
       coloring.background += ")";
     }
+    this.setColoring(this.metricColoring);
   }
   
   selectionChanged(event) : void {
     if(event != this.metricColoring) {
       this.changeColoring.emit(event);
+    }
+    this.setColoring(event);
+  }
+  
+  setColoring(color) {
+    for (let coloring of this.colorings){
+      if(color == coloring.name ) {
+        this.currentColoring = coloring.background;
+      }
     }
   }
   //return selection to controls

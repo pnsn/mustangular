@@ -23,8 +23,7 @@ The map view can be altered and shared using URL parameters. Accepted URL parame
     binmin = # (float) : sets minimum binning value, defaults to 5th percentile
     bincount = # (int) : sets number of bins, defaults to 3
     view = maximum | minimum | average | 5thpercentile | 95thpercentile (string) : sets the display value for the station, defaults to average
-    high = color (hex) : sets the high color, defaults to green.  
-    low = color (hex) : sets the low color, defaults to red.
+    coloring = string : sets the display colors.  
 
 ### Channel Priority:
 

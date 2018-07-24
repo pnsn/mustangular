@@ -62,13 +62,13 @@ export class BinningService {
       name:"gray",
       title:"Gray",
       colors:["black", "gray", "white"],
-      outliers["blue", "green", "red"]
+      outliers: ["blue", "green", "red"]
     },
     {
       name:"seis",
       title:"Seis",
       colors:["red", "orange", "yellow", "green", "blue"],
-      outliers["black", "gray", "white"]  
+      outliers: ["black", "gray", "white"]  
     }];
     
     private bins = new Subject<Bin[]>(); // Subscribeable bins
