@@ -38,7 +38,7 @@ export class ColoringComponent implements OnInit {
   setColoring(color) {
     for (let coloring of this.colorings){
       if(color == coloring.name ) {
-        this.currentColoring = coloring.background;
+        this.currentColoring = coloring;
       }
     }
   }

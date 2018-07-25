@@ -36,8 +36,8 @@ MUSTANGular displays data for a station using one channel at a time. (See: Chann
     maximum : highest measurement for the channel
     minimum : lowest measurement for the channel
     average : average of the measurements for the channel 
-    5thpercentile = 5th percentile of the measurements for the channel
-    95thpercentile = 5th percentile of measurements for the channel
+    5thpercentile : 5th percentile of the measurements for the channel
+    95thpercentile : 5th percentile of measurements for the channel
 
 ### Binning:
 
