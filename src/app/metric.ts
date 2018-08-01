@@ -75,8 +75,9 @@ export class Metric {
     let activeChannels = [];
     for (let s in this.stations) {
       let station = this.stations[s];
-      if(activeChannels.indexOf(station.displayChannel) < 0 ){
-        activeChannels.push(station.displayChannel);
+      let c = station.displayChannel.split(".")[1]
+      if(activeChannels.indexOf(c) < 0 ){
+        activeChannels.push(c);
       }
     }
     this.display.channels.active = availableChannels.filter(channel => activeChannels.indexOf(channel) > -1);

@@ -9,7 +9,7 @@
         </mat-radio-group>
         
         <div class="form-section" fxLayoutAlign="center">
-            <div *ngIf="!changed" class="status">Everything is up to date.</div>
+            <div *ngIf="!changed" class="status">Map has been updated.</div>
             <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
         </div>
     </div>
@@ -50,11 +50,11 @@
                 <div class="section-title">Binning </div>
 
                 <mat-form-field class="binning">
-                    <input matInput required type="number" placeholder="Min > {{display.data.min}}" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
+                    <input matInput required type="number" placeholder="Min = {{display.data.min}}" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
                 </mat-form-field>
                 
                 <mat-form-field class="binning">
-                    <input matInput required type="number" placeholder="Max < {{display.data.max}}" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
+                    <input matInput required type="number" placeholder="Max = {{display.data.max}}" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
                 </mat-form-field>
 
                 <mat-form-field class="binning">
@@ -69,13 +69,13 @@
             [metricColoring]="activeMetric.display.coloring"
             (changeColoring)="changeColoring($event)">
           </app-coloring>
-          <mat-checkbox fxFlex="20" name="toggle-invert" (ngModelChange)="valueChanged()" [(ngModel)]="activeMetric.display.invert">Invert</mat-checkbox>
+          <mat-checkbox fxFlex="20" name="toggle-invert" (ngModelChange)="valueChanged()" [(ngModel)]="activeMetric.display.invert">Reverse</mat-checkbox>
         </div>
         <mat-divider></mat-divider>
         
     </div>
     <div class="form-section" fxLayoutAlign="center">
-        <div *ngIf="!changed" class="status">Everything is up to date.</div>
+        <div *ngIf="!changed" class="status">Map has been updated.</div>
         <div *ngIf="changed" class="warning">Click 'Update' to Apply Changes.</div>
     </div>
     <div class="form-section form-buttons">

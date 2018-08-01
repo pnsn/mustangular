@@ -63,8 +63,9 @@ export class DataService {
     if(channels.length > 0){
       let displayChannels = [];
       for ( let channel of channels) {
-        if (displayChannels.indexOf(channel) == -1 ){
-          displayChannels.push(channel);
+        let c = channel.split(".")[1];
+        if (displayChannels.indexOf(c) == -1 ){
+          displayChannels.push(c);
         }
       }
       return displayChannels;

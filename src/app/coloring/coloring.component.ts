@@ -11,7 +11,7 @@ export class ColoringComponent implements OnInit {
   @Output() changeColoring = new EventEmitter<string>(); //Sends coloring back to parent
   
   colorings : any[];
-  currentColoring : string;
+  currentColoring : any;
   constructor(private binningService : BinningService) { }
   
   ngOnInit() {
