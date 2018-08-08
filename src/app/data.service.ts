@@ -91,6 +91,7 @@ export class DataService {
       }
       
       display.invert = this.parameters.invert ? this.parameters.invert : false;
+      
       display.channels.available = this.sortChannels(metric.getChannels()); 
       
       metric.updateValues();
