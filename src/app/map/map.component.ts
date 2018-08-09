@@ -98,10 +98,11 @@ export class MapComponent implements OnInit,OnDestroy {
     this.message = "Requesting Measurements from MUSTANG.";
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
+        console.log(measurements);
         this.combineMetrics(measurements, stations, metrics);
       },
       err => {
-         this.message = "Unable to fetch Measurements from MUSTANG. Please return to form and try again."
+        this.message = "Unable to fetch Measurements from MUSTANG. Please return to form and try again."
         this.error = true;
       }
     );

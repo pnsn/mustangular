@@ -16,7 +16,8 @@ export class Metric {
     public name: string,
     public title: string,
     public description?: string,
-    public unit?: string
+    public unit?: string,
+    public tables?: any
   ) {
     this.display = new Display();
     this.stations = {}

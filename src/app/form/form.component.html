@@ -3,7 +3,7 @@
         
         <div id="form-title" fxFlex>
           <h1>MUSTANGular v2.0</h1>
-          <p fxFlex="40" class="info-text">
+          <p fxFlex="40">
               An app for displaying IRIS MUSTANG metrics on a map.
               <a href="https://github.com/pnsn/mustangular#mustangular">More info...</a>
           </p>
@@ -23,14 +23,6 @@
                 </mat-form-field>
                 
                 <mat-form-field>
-                    <input matInput placeholder="Channel(s)" name="cha" [(ngModel)]="query.cha" 
-                      (ngModelChange)="query.cha = query.cha.toUpperCase()">
-                    <button mat-button *ngIf="query.cha" matSuffix mat-icon-button aria-label="Clear" (click)="query.cha=''">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
-                
-                <mat-form-field>
                     <input matInput placeholder="Station(s)" name="sta" [(ngModel)]="query.sta" 
                       (ngModelChange)="query.sta = query.sta.toUpperCase()">
                     <button mat-button *ngIf="query.sta" matSuffix mat-icon-button aria-label="Clear" (click)="query.sta=''">
@@ -46,6 +38,14 @@
                     </button>
                 </mat-form-field>
                 
+                <mat-form-field>
+                    <input matInput placeholder="Channel(s)" name="cha" [(ngModel)]="query.cha" 
+                      (ngModelChange)="query.cha = query.cha.toUpperCase()">
+                    <button mat-button *ngIf="query.cha" matSuffix mat-icon-button aria-label="Clear" (click)="query.cha=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+              
                 <mat-form-field>
                     <input matInput placeholder="Quality(s)" name="qual" [(ngModel)]="query.qual" 
                       (ngModelChange)="query.qual = query.qual.toUpperCase()">
@@ -99,6 +99,7 @@
                   <mat-list-option *ngFor="let metric of metrics" [value]="metric.name">
                     {{metric.title}}
                   </mat-list-option>
+                  
                 </mat-selection-list>
                 
                 <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
