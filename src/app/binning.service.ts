@@ -116,11 +116,11 @@ export class BinningService {
       //reference self's coloring
       let bins = new Array < Bin > ();
       let rainbow = new Rainbow();
-      let binWidth = (binning.max - binning.min) / binning.count;
-      let min = binning.min;
-
+      let binWidth = Math.round((binning.max - binning.min) * 100 / binning.count)/100;
+      let min = Math.round(binning.min*100)/100;
+      console.log(binWidth, min)
       //Low outliers
-      bins.push(new Bin( 0, coloring.outliers[0], -1, "icon-group-0", binning.min, data.min));
+      bins.push(new Bin( 0, coloring.outliers[0], -1, "icon-group-0", min, data.min));
      
       //Middle bins 
       rainbow.setNumberRange(0, binning.count > 1 ? binning.count - 1 : 1);
@@ -133,13 +133,14 @@ export class BinningService {
 
       var max;
       for (var i = 0; i < binning.count; i++) {
-          max = min + binWidth;
+          max = Math.round((min + binWidth)*100)/100;
+          console.log(max)
           bins.push( new Bin (0, "#" + rainbow.colorAt(i), 0,  "icon-group-" + (i + 1), max, min));
           min = max;
       }
   
       // High outlier
-      bins.push( new Bin (0, coloring.outliers[1], 1, "icon-group-" + (binning.count + 1), data.max, binning.max));
+      bins.push( new Bin (0, coloring.outliers[1], 1, "icon-group-" + (binning.count + 1), data.max, max));
 
       //No data
       bins.push( new Bin (0, coloring.outliers[2], 2, "no-data" + (binning.count + 2), 0 ,0));

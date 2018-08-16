@@ -42,13 +42,13 @@ export class Query {
         this[key] = this[key].replace(/\s/gm,"").toUpperCase(); //remove spaces
       }
     }
-    
+    console.log(this.start,this.end)
     var start = this.start ? new Date(this.start) : null;
     var end = this.end ? new Date(this.end) : null;
-    
+    console.log(start,end)
     if(start && end) {
-      this.start = start.toISOString().replace(/Z.*$/gim, "");
-      this.end = end.toISOString().replace(/Z.*$/gim, "");
+      this.start = start.toISOString().replace(/T.*$/gim, "");
+      this.end = end.toISOString().replace(/T.*$/gim, "");
     }
   }
 }
