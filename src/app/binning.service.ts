@@ -118,7 +118,7 @@ export class BinningService {
       let rainbow = new Rainbow();
       let binWidth = Math.round((binning.max - binning.min) * 100 / binning.count)/100;
       let min = Math.round(binning.min*100)/100;
-      console.log(binWidth, min)
+
       //Low outliers
       bins.push(new Bin( 0, coloring.outliers[0], -1, "icon-group-0", min, data.min));
      
@@ -134,7 +134,6 @@ export class BinningService {
       var max;
       for (var i = 0; i < binning.count; i++) {
           max = Math.round((min + binWidth)*100)/100;
-          console.log(max)
           bins.push( new Bin (0, "#" + rainbow.colorAt(i), 0,  "icon-group-" + (i + 1), max, min));
           min = max;
       }

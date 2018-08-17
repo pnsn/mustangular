@@ -42,16 +42,5 @@ export class Query {
         this[key] = this[key].replace(/\s/gm,"").toUpperCase(); //remove spaces
       }
     }
-    let s = this.start ? new Date(this.start) : null;
-    let e = this.end ? new Date(this.end) : null;
-    
-    if(s && e) {
-      this.start = s.getFullYear() + "-" + this.fix(s.getMonth() + 1) + "-"  + this.fix(s.getDate()) + "T00:00:00.000";
-      this.end = e.getFullYear() + "-" + this.fix(e.getMonth() + 1) + "-"  + this.fix(e.getDate()) + "T00:00:00.000";
-    }
-  }
-  
-  fix(n : number) : string {
-    return n < 10 ? "0" + n : n + "";
   }
 }

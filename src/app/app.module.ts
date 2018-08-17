@@ -17,6 +17,7 @@ import { MakeMarkersService } from './make-markers.service';
 import { BinningService } from './binning.service';
 import { ParametersService } from './parameters.service';
 import { DataService } from './data.service';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -29,7 +30,6 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatListModule,
-  MatNativeDateModule,
   MatProgressSpinnerModule,
   MatRadioModule,
   MatRippleModule,
@@ -49,7 +49,7 @@ import { KeyComponent } from './key/key.component';
 import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ColoringComponent } from './coloring/coloring.component';
 
 @NgModule({
@@ -88,7 +88,7 @@ import { ColoringComponent } from './coloring/coloring.component';
     MatInputModule,
     MatFormFieldModule,
     MatListModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatRippleModule,

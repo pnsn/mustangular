@@ -62,7 +62,6 @@ export class ParametersService {
             pa.metric
           );
           this.setDisplay(pa);
-          query.sanitize();
           this.query.next(query);
         }
       });
