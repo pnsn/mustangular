@@ -32,8 +32,8 @@ export class FormComponent implements OnInit,OnDestroy {
   loading: boolean = true;  // Are metrics still loading?
   subscription : Subscription = new Subscription(); // Handles connections
   message : string; // Error messages
-  start : any;
-  end : any;
+  start : moment.Moment;
+  end : moment.Moment;
   ngOnInit() {
     
     // Get metrics to populate form
