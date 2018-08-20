@@ -35,12 +35,14 @@ export class Query {
   }
   
   // Cleans up the query parameters so they can be used
-  sanitize() : void {
+  sanitize(start: any, end:any) : void {
     let queryKeys = ["net","cha","sta","loc","qual","metric"];
     for (let key of queryKeys) {
       if(this[key]){
         this[key] = this[key].replace(/\s/gm,"").toUpperCase(); //remove spaces
       }
     }
+    this.start = start.format("YYYY-MM-DD");
+    this.end = end.format("YYYY-MM-DD");
   }
 }

@@ -57,14 +57,14 @@
                 <div fxLayout="row" fxLayoutGap="5%">
                   <mat-form-field fxFlex="47.5%" >
                       <input matInput [matDatepicker]="startDate" placeholder="Start Date" required  
-                        [matDatepickerFilter]="startFilter" name="start" [(ngModel)]="query.start">
+                        [matDatepickerFilter]="startFilter" name="start" [(ngModel)]="start">
                       <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                       <mat-datepicker #startDate></mat-datepicker>
                   </mat-form-field>
 
                   <mat-form-field fxFlex="47.5%">
                       <input matInput [matDatepicker]="endDate" required placeholder="End Date" 
-                        [matDatepickerFilter]="endFilter"  name="end" [(ngModel)]="query.end">
+                        [matDatepickerFilter]="endFilter"  name="end" [(ngModel)]="end">
                       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                       <mat-datepicker #endDate></mat-datepicker>
                   </mat-form-field>

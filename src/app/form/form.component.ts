@@ -7,6 +7,7 @@ import { Metric } from '../metric';
 import { Router } from '@angular/router';
 import { ParametersService } from '../parameters.service';
 import { Subscription } from "rxjs";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-form',
@@ -31,7 +32,8 @@ export class FormComponent implements OnInit,OnDestroy {
   loading: boolean = true;  // Are metrics still loading?
   subscription : Subscription = new Subscription(); // Handles connections
   message : string; // Error messages
-  
+  start : any;
+  end : any;
   ngOnInit() {
     
     // Get metrics to populate form
@@ -42,6 +44,10 @@ export class FormComponent implements OnInit,OnDestroy {
       query => { 
         this.query = query;
         this.initialMetrics = query.metric ? query.metric.split(',') : [];
+        if(this.query.start && this.query.end){
+          this.start = moment(this.query.start);
+          this.end = moment(this.query.end);
+        }
       }
     );
     this.subscription.add(sub);
@@ -117,7 +123,7 @@ export class FormComponent implements OnInit,OnDestroy {
   // Submit form 
   onSubmit() {
     this.query.metric = this.selectedMetrics.toString();
-    this.query.sanitize();
+    this.query.sanitize(this.start, this.end);
     this.router.navigate(['../map'], { queryParams: this.query});
   }
 }
