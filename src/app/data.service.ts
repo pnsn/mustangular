@@ -52,7 +52,7 @@ export class DataService {
     let minIndex = Math.ceil(.05 * length) - 1;
     let maxIndex = Math.floor(0.95 * length); 
     return {
-        "max" : length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 0,
+        "max" : length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 1,
         "min" : length > 0 && values[minIndex]? +values[minIndex].toFixed(2) : 0,
         "count" : minIndex == maxIndex || values[minIndex] == values[maxIndex] ? 1 : 5
     }
