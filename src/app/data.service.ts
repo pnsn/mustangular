@@ -48,14 +48,13 @@ export class DataService {
   // Calculates 5th and 95th percentile of data
   // gets weird when there's only a few values
   private initialBinning(values:number[]) : any {
-    let length = values.length;
-    let min = Math.ceil(.05 * length);
-    let max = Math.floor(0.95 * length); 
-
+    let length = values.length; 
+    let minIndex = Math.ceil(.05 * length) - 1;
+    let maxIndex = Math.floor(0.95 * length); 
     return {
-        "max" : length > 0 && values[max]? +values[max].toFixed(2) : 0,
-        "min" : length > 0 && values[min]? +values[min].toFixed(2) : 0,
-        "count" : min == max || values[min] == values[max] ? 0 : 5
+        "max" : length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 0,
+        "min" : length > 0 && values[minIndex]? +values[minIndex].toFixed(2) : 0,
+        "count" : minIndex == maxIndex || values[minIndex] == values[maxIndex] ? 1 : 5
     }
   }
   

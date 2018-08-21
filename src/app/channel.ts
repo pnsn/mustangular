@@ -29,7 +29,7 @@ export class Channel {
       let values = [];
     
       for (let measurement of this.measurements) {
-        values.push(measurement.value);
+        values.push(+measurement.value);
       }
   
       values.sort(function(a, b){return a - b});
@@ -69,9 +69,9 @@ export class Channel {
       }
       let average = sum/this.values.length;
       this.average = average;
+
     }
     return this.average;
-
   }
   
   // Returns requested percentile, probably
