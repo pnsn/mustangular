@@ -65,7 +65,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-For projects in subdirectories, include a base=href: `ng build --prod --base-href /mustang/mustangular/`
+For projects in subdirectories, include a base-href: `ng build --prod --base-href /mustang/mustangular/`
 
 Copy files from 'dist' directory to install on a server. 
 
