@@ -61,10 +61,6 @@ The key has checkboxes for each "bin" that allows users to toggle the correspond
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Building and Deployment
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
@@ -72,8 +68,4 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 For projects in subdirectories, include a base=href: `ng build --prod --base-href /mustang/mustangular/`
 
 Copy files from 'dist' directory to install on a server. 
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
