@@ -16,6 +16,8 @@ export class ParametersService {
   
   private query = new Subject<Query>(); // Subscribeable query parameters
   private display : Display = new Display(); // Display information
+  private start : string;
+  private end : string;
   
   // Returns query parameters
   getQuery() : Observable<Query> {
@@ -25,6 +27,14 @@ export class ParametersService {
   // Returns display parameters
   getDisplay() : any {
     return this.display;
+  }
+  
+  // Returns query start and end times
+  getQueryDates() : any {
+    return { 
+      "start": this.start,
+      "end" : this.end
+    }
   }
   
   // Sets display with url parameters
@@ -61,6 +71,10 @@ export class ParametersService {
             pa.end,
             pa.metric
           );
+          
+          this.start = query.start;
+          this.end = query.end;
+          
           this.setDisplay(pa);
           this.query.next(query);
         }

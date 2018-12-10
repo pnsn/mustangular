@@ -7,6 +7,8 @@ import { Station } from '../station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Metric } from '../metric';
 import { Subscription } from "rxjs";
+import { ParametersService } from '../parameters.service';
+
 @Component({
   selector: 'app-station',
   template: ''
@@ -17,22 +19,26 @@ export class StationComponent implements OnInit, OnDestroy {
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public parametersService: ParametersService
   ) {}
 
   activeStation : Station; // Selected station
   metrics: Metric[]; // Copy of all metric data
   activeMetric : Metric; // Currently active metric
   subscription : Subscription = new Subscription(); // Handles connections
+  dates : any;
+  
   ngOnInit() {
     // Get station when it is selected
     const sub = this.makeMarkersService.getActiveStation().subscribe(
       activeStation => { 
         if(activeStation){
           this.activeStation = activeStation;
+          this.dates = this.parametersService.getQueryDates();
           this.openStationDialog();
+          
         }
-
       }
     );
     
@@ -43,7 +49,8 @@ export class StationComponent implements OnInit, OnDestroy {
       activeMetric => {
         this.activeMetric = Object.assign(activeMetric);
         this.metrics = this.dataService.getMetrics();
-    });
+      }
+    );
     
     this.subscription.add(sub1);
   }
@@ -55,8 +62,7 @@ export class StationComponent implements OnInit, OnDestroy {
   // Formats data for chart
   convertDataToChart(station : Station) : any{
     let results = [];
-    let start,end : Date;
-
+    
     for (let c in station.channels){
       let chan = station.channels[c];
       
@@ -64,27 +70,21 @@ export class StationComponent implements OnInit, OnDestroy {
         name: chan.name,
         series:[]
       }
-      for (let m of chan.measurements){
-        let newDate = new Date(m.start);
-        if (!start || newDate < start){
-          start = newDate;
-        } else if (!end || newDate > end){
-          end = newDate;
-        }
-
+      
+      for (let m of chan.measurements) {
+        let date = new Date(m.start);
+        //adjusts for browsers wanting to use local time
+        let adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+        
         ch.series.push({
           value: m.value,
           name: newDate
         });
         
       }
-      results.push(ch)
+      results.push(ch);
     }
-    return {
-      "values": results,
-      "start": start.toISOString().replace(/T.*$/gim, ""),
-      "end" : end.toISOString().replace(/T.*$/gim, "")
-    };
+    return results;
   }
 
 
@@ -95,9 +95,9 @@ export class StationComponent implements OnInit, OnDestroy {
       data: {
         station: this.activeStation,
         metric: this.activeMetric,
-        values: results.values,
-        start: results.start,
-        end: results.end
+        values: results,
+        start: this.dates.start,
+        end: this.dates.end
       },
       width: '80%',
       height: '60%'
@@ -134,7 +134,7 @@ export class StationDialog {
     select(event) : void {
       if(typeof event === 'string' || event instanceof String) {
         let url = "https://service.iris.edu/mustang/noise-pdf/1/query?target=";
-        window.open(url + this.station.code +"."+ event + "." + this.station.qual + 
+        window.open(url + this.station.code +"."+ event + "." + this.station.qual +
         "&starttime=" + this.data.start + "&endtime=" +this.data.end+"&format=plot");
       }
     }
