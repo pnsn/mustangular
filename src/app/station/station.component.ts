@@ -62,7 +62,6 @@ export class StationComponent implements OnInit, OnDestroy {
   // Formats data for chart
   convertDataToChart(station : Station) : any{
     let results = [];
-    
     for (let c in station.channels){
       let chan = station.channels[c];
       
@@ -72,13 +71,13 @@ export class StationComponent implements OnInit, OnDestroy {
       }
       
       for (let m of chan.measurements) {
-        let date = new Date(m.start);
+        let date = new Date(m.start + "Z");
         //adjusts for browsers wanting to use local time
-        let adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
-        
+        let adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        console.log(adjustedDate)
         ch.series.push({
           value: m.value,
-          name: newDate
+          name: adjustedDate
         });
         
       }
