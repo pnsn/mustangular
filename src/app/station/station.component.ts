@@ -74,7 +74,6 @@ export class StationComponent implements OnInit, OnDestroy {
         let date = new Date(m.start + "Z");
         //adjusts for browsers wanting to use local time
         let adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-        console.log(adjustedDate)
         ch.series.push({
           value: m.value,
           name: adjustedDate
