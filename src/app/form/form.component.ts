@@ -2,10 +2,9 @@
 
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Query } from '../query';
-import { MetricsService } from '../metrics.service';
-import { Metric } from '../metric';
+import { MetricsService } from '../shared/metrics.service';
 import { Router } from '@angular/router';
-import { ParametersService } from '../parameters.service';
+import { ParametersService } from '../shared/parameters.service';
 import { Subscription } from "rxjs";
 import * as moment from 'moment';
 

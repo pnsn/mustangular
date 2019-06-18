@@ -3,9 +3,8 @@
 import { Injectable } from '@angular/core';
 import { Subject ,  Observable } from 'rxjs';
 import { ActivatedRoute} from '@angular/router';
-import { Location } from '@angular/common';
-import { Query } from './query';
-import { Display } from './display'
+import { Query } from '../query';
+import { Display } from '../display'
 
 @Injectable()
 export class ParametersService {
@@ -41,11 +40,13 @@ export class ParametersService {
   setDisplay( params  : any) : void{
     let d = this.display;
     d.coloring = params.coloring;
+    console.log(params)
     d.binning = {
-      "count" : Number(params.bincount),
-      "min" : Number(params.binmin),
-      "max" : Number(params.binmax) 
+      "count" : isNaN(+params.bincount) ? null : +params.bincount,
+      "min" : isNaN(+params.binmin) ? null : +params.binmin,
+      "max" : isNaN(+params.binmax) ? null : +params.binmax
     };
+    console.log(d.binning)
     d.invert = params.invert == "true" ? true : false;
     d.displayValue = params.value; 
     d.channels.active = params.channels ? params.channels.split() : null; 

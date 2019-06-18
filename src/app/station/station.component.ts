@@ -1,13 +1,13 @@
 // Generates station graphs
 
 import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
-import { MakeMarkersService } from '../make-markers.service'
-import { DataService} from '../data.service';
+import { MakeMarkersService } from '../shared/make-markers.service'
+import { DataService} from '../shared/data.service';
 import { Station } from '../station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Metric } from '../metric';
 import { Subscription } from "rxjs";
-import { ParametersService } from '../parameters.service';
+import { ParametersService } from '../shared/parameters.service';
 
 @Component({
   selector: 'app-station',
@@ -121,7 +121,7 @@ export class StationDialog {
     xAxisLabel = "Measurement Start Date";
     yAxisLabel = this.metric.unit;
     
-    legendTitle = "Click to view PDF";
+    legendTitle = "Click to view PSD-PDF";
     
     colorScheme = {
       domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]

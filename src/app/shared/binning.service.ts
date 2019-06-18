@@ -1,11 +1,9 @@
 // Generates bins to color map icons
 
-import { Injectable } from '@angular/core';
-import { Bin } from './bin';
+import { Bin } from '../bin';
 import * as Rainbow from 'rainbowvis.js'
 import { Subject ,  Observable } from 'rxjs';
 
-@Injectable()
 export class BinningService {
 
     constructor() {}
@@ -131,10 +129,15 @@ export class BinningService {
         rainbow.setSpectrumByArray(coloring.colors);
       }
 
-      var max;
+      var max; //if its the last bin, make it position 0.5
       for (var i = 0; i < binning.count; i++) {
           max = Math.round((min + binWidth)*100)/100;
-          bins.push( new Bin (0, "#" + rainbow.colorAt(i), 0,  "icon-group-" + (i + 1), max, min));
+          if ( i == binning.count - 1 ){
+            bins.push( new Bin (0, "#" + rainbow.colorAt(i), 0.5,  "icon-group-" + (i + 1), max, min));
+          } else {
+            bins.push( new Bin (0, "#" + rainbow.colorAt(i), 0,  "icon-group-" + (i + 1), max, min));
+          }
+
           min = max;
       }
   
@@ -144,6 +147,7 @@ export class BinningService {
       //No data
       bins.push( new Bin (0, coloring.outliers[2], 2, "no-data" + (binning.count + 2), 0 ,0));
   
+      console.log(bins)
       return bins;
     }
 }

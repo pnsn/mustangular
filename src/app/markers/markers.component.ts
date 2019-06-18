@@ -1,11 +1,10 @@
 // Generates the leaflet map and the markers on it
-import { Component, OnInit, OnChanges, SimpleChanges, ElementRef, OnDestroy} from '@angular/core';
-import { icon, divIcon, latLng, latLngBounds, marker, polyline, tileLayer } from 'leaflet';
+import { Component, OnInit, ElementRef, OnDestroy} from '@angular/core';
+import { latLngBounds, tileLayer } from 'leaflet';
 import { Metric } from '../metric';
-import { MakeMarkersService } from '../make-markers.service'
-import { DataService} from '../data.service';
-import { BinningService } from '../binning.service';
-import { Bin } from '../bin';
+import { MakeMarkersService } from '../shared/make-markers.service'
+import { DataService} from '../shared/data.service';
+import { BinningService } from '../shared/binning.service';
 import { Subscription } from "rxjs";
 
 @Component({
@@ -31,9 +30,12 @@ export class MarkersComponent implements OnInit, OnDestroy {
 
   // Leaflet map options
   options = {
+    zoomSnap: "0.1",
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18, attribution: 'OSM' })
+        maxZoom: 18, 
+        attribution: 'OSM'
+      })
     ]
   };
   
@@ -107,8 +109,9 @@ export class MarkersComponent implements OnInit, OnDestroy {
       this.binningService.setActiveLayers(this.layers);
       
       // Zoom map to fit the bounds
-      if(this.makeMarkersService.getLatLons().length > 0) {
+      if(this.makeMarkersService.getLatLons().length > 0 && !this.fitBounds) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
+        //check if map has center 
         this.fitBounds.options = { padding: [400, 400] };
       }
       

@@ -27,7 +27,7 @@ export class Query {
 
     let queryKeys = keys ? keys : ["net","cha","sta","loc","qual","start","end","metric"];
     for (let key of queryKeys) {
-      if(this[key]){
+      if(this[key] && this[key].length > 0){
         str += "&" + key + "=" + this[key];
       }
     }

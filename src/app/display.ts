@@ -29,6 +29,7 @@ export class Display {
   displayValue : string;
   channels: any;
   invert: boolean;
+  displayType: string; // Binary/Percent/Other
   constructor(){
     
     // Data's max, min, and number of data points

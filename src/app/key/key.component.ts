@@ -1,7 +1,7 @@
 // Generates the key
 
 import { Component, OnInit } from '@angular/core';
-import { BinningService } from '../binning.service';
+import { BinningService } from '../shared/binning.service';
 import { Bin } from '../bin';
 
 @Component({

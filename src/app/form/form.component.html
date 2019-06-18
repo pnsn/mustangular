@@ -1,18 +1,20 @@
 <div id="form" fxLayoutAlign="center center">
     <mat-card fxFlex="100" fxFlex.gt-sm="60%">
         
-        <div id="form-title" fxFlex>
-          <h1>MUSTANGular v2.0</h1>
-          <p fxFlex="40">
-              An app for displaying IRIS MUSTANG metrics on a map.
-              <a href="https://github.com/pnsn/mustangular#mustangular">More info...</a>
-          </p>
+        <div id="form-title" >
+          <div fxLayout="row" fxLayoutAlign="space-between space-around">
+              <h1>MUSTANGular v2.0</h1>
+              <p fxFlex="40">
+                  An app for displaying IRIS MUSTANG metrics on a map.
+                  <a href="https://github.com/pnsn/mustangular#mustangular">More info...</a>
+              </p>
+          </div>
           <mat-divider></mat-divider>
           <h2> Enter your query below</h2>
         </div>
         
         <form #queryForm="ngForm" (ngSubmit)="onSubmit()" fxLayout='row' fxLayoutGap="3%">
-            <div fxFlex="47">
+            <div fxFlex="47" fxLayout='column'>
                 
                 <mat-form-field>
                     <input matInput placeholder="Network(s)" name="net" [(ngModel)]="query.net"

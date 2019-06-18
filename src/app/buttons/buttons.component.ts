@@ -3,7 +3,7 @@
 import { Component, OnInit , Input, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import { Metric } from '../metric';
-import { MeasurementsService } from '../measurements.service'
+import { MeasurementsService } from '../shared/measurements.service'
 
 @Component({
   selector: 'app-buttons',
@@ -30,7 +30,7 @@ export class ButtonsComponent implements OnInit {
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.metric.name + "&") + this.metric.display.toString();
+    selBox.value = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.metric.name) + this.metric.display.toString();
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();

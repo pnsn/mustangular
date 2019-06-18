@@ -1,5 +1,5 @@
 import { Component, OnInit, Input , Output, EventEmitter} from '@angular/core';
-import { BinningService } from '../binning.service';
+import { BinningService } from '../shared/binning.service';
 
 @Component({
   selector: 'app-coloring',

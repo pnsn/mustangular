@@ -13,10 +13,10 @@ import { FormComponent } from './form/form.component';
 import { StationComponent , StationDialog} from './station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MakeMarkersService } from './make-markers.service';
-import { BinningService } from './binning.service';
-import { ParametersService } from './parameters.service';
-import { DataService } from './data.service';
+import { MakeMarkersService } from './shared/make-markers.service';
+import { BinningService } from './shared/binning.service';
+import { ParametersService } from './shared/parameters.service';
+import { DataService } from './shared/data.service';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {
   MatAutocompleteModule,
@@ -51,6 +51,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ColoringComponent } from './coloring/coloring.component';
+import { RemoveUnderscorePipe } from './remove-underscore.pipe';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ColoringComponent } from './coloring/coloring.component';
     HelpDialog,
     KeyComponent,
     ButtonsComponent,
-    ColoringComponent
+    ColoringComponent,
+    RemoveUnderscorePipe
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@
 
 import { Component, OnInit, SimpleChanges, Inject} from '@angular/core';
 import { Metric } from '../metric';
-import { DataService } from '../data.service';
+import { DataService } from '../shared/data.service';
 import { Display } from '../display';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
@@ -27,8 +27,9 @@ export class ControlsComponent implements OnInit {
     "Minimum",
     "Maximum",
     "Average",
-    "5th Percentile",
-    "95th Percentile"
+    "Median",
+    "5th_Percentile",
+    "95th_Percentile"
   ]; // All possible display values for select
 
   ngOnInit() {

@@ -39,9 +39,8 @@
   background-color: $background;
   .title {
     color: $primary;
-    float:left;
     display: inline;
-    font-size: 30px;
+    font-size: 24px;
     margin-right: 15px;
   }
 }
@@ -49,13 +48,13 @@
 #query-info {
   list-style-type: none;
   margin: 0;
+  margin-top: 3px;
   font-size: 20px;
   color: $secondary;
   padding: 0px;
   
   li {
     display: inline;
-    padding:5px;
   }
   span {
     color: black;

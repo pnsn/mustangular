@@ -1,14 +1,14 @@
 // Initiates data requests and handles top info bar
 
 import { Component, OnInit , OnDestroy} from '@angular/core';
-import { MetricsService } from '../metrics.service';
+import { MetricsService } from '../shared/metrics.service';
 import { Metric } from '../metric';
-import { MeasurementsService } from '../measurements.service';
-import { StationsService } from '../stations.service';
+import { MeasurementsService } from '../shared/measurements.service';
+import { StationsService } from '../shared/stations.service';
 import { Query } from '../query';
-import { CombineMetricsService} from '../combine-metrics.service';
-import { ParametersService } from '../parameters.service';
-import { DataService } from '../data.service';
+import { CombineMetricsService} from '../shared/combine-metrics.service';
+import { ParametersService } from '../shared/parameters.service';
+import { DataService } from '../shared/data.service';
 import { Subscription } from "rxjs";
 import { Router } from '@angular/router';
 
@@ -16,7 +16,12 @@ import { Router } from '@angular/router';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  providers: [MetricsService, CombineMetricsService, MeasurementsService, StationsService, ParametersService]
+  providers: [MetricsService,
+              CombineMetricsService,
+              MeasurementsService,
+              StationsService,
+              ParametersService
+            ]
 })
 
 export class MapComponent implements OnInit,OnDestroy {

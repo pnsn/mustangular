@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Metric } from './metric';
+import { Metric } from '../metric';
 import { Subject ,  Observable } from 'rxjs';
 @Injectable()
 export class DataService {
@@ -51,10 +51,22 @@ export class DataService {
     let length = values.length; 
     let minIndex = Math.ceil(.05 * length) - 1;
     let maxIndex = Math.floor(0.95 * length); 
+
+    let max, min, count: number;
+    console.log(values[0], values[minIndex], values[maxIndex], values[length - 1])
+    if (values[minIndex] == values[0] && values[maxIndex] == values[length - 1]){ // 5%ile is min and 95%ile is max
+      count = 2;
+      console.log("min and max are %iles")
+    } else if (minIndex == maxIndex || values[maxIndex] - values[minIndex] < 1) { // small data set or range
+      count = 1;
+      console.log("small data or range")
+    } else {
+      count = 3;
+    }
     return {
         "max" : length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 1,
         "min" : length > 0 && values[minIndex]? +values[minIndex].toFixed(2) : 0,
-        "count" : minIndex == maxIndex || values[minIndex] == values[maxIndex] ? 1 : 5
+        "count" : count
     }
   }
   
@@ -102,8 +114,11 @@ export class DataService {
       } else {
         display.coloring = "red_to_green";
       }
-      
-      if(this.parameters.binning && this.parameters.binning.max && this.parameters.binning.min && this.parameters.binning.count ){
+
+      if(this.parameters.binning &&
+          this.parameters.binning.max != null &&
+          this.parameters.binning.min != null &&
+          this.parameters.binning.count != null){
         display.binning = this.parameters.binning;
       } else {
         display.binning = this.initialBinning(values);

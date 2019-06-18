@@ -1,10 +1,10 @@
 // Takes a metric and the bins and creates marker layers for the map
 
 import { Injectable, NgZone } from '@angular/core';
-import { Metric } from './metric';
+import { Metric } from '../metric';
 import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
-import { Station } from './station'
-import { Bin } from './bin';
+import { Station } from '../station'
+import { Bin } from '../bin';
 import { Subject ,  Observable } from 'rxjs';
 
 @Injectable()
@@ -86,12 +86,22 @@ export class MakeMarkersService {
     let activeBin : Bin;
     
     // Sort station into a bin
-    for (let bin of this.bins){
+    for (let binIndex in this.bins){
+      let bin = this.bins[+binIndex];
       if (value === null) {
-        activeBin = this.bins[this.bins.length - 1];
-      } else if (value >= bin.min && value < bin.max || bin.position == 1 && value == bin.max){
+        activeBin = this.bins[this.bins.length - 1]; //last bin for no data
+      } else if (+binIndex === this.bins.length - 2 && value > bin.min || 
+                +binIndex === this.bins.length - 3 && value <= bin.max || 
+                value >= bin.min && value < bin.max ) {//inclusive on upper end
         activeBin = bin;
       } 
+
+      //make inclusive on upper end - so the bin 3 from the end?
+      // min bin
+      // other bins
+      // almost last
+      // max bin
+      // no data
       
       if(activeBin) {
         activeBin.count++;

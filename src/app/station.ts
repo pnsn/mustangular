@@ -92,11 +92,15 @@ export class Station {
                   this.displayValue = channel.getAverage();
                   break;
                 }
-                case "5th Percentile" : {
+                case "Median" : {
+                  this.displayValue = channel.getMedian();
+                  break;
+                }
+                case "5th_Percentile" : {
                   this.displayValue = channel.getPercentile(5);
                   break;
                 }
-                case "95th Percentile" : {
+                case "95th_Percentile" : {
                   this.displayValue = channel.getPercentile(95);
                   break;
                 }
