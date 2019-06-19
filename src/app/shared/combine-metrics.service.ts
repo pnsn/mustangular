@@ -28,7 +28,7 @@ export class CombineMetricsService {
       // Create a new metric object (See: metric.ts)
       let unit = metric.tables[0].columns[0].description.replace(/\.*<\/*p>/g, "");
       let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, unit);
-      
+
       if(measurements[metric.name]) {
         // Sort through measurements and add them to correct metric
         for (let m of measurements[metric.name]){

@@ -21,6 +21,7 @@ export class Metric {
   ) {
     this.display = new Display();
     this.stations = {}
+    this.setDisplayType();
   }
   
   display : Display; // Metric's display settings
@@ -82,5 +83,17 @@ export class Metric {
       }
     }
     this.display.channels.active = availableChannels.filter(channel => activeChannels.indexOf(channel) > -1);
+  }
+
+  private setDisplayType() : void{
+    let dType : string;
+    if( this.description.search(/percent/i) > -1 ) {
+      dType = "percent";
+    } else if ( this.description.search(/boolean/i) > -1 ) {
+      dType = "boolean";
+    } else if ( this.description.search(/polarity/i) > -1 ) {
+      dType = "polarity";
+    }
+    this.display.displayType = dType;
   }
 }

@@ -47,25 +47,48 @@ export class DataService {
   
   // Calculates 5th and 95th percentile of data
   // gets weird when there's only a few values
-  private initialBinning(values:number[]) : any {
+  private initialBinning(values:number[], displayType?: string) : any {
     let length = values.length; 
-    let minIndex = Math.ceil(.05 * length) - 1;
-    let maxIndex = Math.floor(0.95 * length); 
-
+    let minIndex : number;  
+    let maxIndex : number;
     let max, min, count: number;
-    console.log(values[0], values[minIndex], values[maxIndex], values[length - 1])
-    if (values[minIndex] == values[0] && values[maxIndex] == values[length - 1]){ // 5%ile is min and 95%ile is max
-      count = 2;
-      console.log("min and max are %iles")
-    } else if (minIndex == maxIndex || values[maxIndex] - values[minIndex] < 1) { // small data set or range
-      count = 1;
-      console.log("small data or range")
-    } else {
-      count = 3;
+
+    // Find max and min values - default to %iles unless specified
+    switch (displayType) {
+      case "percent" :
+        min = 0;
+        max = 100;
+        count = 5;
+        break;
+      case "boolean":
+        min = 0;
+        max = 1;
+        count = 2;
+        break;
+      case "polarity" :
+        min = -1;
+        max = 1;
+        count = 2;
+        break;
+      default: 
+        minIndex = Math.ceil(.05 * length) - 1;
+        maxIndex = Math.floor(0.95 * length); 
+        min = length > 0 && values[minIndex]? +values[minIndex].toFixed(2) : 0;
+        max = length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 1;
+
+        if(length == 0 || minIndex === maxIndex ) { // small dataset
+          count = 1;
+        } else if (values[maxIndex] - values[minIndex] < 2) { // range
+          count = 2;
+        } else {
+          count = 3;
+        }
+        break;
     }
+
     return {
-        "max" : length > 0 && values[maxIndex]? +values[maxIndex].toFixed(2) : 1,
-        "min" : length > 0 && values[minIndex]? +values[minIndex].toFixed(2) : 0,
+        "max" : max,
+        "min" : min,
         "count" : count
     }
   }
@@ -121,7 +144,7 @@ export class DataService {
           this.parameters.binning.count != null){
         display.binning = this.parameters.binning;
       } else {
-        display.binning = this.initialBinning(values);
+        display.binning = this.initialBinning(values, display.displayType);
       }
       
       metric.display = display;
