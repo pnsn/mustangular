@@ -4,7 +4,7 @@ import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Metric } from '../metric'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, filter } from 'rxjs/operators';
 
 @Injectable()
 export class MetricsService {
@@ -14,8 +14,8 @@ export class MetricsService {
   ) {}
   
   // Returns metrics
-  private mapMetrics(response: any): any{
-    return response.metrics;
+  private mapMetrics(response: any): Metric[]{
+    return response.metrics.filter(m => m.name != "metric_error");
   }
 
   // Gets requested metric data

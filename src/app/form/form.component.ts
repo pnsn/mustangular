@@ -5,14 +5,30 @@ import { Query } from '../query';
 import { MetricsService } from '../shared/metrics.service';
 import { Router } from '@angular/router';
 import { ParametersService } from '../shared/parameters.service';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { Subscription } from "rxjs";
 import * as moment from 'moment';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: "YYYY-MM-DD",
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'YYYY-MM-DD',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  providers: [MetricsService, ParametersService]
+  providers: [MetricsService,
+              ParametersService,
+              { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+            ]
 })
 
 export class FormComponent implements OnInit,OnDestroy {
@@ -33,6 +49,7 @@ export class FormComponent implements OnInit,OnDestroy {
   message : string; // Error messages
   start : moment.Moment;
   end : moment.Moment;
+
   ngOnInit() {
     
     // Get metrics to populate form
@@ -87,6 +104,10 @@ export class FormComponent implements OnInit,OnDestroy {
   // Store selected metric
   onMetricSelect(event) : void {
     this.selectedMetrics = event;
+  }
+
+  onClearMetrics() {
+    this.selectedMetrics = [];
   }
   
   // Take a string and make it capitalized 

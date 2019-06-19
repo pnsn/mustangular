@@ -28,7 +28,7 @@ export class MeasurementsService {
     this.url += queryString;
     
     let measurementsURL = this.url;
-    
+    console.log(measurementsURL);
     if (type){
       measurementsURL += "&output=type";
     } else {

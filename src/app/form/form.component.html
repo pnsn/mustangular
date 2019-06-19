@@ -72,23 +72,31 @@
                   </mat-form-field>
                 </div>
                 
-                <span class="info-text" fxFlex>Dates start at beginning of day.</span>
+                <span class="info-text" fxFlex>Dates (YYYY-MM-DD) start at beginning of day.</span>
                 
             </div>
             
-            <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
-                
-              <span *ngIf="selectedMetrics.length==0" class="info-text warning"> 
-                Select one or more metrics *
-              </span>
+            <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start"> 
               
-              <span *ngIf="selectedMetrics.length==1" class="info-text status">
-                1 metric selected
-              </span>
-              
-              <span *ngIf="selectedMetrics.length> 1" class="info-text status">
-                {{selectedMetrics.length}} metrics selected.
-              </span> 
+              <div [ngSwitch]="selectedMetrics.length" fxLayout="row" fxLayoutAlign="space-between center" id="selectedMetricsContainer">
+                  <span *ngSwitchCase="0" class="warning info-text">
+                      Select one or more metrics *
+                  </span>
+                  <span *ngSwitchCase="1" class="status info-text">
+                      1 metric selected
+                  </span>
+                  <span *ngSwitchDefault class="status info-text">
+                      {{selectedMetrics.length}} metrics selected
+                  </span>
+                  <div id="clearMetrics" class="mat-form-field-suffix">
+                      <button mat-button mat-icon-button matSuffix aria-label="Clear" *ngIf="selectedMetrics.length > 0" (click)="onClearMetrics()">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                  </div>
+
+              </div>
+
+
                      
                 <mat-selection-list [ngModel]="selectedMetrics" (ngModelChange)="onMetricSelect($event)" name="metric">
                   <div fxLayout="column" *ngIf="loading" fxLayoutAlign="center center">

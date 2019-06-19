@@ -1,6 +1,6 @@
 // Generates the leaflet map and the markers on it
 import { Component, OnInit, ElementRef, OnDestroy} from '@angular/core';
-import { latLngBounds, tileLayer } from 'leaflet';
+import { latLngBounds, tileLayer , Map} from 'leaflet';
 import { Metric } from '../metric';
 import { MakeMarkersService } from '../shared/make-markers.service'
 import { DataService} from '../shared/data.service';
@@ -36,7 +36,8 @@ export class MarkersComponent implements OnInit, OnDestroy {
         maxZoom: 18, 
         attribution: 'OSM'
       })
-    ]
+    ],
+    preferCanvas: true
   };
   
   layersControl = {
@@ -84,6 +85,10 @@ export class MarkersComponent implements OnInit, OnDestroy {
   // Close connections when navigating away
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onMapReady(map: Map) {
+
   }
   
   // Make the markers for the map

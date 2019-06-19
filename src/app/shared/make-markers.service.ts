@@ -125,10 +125,10 @@ export class MakeMarkersService {
     let value = station.displayValue;
     value = Math.round(value * 10 ) / 10;
 
-    let string = "<h3>" + station.net + "." + station.sta + "</h3>" 
-    + "<span> Click to view data</span>"
-    + "<div> Value: ("+station.displayChannel+ ") " + value 
-    + "<div> Channels: <ul id='channel-list'>";
+    let string = "<h3>" + station.net + "." + station.sta + "</h3>" + 
+                "<span> Click to view data</span>" +
+                "<div> Value: ("+station.displayChannel+ ") " + value +
+                "<div> Channels: <ul id='channel-list'>";
     
     for (let c in station.channels ) {
       let channel = station.channels[c];
