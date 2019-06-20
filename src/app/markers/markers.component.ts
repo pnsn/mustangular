@@ -28,21 +28,23 @@ export class MarkersComponent implements OnInit, OnDestroy {
   fitBounds: any; // Bounds to zoom map to
   layers : any = {}; // Layer statuses
 
+  baseLayer = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18, 
+    attribution: 'OSM'
+  });
   // Leaflet map options
   options = {
-    zoomSnap: "0.1",
+    zoomSnap: 0.5,
+    zoomDelta: 0.5,
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18, 
-        attribution: 'OSM'
-      })
+      this.baseLayer
     ],
     preferCanvas: true
   };
   
   layersControl = {
     baseLayers: {
-  		'Street Map': tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'OpenStreetMap' }),
+  		'Street Map': this.baseLayer,
     	'Black and White': tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'OpenStreetMap' }),
       'World Topo' : tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {maxZoom: 18,
 	        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'}),

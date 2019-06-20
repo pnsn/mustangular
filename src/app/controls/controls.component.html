@@ -49,15 +49,15 @@
 
             <div fxLayout="row" fxLayoutGap="5px">
                 <mat-form-field class="binning">
-                    <input matInput required type="number" placeholder="Min = {{display.data.min | number : '1.2-2'}}" [(ngModel)]="display.binning.min" (ngModelChange)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
+                    <input matInput required type="number" placeholder="Min = {{display.data.min | number : '1.2-2'}}" [(ngModel)]="display.binning.min" (change)="valueChanged()" max="{{display.binning.max - 1}}" name="minimum">
                 </mat-form-field>
                 
                 <mat-form-field class="binning">
-                    <input matInput required type="number" placeholder="Max = {{display.data.max | number : '1.2-2'}}" [(ngModel)]="display.binning.max" (ngModelChange)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
+                    <input matInput required type="number" placeholder="Max = {{display.data.max | number : '1.2-2'}}" [(ngModel)]="display.binning.max" (change)="valueChanged()" min="{{display.binning.min + 1}}" name="maximum">
                 </mat-form-field>
 
                 <mat-form-field class="binning">
-                    <input matInput required type="number" placeholder="Number of bins" [(ngModel)]="display.binning.count" (ngModelChange)="valueChanged()" min="1" max="25" name="count">
+                    <input matInput required type="number" placeholder="Number of bins" [(ngModel)]="display.binning.count" (change)="valueChanged()" min="1" max="25" name="count">
                 </mat-form-field>
             </div>
 
@@ -74,8 +74,6 @@
                 </div>
 
         </div>
-
-
 
         <mat-divider></mat-divider>
         

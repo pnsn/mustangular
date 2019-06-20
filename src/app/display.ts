@@ -29,7 +29,7 @@ export class Display {
   displayValue : string;
   channels: any;
   invert: boolean;
-  displayType: string; // Binary/Percent/Other
+  displayType: string; // Binary/Percent
   constructor(){
     
     // Data's max, min, and number of data points
@@ -72,6 +72,18 @@ export class Display {
       "&value=" + this.displayValue + 
       "&channels=" + this.channels.active; 
     return  string ;
+  }
+
+  toParams() : any {
+    return {
+      "coloring" : this.coloring,
+      "invert" : this.invert, 
+      "bincount" : this.binning.count,
+      "binmin" : this.binning.min,
+      "binmax" : this.binning.max, 
+      "value" : this.displayValue,
+      "channels" : this.channels.active
+    };
   }
 }
 

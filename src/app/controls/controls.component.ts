@@ -6,17 +6,19 @@ import { Metric } from '../metric';
 import { DataService } from '../shared/data.service';
 import { Display } from '../display';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { ParametersService } from '../shared/parameters.service';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
-  styleUrls: ['./controls.component.scss']
+  styleUrls: ['./controls.component.scss'] 
 })
 
 export class ControlsComponent implements OnInit {
   
   constructor(
     public dialog: MatDialog,
-    private dataService: DataService
+    private dataService: DataService,
+    private parametersService : ParametersService
   ) {}
   
   metrics: Metric[]; // Copy of all metric data
@@ -52,7 +54,7 @@ export class ControlsComponent implements OnInit {
         channels: this.display.channels.available,
         options: {  
           onUpdate: (event: any) => {
-            this.valueChanged();
+            // this.valueChanged();
           },
           ghostClass: "ghost",
           chosenClass: "chosen"
@@ -63,6 +65,7 @@ export class ControlsComponent implements OnInit {
     
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        this.valueChanged();
         this.display.channels.available = result;
       }
     });
@@ -93,6 +96,7 @@ export class ControlsComponent implements OnInit {
   
   // Activate submit button
   valueChanged(){
+    this.parametersService.updateUrl(this.activeMetric.display);
     this.changed = true;
   }
   

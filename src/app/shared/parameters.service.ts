@@ -1,8 +1,8 @@
 // Gets parameters from URL
 
 import { Injectable } from '@angular/core';
-import { Subject ,  Observable } from 'rxjs';
-import { ActivatedRoute} from '@angular/router';
+import { Subject ,  Observable , Subscription} from 'rxjs';
+import { ActivatedRoute, Router} from '@angular/router';
 import { Query } from '../query';
 import { Display } from '../display'
 
@@ -10,7 +10,8 @@ import { Display } from '../display'
 export class ParametersService {
   
   constructor (
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private router: Router
   ){}
   
   private query = new Subject<Query>(); // Subscribeable query parameters
@@ -24,8 +25,20 @@ export class ParametersService {
   }
 
   // Returns display parameters
-  getDisplay() : any {
+  getDisplay() : Display {
     return this.display;
+  }
+
+  updateUrl(changedDisplay : any) : void {
+    console.log("update url", changedDisplay.toParams());
+
+    this.router.navigate(
+      [], 
+      {
+        relativeTo: this.route,
+        queryParams: changedDisplay.toParams(), 
+        queryParamsHandling: "merge", 
+      });
   }
   
   // Returns query start and end times
@@ -49,14 +62,14 @@ export class ParametersService {
     console.log(d.binning)
     d.invert = params.invert == "true" ? true : false;
     d.displayValue = params.value; 
-    d.channels.active = params.channels ? params.channels.split() : null; 
-    d.channels.available = params.cha ? params.cha.split() : null;
+    d.channels.active = params.channels && params.channels.length > 1 ? params.channels.split() : params.channels; 
+    d.channels.available = params.cha ? params.cha.split() : null; //does this ever get used
     this.display = d;
   }
   
   // Grab query parameters from URL
   setQueryParameters() : void {
-    this.route.queryParamMap
+    let queryParamMap : Subscription = this.route.queryParamMap
       .subscribe(params => {
         if(params && params["params"]){
           var pa = params["params"];
@@ -72,7 +85,7 @@ export class ParametersService {
             pa.end,
             pa.metric
           );
-          
+          console.log(query)
           this.start = query.start;
           this.end = query.end;
           
@@ -80,6 +93,7 @@ export class ParametersService {
           this.query.next(query);
         }
       });
+      queryParamMap.unsubscribe();
   }
 
 }
