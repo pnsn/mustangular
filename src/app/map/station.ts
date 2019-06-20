@@ -10,7 +10,6 @@
 //   channels: any
 // }
 
-import { Channel } from './channel'
 export class Station {
   
     constructor (

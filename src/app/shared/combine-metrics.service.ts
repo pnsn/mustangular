@@ -2,10 +2,10 @@
 
 import { Injectable} from '@angular/core';
 import { Subject ,  Observable} from 'rxjs';
-import { Metric } from '../metric';
-import { Channel } from '../channel';
-import { Measurement } from '../measurement';
-import { Station } from '../station';
+import { Metric } from '../map/metric';
+import { Channel } from '../map/channel';
+import { Measurement } from '../map/measurement';
+import { Station } from '../map/station';
 @Injectable()
 export class CombineMetricsService {
 

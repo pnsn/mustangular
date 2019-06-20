@@ -2,7 +2,7 @@
 
 import { Component, OnInit , OnDestroy} from '@angular/core';
 import { MetricsService } from '../shared/metrics.service';
-import { Metric } from '../metric';
+import { Metric } from './metric';
 import { MeasurementsService } from '../shared/measurements.service';
 import { StationsService } from '../shared/stations.service';
 import { Query } from '../query';

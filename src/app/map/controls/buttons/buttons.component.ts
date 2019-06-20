@@ -2,8 +2,8 @@
 
 import { Component, OnInit , Input, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
-import { Metric } from '../metric';
-import { MeasurementsService } from '../shared/measurements.service'
+import { Metric } from '../../metric';
+import { MeasurementsService } from '../../../shared/measurements.service'
 
 @Component({
   selector: 'app-buttons',

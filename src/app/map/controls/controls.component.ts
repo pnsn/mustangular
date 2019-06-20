@@ -3,10 +3,10 @@
 
 import { Component, OnInit, SimpleChanges, Inject} from '@angular/core';
 import { Metric } from '../metric';
-import { DataService } from '../shared/data.service';
+import { DataService } from '../../shared/data.service';
 import { Display } from '../display';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { ParametersService } from '../shared/parameters.service';
+import { ParametersService } from '../../shared/parameters.service';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -14,7 +14,6 @@ import { ParametersService } from '../shared/parameters.service';
 })
 
 export class ControlsComponent implements OnInit {
-  
   constructor(
     public dialog: MatDialog,
     private dataService: DataService,

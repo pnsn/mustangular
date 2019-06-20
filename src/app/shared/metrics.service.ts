@@ -2,7 +2,7 @@
 
 import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Metric } from '../metric'
+import { Metric } from '../map/metric'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, filter } from 'rxjs/operators';
 

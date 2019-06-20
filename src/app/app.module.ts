@@ -10,7 +10,7 @@ import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
-import { StationComponent , StationDialog} from './station/station.component';
+import { StationComponent , StationDialog} from './map/markers/station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MakeMarkersService } from './shared/make-markers.service';
@@ -41,16 +41,16 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
-import { MarkersComponent } from './markers/markers.component';
-import { ControlsComponent, ChannelsDialog} from './controls/controls.component';
+import { MarkersComponent } from './map/markers/markers.component';
+import { ControlsComponent, ChannelsDialog} from './map/controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
-import { KeyComponent } from './key/key.component';
-import { ButtonsComponent, DownloadDialog, HelpDialog} from './buttons/buttons.component';
+import { KeyComponent } from './map/controls/key/key.component';
+import { ButtonsComponent, DownloadDialog, HelpDialog} from './map/controls/buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ColoringComponent } from './coloring/coloring.component';
+import { ColoringComponent } from './map/controls/coloring/coloring.component';
 import { RemoveUnderscorePipe } from './remove-underscore.pipe';
 
 @NgModule({

@@ -2,9 +2,9 @@
 import { Component, OnInit, ElementRef, OnDestroy} from '@angular/core';
 import { latLngBounds, tileLayer , Map} from 'leaflet';
 import { Metric } from '../metric';
-import { MakeMarkersService } from '../shared/make-markers.service'
-import { DataService} from '../shared/data.service';
-import { BinningService } from '../shared/binning.service';
+import { MakeMarkersService } from '../../shared/make-markers.service'
+import { DataService } from '../../shared/data.service';
+import { BinningService } from '../../shared/binning.service';
 import { Subscription } from "rxjs";
 
 @Component({

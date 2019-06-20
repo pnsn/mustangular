@@ -1,10 +1,10 @@
 // Takes a metric and the bins and creates marker layers for the map
 
 import { Injectable, NgZone } from '@angular/core';
-import { Metric } from '../metric';
+import { Metric } from '../map/metric';
 import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
-import { Station } from '../station'
-import { Bin } from '../bin';
+import { Station } from '../map/station'
+import { Bin } from '../map/bin';
 import { Subject ,  Observable } from 'rxjs';
 
 @Injectable()
