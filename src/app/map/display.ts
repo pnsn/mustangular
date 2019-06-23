@@ -60,9 +60,16 @@ export class Display {
       "available" : <string[]> null
     };
   }
+
+  private fixBins() : void {
+    this.binning.min = this.binning.min === null ? 0 : this.binning.min;
+    this.binning.max = this.binning.max === null ? 0 : this.binning.max;
+    this.binning.count = this.binning.count === null || this.binning.count <= 0 ? 1 : this.binning.count;
+  }
   
   //Returns a URL friendly string of the Display
   toString() : string {
+    this.fixBins();
     let string = 
       "&coloring=" + this.coloring +
       "&invert=" + this.invert + 
@@ -70,11 +77,12 @@ export class Display {
       "&binmin=" + this.binning.min +
       "&binmax=" + this.binning.max + 
       "&value=" + this.displayValue + 
-      "&channels=" + this.channels.active; 
+      "&channels=" + this.channels.active.toString(); 
     return  string ;
   }
 
   toParams() : any {
+    this.fixBins();
     return {
       "coloring" : this.coloring,
       "invert" : this.invert, 
@@ -82,7 +90,7 @@ export class Display {
       "binmin" : this.binning.min,
       "binmax" : this.binning.max, 
       "value" : this.displayValue,
-      "channels" : this.channels.active
+      "channels" : this.channels.active.toString()
     };
   }
 }
