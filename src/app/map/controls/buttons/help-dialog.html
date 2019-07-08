@@ -5,7 +5,7 @@
 <div mat-dialog-content id="help-dialog">
   <p>MUSTANGular is an Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)</p>
   
-  <a href="https://github.com/pnsn/mustangular" target="_blank">See GitHub for more information.</a>
+  <a href="https://github.com/pnsn/mustangular/wiki" target="_blank">See GitHub for more information.</a>
 
   <h2 id="generalinformation">General Information:</h2>
 
@@ -21,7 +21,7 @@
 
   <h3 id="displayvalues">Display Values:</h3>
 
-  <p>MUSTANGular displays data for a station using one channel at a time. (See: Channel Precendence) The display value indicates what value is shown for the station. Possible values are: </p>
+  <p>MUSTANGular displays data for a station using one channel at a time. (See: Channel Priority) The display value indicates what value is shown for the station. Possible values are: </p>
   <ul>
     <li>maximum : highest measurement for the channel</li>
     <li>minimum : lowest measurement for the channel</li>
@@ -39,11 +39,15 @@
 
   <p>The key has checkboxes for each "bin" that allows users to toggle the corresponding values on the map. The histogram on the key represents the proportion of stations that fall into that bin.</p>
   
-  <h3 id="key">Copy Link:</h3>
+  <h3>Station Chart:</h3>
+
+  <p>Clicking on a station will show a graph of the metric data over the selected time range.</p>
+  
+  <h3>Copy Link:</h3>
 
   <p>Saves a link to the current metric view to the user's clipboard.</p>
   
-  <h3 id="key">Download:</h3>
+  <h3>Download:</h3>
 
   <p>Opens the data in format of the selected file type in a new tab.</p>
 
