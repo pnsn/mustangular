@@ -146,8 +146,7 @@ export class BinningService {
 
       //No data
       bins.push( new Bin (0, coloring.outliers[2], 2, "no-data" + (binning.count + 2), 0 ,0));
-  
-      console.log(bins)
+
       return bins;
     }
 }

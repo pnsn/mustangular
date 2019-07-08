@@ -61,6 +61,7 @@ export class Display {
     };
   }
 
+  // Ensures there are values for binning
   private fixBins() : void {
     this.binning.min = this.binning.min === null ? 0 : this.binning.min;
     this.binning.max = this.binning.max === null ? 0 : this.binning.max;

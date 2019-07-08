@@ -28,7 +28,6 @@ export class MeasurementsService {
     this.url += queryString;
     
     let measurementsURL = this.url;
-    console.log(measurementsURL);
     if (type){
       measurementsURL += "&output=type";
     } else {
@@ -38,10 +37,7 @@ export class MeasurementsService {
     
     return this.http.jsonp(measurementsURL, 'callback')
       .pipe(
-        map(this.mapMeasurements),
-        catchError((error: Error) => {
-          return observableThrowError(error);
-        })
+        map(this.mapMeasurements)
       );
   }
 }

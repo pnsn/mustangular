@@ -3,14 +3,15 @@
 import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Metric } from '../map/metric'
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, filter } from 'rxjs/operators';
+import { HttpClient} from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
+
 export class MetricsService {
 
   constructor (
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
   
   // Returns metrics
@@ -23,13 +24,11 @@ export class MetricsService {
     var metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric)
       metricsURL += metric;
-    return this.http.jsonp(metricsURL,"callback")
+   
+    return this.http.jsonp(metricsURL, "callback")
       .pipe(
-        map(this.mapMetrics),
-        catchError((error: Error) => {
-          return observableThrowError(error);
-        })
-    );
+        map(this.mapMetrics)
+      );
   }
   
 

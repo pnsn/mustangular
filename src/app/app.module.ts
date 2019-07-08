@@ -52,6 +52,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ColoringComponent } from './map/controls/coloring/coloring.component';
 import { RemoveUnderscorePipe } from './remove-underscore.pipe';
+import { LoadingComponent } from './map/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { RemoveUnderscorePipe } from './remove-underscore.pipe';
     KeyComponent,
     ButtonsComponent,
     ColoringComponent,
-    RemoveUnderscorePipe
+    RemoveUnderscorePipe,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

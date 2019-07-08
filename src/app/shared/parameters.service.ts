@@ -30,8 +30,6 @@ export class ParametersService {
   }
 
   updateUrl(changedDisplay : any) : void {
-    console.log("update url", changedDisplay.toParams());
-
     this.router.navigate(
       [], 
       {
@@ -53,13 +51,11 @@ export class ParametersService {
   setDisplay( params  : any) : void{
     let d = this.display;
     d.coloring = params.coloring;
-    console.log(params)
     d.binning = {
       "count" : isNaN(+params.bincount) ? null : +params.bincount,
       "min" : isNaN(+params.binmin) ? null : +params.binmin,
       "max" : isNaN(+params.binmax) ? null : +params.binmax
     };
-    console.log(d.binning)
     d.invert = params.invert == "true" ? true : false;
     d.displayValue = params.value; 
     d.channels.active = params.channels && params.channels.length > 1 ? params.channels.split() : params.channels; 
@@ -85,7 +81,6 @@ export class ParametersService {
             pa.end,
             pa.metric
           );
-          console.log(query)
           this.start = query.start;
           this.end = query.end;
           

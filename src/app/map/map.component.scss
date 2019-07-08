@@ -1,32 +1,4 @@
 @import "styles.scss";
-.overlay {
-  position: absolute;
-  width:100%;
-  height:100%;
-  left:0;
-  top:0;
-  right:0;
-  bottom:0;
-  z-index:100;
-
-  .overlay-background {
-    width:100%;
-    height:100%;
-    position: absolute;
-    background-color:$background;
-  }
-
-  .overlay-message {
-    font-weight:normal;
-    font-size:30px;
-    z-index:101;  
-    display:inline-block;
-    color: $secondary;
-    fa {
-      color: $primary;
-    }
-  }
-}
 
 #header {
   font-family: "Helvetica Neue", sans-serif !important;

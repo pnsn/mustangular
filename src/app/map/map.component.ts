@@ -38,11 +38,16 @@ export class MapComponent implements OnInit,OnDestroy {
   
   query : Query; // Query parameters
   activeMetric : Metric; // Metric currently being viewed 
-  message: string; // Status display message
   inProgress: boolean = true; // Is data still being processed?
   subscription : Subscription = new Subscription(); // Handles connections
-  error: boolean = false; // Is there an error?
-  
+  status: {
+    message: string,
+    error: boolean,
+    info?: string
+  } = {
+    message: "Loading",
+    error: false
+  };
   ngOnInit() {
     
     // Wait for query parameters to be populated
@@ -70,14 +75,17 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Get list of available metrics from IRIS
   private getMetrics(): void {
-    this.message = "Requesting Metrics from MUSTANG.";
+    this.status.message = "Requesting Metrics from MUSTANG.";
     const sub = this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
       metrics => {
         this.getStations(this.query.getString(["net","sta"]), metrics);
       },
       err => {
-        this.message = "Unable to fetch Metrics from MUSTANG. Please return to form and try again."
-        this.error = true;
+        this.status = {
+          message: "Unable to fetch metric information from MUSTANG.",
+          error: true,
+          info: "This error occurs when an invalid metric is entered."
+        }
       }
     );
     this.subscription.add(sub);
@@ -85,14 +93,18 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Get list of all stations from IRIS FDSNWS
   private getStations(qString:string, metrics:Metric[]): void {
-    this.message = "Accessing FDSNWS Station Information.";
+    this.status.message = "Accessing FDSNWS Station Information.";
     const sub = this.stationsService.getStations(qString).subscribe(
       stations => {
         this.getMeasurements(this.query.getString(), metrics, stations);
       },
       err => {
-         this.message = "Unable to fetch station information from FDSNWS. Please check parameters and try again."
-        this.error = true;
+
+        this.status = {
+          message: "Unable to fetch station information from FDSNWS.",
+          error: true,
+          info: err.error
+        }
       }
     );
     this.subscription.add(sub);
@@ -100,14 +112,17 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Get measurements from MUSTANG
   private getMeasurements(qString:string, metrics:Metric[], stations:object): void {
-    this.message = "Requesting Measurements from MUSTANG.";
+    this.status.message = "Requesting Measurements from MUSTANG.";
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
         this.combineMetrics(measurements, stations, metrics);
       },
       err => {
-        this.message = "Unable to fetch Measurements from MUSTANG. Please return to form and try again."
-        this.error = true;
+        this.status = {
+          message: "Unable to fetch Measurements from MUSTANG.",
+          error: true,
+          info: "This error occurs if MUSTANG does not recognize one or more of the search parameters."
+        }
       }
     );
     this.subscription.add(sub);
@@ -115,13 +130,12 @@ export class MapComponent implements OnInit,OnDestroy {
   
   // Combine all the data and update status
   private combineMetrics(measurements:object, stations:object, metrics:Metric[]){
-    this.message = "Processing Data.";
+    this.status.message = "Processing Data.";
     // Wait for active metric
     this.dataService.getActiveMetric().subscribe(
       activeMetric => { 
         this.activeMetric = activeMetric;
-        this.inProgress = false;
-        this.message = "Processing Complete."; //hide the blocker thingy      
+        this.inProgress = false;    
       }
     );
     
@@ -132,11 +146,15 @@ export class MapComponent implements OnInit,OnDestroy {
           this.dataService.setDisplay(this.parametersService.getDisplay());
           this.dataService.setMetrics(metrics);
         } else {
-          this.message = "No data returned from MUSTANG. Please return to form and try again."
-          this.error = true;
+          this.status = {
+            message: "No data returned from MUSTANG.",
+            error: true,
+            info: "MUSTANG did not have any measurements with your specified parameters."
+          }
         }
       }
-    ) 
+    );
+
     this.subscription.add(sub);
     // Combine measurements/metrics/stations
     this.combineMetricsService.combineMetrics(measurements, stations, metrics);
