@@ -1,0 +1,21 @@
+<div class="overlay" fxLayout fxLayoutAlign="center center">
+  
+  <div class="overlay-message" fxLayout="column" >
+    <fa name="spinner" animation="spin" size="2x" fxFlexAlign="center" *ngIf="!status.error"></fa>
+    <button fxFlexAlign="center" mat-stroked-button color="primary" *ngIf="status.error" routerLink="/form" queryParamsHandling="merge">
+      Return to form
+    </button>
+    <p fxFlexAlign="center" [ngClass]="{'warning': error }">{{status.message}}</p>
+    <p *ngIf="status.error" class="info">
+      Please check input parameters and try again. 
+    </p>
+
+    <a *ngIf="status.info" (click)="showError = !showError">More info...</a>
+
+    <p *ngIf="showError && status.info && status.info" class="info">{{status.info}}</p>
+  </div>
+  
+  <div class="overlay-background"> </div>
+  
+</div>
+
