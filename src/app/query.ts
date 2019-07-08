@@ -9,6 +9,7 @@
 //   end: string,
 //   metric: string
 // }
+
 export class Query {
   constructor (
     public net?: string,

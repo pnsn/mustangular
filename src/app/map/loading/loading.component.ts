@@ -22,7 +22,7 @@ export class LoadingComponent implements OnInit {
         this.status.info = "Large requests may take several minutes to load. To reduce load times, try smaller date ranges, less metrics, or more specific queries.";
         this.showError = true;
       }
-    }, 1000 * 10); // after 20 seconds tell them requests take a while
+    }, 1000 * 15); // after 20 seconds tell them requests take a while
   }
 
 }
