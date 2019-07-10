@@ -13,7 +13,6 @@ export class LoadingComponent implements OnInit {
   };
   timeout;
   showError = false;
-  // error = "error";
   constructor() { }
 
   ngOnInit() {

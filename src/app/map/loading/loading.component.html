@@ -5,7 +5,7 @@
     <button fxFlexAlign="center" mat-stroked-button color="primary" *ngIf="status.error" routerLink="/form" queryParamsHandling="merge">
       Return to form
     </button>
-    <p fxFlexAlign="center" [ngClass]="{'warning': error }">{{status.message}}</p>
+    <p fxFlexAlign="center" [ngClass]="{'warning': status.error }">{{status.message}}</p>
     <p *ngIf="status.error" class="info">
       Please check input parameters and try again. 
     </p>
