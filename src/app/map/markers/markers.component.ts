@@ -2,10 +2,10 @@
 import { Component, OnInit, ElementRef, OnDestroy} from '@angular/core';
 import { latLngBounds, tileLayer , Map} from 'leaflet';
 import { Metric } from '../metric';
-import { MakeMarkersService } from '../../shared/make-markers.service'
+import { MakeMarkersService } from '../../shared/make-markers.service';
 import { DataService } from '../../shared/data.service';
 import { BinningService } from '../../shared/binning.service';
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-markers',
@@ -13,23 +13,23 @@ import { Subscription } from "rxjs";
   styleUrls: ['./markers.component.scss']
 })
 export class MarkersComponent implements OnInit, OnDestroy {
-  
+
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
     private binningService: BinningService,
-    private elementRef : ElementRef
+    private elementRef: ElementRef
   ) {}
-  
-  subscription : Subscription = new Subscription(); // Used to close connections
+
+  subscription: Subscription = new Subscription(); // Used to close connections
   activeMetric: Metric; // Currently viewed metric
-  overlays : any; // Active layers
-  overlayMaster : any; // All available layers
+  overlays: any; // Active layers
+  overlayMaster: any; // All available layers
   fitBounds: any; // Bounds to zoom map to
-  layers : any = {}; // Layer statuses
+  layers: any = {}; // Layer statuses
 
   baseLayer = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18, 
+    maxZoom: 18,
     attribution: 'OSM'
   });
   // Leaflet map options
@@ -41,7 +41,7 @@ export class MarkersComponent implements OnInit, OnDestroy {
     ],
     preferCanvas: true
   };
-  
+
   layersControl = {
     baseLayers: {
   		'Street Map': this.baseLayer,
@@ -51,30 +51,30 @@ export class MarkersComponent implements OnInit, OnDestroy {
       'World Imagery' : tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 18,
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
   	}
-  }
-  
+  };
+
   ngOnInit() {
     // Wait for active metric
     const sub = this.dataService.getActiveMetric().subscribe(
-      activeMetric => { 
-        if(activeMetric) {
+      activeMetric => {
+        if (activeMetric) {
           this.activeMetric = activeMetric;
           this.makeMarkers();
         }
       }
     );
     this.subscription.add(sub);
-    
+
     // Add or remove layers from the map when the layers are toggled
     const sub1 = this.binningService.getActiveLayers().subscribe(
-      layers => { 
+      layers => {
         this.layers = layers;
         this.overlays = [];
-        for ( let layer in this.layers) {
+        for ( const layer in this.layers) {
 
-          if(this.layers[layer]) {
-            let index = +layer.match(/\d+$/);
-            if(this.overlayMaster[index]) {
+          if (this.layers[layer]) {
+            const index = +layer.match(/\d+$/);
+            if (this.overlayMaster[index]) {
               this.overlays.push(this.overlayMaster[index]);
             }
           }
@@ -83,7 +83,7 @@ export class MarkersComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(sub1);
   }
-  
+
   // Close connections when navigating away
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -92,36 +92,36 @@ export class MarkersComponent implements OnInit, OnDestroy {
   onMapReady(map: Map) {
 
   }
-  
+
   // Make the markers for the map
-  private makeMarkers() : void { 
+  private makeMarkers(): void {
     // Get the bins
-    let bins = this.binningService.makeBins(this.activeMetric.display);
-    
-    if( this.activeMetric && bins) {
+    const bins = this.binningService.makeBins(this.activeMetric.display);
+
+    if ( this.activeMetric && bins) {
       // Make markers and recieve the overlays containing markers
       this.overlayMaster = this.makeMarkersService.makeMarkers(this.activeMetric, bins);
-      
+
       // Update master bins with new bins.
       this.binningService.setBins(this.makeMarkersService.getBins());
-      
+
       // Initiate layers statuses
-      for(let bin of bins){
-        if (bin.count > 0){
+      for (const bin of bins) {
+        if (bin.count > 0) {
           this.layers[bin.layer] = true;
         }
       }
-      
+
       // Update layer statuses
       this.binningService.setActiveLayers(this.layers);
-      
+
       // Zoom map to fit the bounds
-      if(this.makeMarkersService.getLatLons().length > 0 && !this.fitBounds) {
+      if (this.makeMarkersService.getLatLons().length > 0 && !this.fitBounds) {
         this.fitBounds = latLngBounds(this.makeMarkersService.getLatLons());
-        //check if map has center 
+        // check if map has center
         this.fitBounds.options = { padding: [400, 400] };
       }
-      
+
     }
 
   }

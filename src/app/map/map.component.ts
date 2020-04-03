@@ -9,7 +9,7 @@ import { Query } from '../query';
 import { CombineMetricsService} from '../shared/combine-metrics.service';
 import { ParametersService } from '../shared/parameters.service';
 import { DataService } from '../shared/data.service';
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
             ]
 })
 
-export class MapComponent implements OnInit,OnDestroy {
+export class MapComponent implements OnInit, OnDestroy {
 
   constructor (
     private metricsService: MetricsService,
@@ -35,26 +35,26 @@ export class MapComponent implements OnInit,OnDestroy {
     private dataService: DataService,
     private router: Router,
   ) {}
-  
-  query : Query; // Query parameters
-  activeMetric : Metric; // Metric currently being viewed 
-  inProgress: boolean = true; // Is data still being processed?
-  subscription : Subscription = new Subscription(); // Handles connections
+
+  query: Query; // Query parameters
+  activeMetric: Metric; // Metric currently being viewed
+  inProgress = true; // Is data still being processed?
+  subscription: Subscription = new Subscription(); // Handles connections
   status: {
     message: string,
     error: boolean,
     info?: string
   } = {
-    message: "Loading",
+    message: 'Loading',
     error: false
   };
   ngOnInit() {
-    
+
     // Wait for query parameters to be populated
     const sub = this.parametersService.getQuery().subscribe(
-      query => { 
+      query => {
         this.query = query;
-        
+
         // Start requesting data
         if (this.query.metric) {
           this.getMetrics();
@@ -64,36 +64,36 @@ export class MapComponent implements OnInit,OnDestroy {
       }
     );
     this.subscription.add(sub);
-    
+
     // Initiates query parameter fetching
     this.parametersService.setQueryParameters();
   }
-  
+
   ngOnDestroy () {
     this.subscription.unsubscribe();
   }
-  
+
   // Get list of available metrics from IRIS
   private getMetrics(): void {
-    this.status.message = "Requesting Metrics from MUSTANG.";
-    const sub = this.metricsService.getMetrics(this.query.getString(["metric"])).subscribe(
+    this.status.message = 'Requesting Metrics from MUSTANG.';
+    const sub = this.metricsService.getMetrics(this.query.getString(['metric'])).subscribe(
       metrics => {
-        this.getStations(this.query.getString(["net","sta"]), metrics);
+        this.getStations(this.query.getString(['net', 'sta']), metrics);
       },
       err => {
         this.status = {
-          message: "Unable to fetch metric information from MUSTANG.",
+          message: 'Unable to fetch metric information from MUSTANG.',
           error: true,
-          info: "This error occurs when an invalid metric is entered."
-        }
+          info: 'This error occurs when an invalid metric is entered.'
+        };
       }
     );
     this.subscription.add(sub);
   }
-  
+
   // Get list of all stations from IRIS FDSNWS
-  private getStations(qString:string, metrics:Metric[]): void {
-    this.status.message = "Accessing FDSNWS Station Information.";
+  private getStations(qString: string, metrics: Metric[]): void {
+    this.status.message = 'Accessing FDSNWS Station Information.';
     const sub = this.stationsService.getStations(qString).subscribe(
       stations => {
         this.getMeasurements(this.query.getString(), metrics, stations);
@@ -101,56 +101,56 @@ export class MapComponent implements OnInit,OnDestroy {
       err => {
 
         this.status = {
-          message: "Unable to fetch station information from FDSNWS.",
+          message: 'Unable to fetch station information from FDSNWS.',
           error: true,
           info: err.error
-        }
+        };
       }
     );
     this.subscription.add(sub);
   }
-  
+
   // Get measurements from MUSTANG
-  private getMeasurements(qString:string, metrics:Metric[], stations:object): void {
-    this.status.message = "Requesting Measurements from MUSTANG.";
+  private getMeasurements(qString: string, metrics: Metric[], stations: object): void {
+    this.status.message = 'Requesting Measurements from MUSTANG.';
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
         this.combineMetrics(measurements, stations, metrics);
       },
       err => {
         this.status = {
-          message: "Unable to fetch Measurements from MUSTANG.",
+          message: 'Unable to fetch Measurements from MUSTANG.',
           error: true,
-          info: "This error occurs if MUSTANG does not recognize one or more of the search parameters."
-        }
+          info: 'This error occurs if MUSTANG does not recognize one or more of the search parameters.'
+        };
       }
     );
     this.subscription.add(sub);
   }
-  
+
   // Combine all the data and update status
-  private combineMetrics(measurements:object, stations:object, metrics:Metric[]){
-    this.status.message = "Processing Data.";
+  private combineMetrics(measurements: object, stations: object, metrics: Metric[]) {
+    this.status.message = 'Processing Data.';
     // Wait for active metric
     this.dataService.getActiveMetric().subscribe(
-      activeMetric => { 
+      activeMetric => {
         this.activeMetric = activeMetric;
-        this.inProgress = false;    
+        this.inProgress = false;
       }
     );
-    
+
     // Wait for metric data
     const sub = this.combineMetricsService.getMetrics().subscribe(
       metrics => {
-        if(metrics && metrics.length > 0){
+        if (metrics && metrics.length > 0) {
           this.dataService.setDisplay(this.parametersService.getDisplay());
           this.dataService.setMetrics(metrics);
         } else {
           this.status = {
-            message: "No data returned from MUSTANG.",
+            message: 'No data returned from MUSTANG.',
             error: true,
-            info: "MUSTANG did not have any measurements with your specified parameters."
-          }
+            info: 'MUSTANG did not have any measurements with your specified parameters.'
+          };
         }
       }
     );

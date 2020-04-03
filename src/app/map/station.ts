@@ -11,41 +11,41 @@
 // }
 
 export class Station {
-  
+
     constructor (
       public net: string,
       public sta: string,
       public lat: number,
       public lon: number,
       public name: string,
-    ){
-      this.code = ""; //NET.STA.LOC
+    ) {
+      this.code = ''; // NET.STA.LOC
       this.channels = {};
       this.displayValue = null;
       this.displayChannel = null;
-      this.qual = "";
+      this.qual = '';
     }
-    code: string
+    code: string;
     channels: any;
     qual: string;
-    displayValue : number; // Value displayed for the station
-    displayChannel : string; // Channel being used to display
-    
+    displayValue: number; // Value displayed for the station
+    displayChannel: string; // Channel being used to display
+
     // Sorts channels to group up by loc and channel type
-    private sortChannels() : any {
+    private sortChannels(): any {
       this.channels = Object.keys(this.channels)
-        .sort(function(a : any, b : any){
-          let A = a.split(".");
-          let B = b.split(".");
-          
-          if (A[0]=="--") {
+        .sort(function(a: any, b: any) {
+          const A = a.split('.');
+          const B = b.split('.');
+
+          if (A[0] == '--') {
             A[0] = -1;
-          } 
-          
-          if (B[0]=="--") {
+          }
+
+          if (B[0] == '--') {
             B[0] = -1;
           }
-        
+
           if (parseInt(A[0]) < parseInt(B[0])) {
             return -1;
           } else if (parseInt(A[0]) > parseInt(B[0])) {
@@ -61,45 +61,45 @@ export class Station {
           }
         })
        .reduce((_sortedObj, key) => ({
-         ..._sortedObj, 
+         ..._sortedObj,
          [key]: this.channels[key]
-       }), {})
+       }), {});
      }
-    
-    
+
+
     // Sets the station value according to the display value and selected channels
-    setValue(displayValue : string, displayChannels : string[]) : void {
+    setValue(displayValue: string, displayChannels: string[]): void {
       this.sortChannels();
       this.displayChannel = null;
-      for (let displayChannel of displayChannels ){
-        if( !this.displayChannel) {
-          for (let c in this.channels) {
-            let channel = this.channels[c];
-            if(channel.cha == displayChannel) {
+      for (const displayChannel of displayChannels ) {
+        if ( !this.displayChannel) {
+          for (const c in this.channels) {
+            const channel = this.channels[c];
+            if (channel.cha == displayChannel) {
               this.displayChannel = channel.name;
-          
-              switch(displayValue) {
-                case "Minimum" : {
+
+              switch (displayValue) {
+                case 'Minimum' : {
                   this.displayValue = channel.getMin();
                   break;
                 }
-                case "Maximum" : {
+                case 'Maximum' : {
                   this.displayValue = channel.getMax();
                   break;
                 }
-                case "Average" : {
+                case 'Average' : {
                   this.displayValue = channel.getAverage();
                   break;
                 }
-                case "Median" : {
+                case 'Median' : {
                   this.displayValue = channel.getMedian();
                   break;
                 }
-                case "5th_Percentile" : {
+                case '5th_Percentile' : {
                   this.displayValue = channel.getPercentile(5);
                   break;
                 }
-                case "95th_Percentile" : {
+                case '95th_Percentile' : {
                   this.displayValue = channel.getPercentile(95);
                   break;
                 }

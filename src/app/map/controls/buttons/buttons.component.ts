@@ -3,7 +3,7 @@
 import { Component, OnInit , Input, Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import { Metric } from '../../metric';
-import { MeasurementsService } from '../../../shared/measurements.service'
+import { MeasurementsService } from '../../../shared/measurements.service';
 
 @Component({
   selector: 'app-buttons',
@@ -11,8 +11,8 @@ import { MeasurementsService } from '../../../shared/measurements.service'
   styleUrls: ['./buttons.component.scss']
 })
 export class ButtonsComponent implements OnInit {
-  @Input() metric : Metric; // Gets metric from parent component
-  
+  @Input() metric: Metric; // Gets metric from parent component
+
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
@@ -21,16 +21,16 @@ export class ButtonsComponent implements OnInit {
 
   ngOnInit() {
   }
-  
-  // Copies share metric link to clipboard 
+
+  // Copies share metric link to clipboard
   copyShareLink(): void {
-    //This is from stackoverflow
-    let selBox = document.createElement('textarea');
+    // This is from stackoverflow
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = window.location.href.replace(/metric=.+(&|$)/,"metric=" + this.metric.name) + this.metric.display.toString();
+    selBox.value = window.location.href.replace(/metric=.+(&|$)/, 'metric=' + this.metric.name) + this.metric.display.toString();
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
@@ -42,28 +42,28 @@ export class ButtonsComponent implements OnInit {
       duration: 3000
     });
   }
-  
+
   // Opens dialog to select download type
   openDownloadDialog(): void {
-    let dialogRef = this.dialog.open(DownloadDialog, {
-      data: {url: "test"}
+    const dialogRef = this.dialog.open(DownloadDialog, {
+      data: {url: 'test'}
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {       
+      if (result) {
         // Open download snackbar
-        window.open(this.measurementsService.getUrl() + "&output="+result);
-        this.snackBar.open('Opened '+ result + 'in new tab.', '', {
+        window.open(this.measurementsService.getUrl() + '&output=' + result);
+        this.snackBar.open('Opened ' + result + 'in new tab.', '', {
           duration: 3000
         });
       }
     });
   }
-  
+
   // Opens help dialog
   openHelpDialog(): void {
-    let dialogRef = this.dialog.open(HelpDialog, {
-      data: {url: "test"}
+    const dialogRef = this.dialog.open(HelpDialog, {
+      data: {url: 'test'}
     });
   }
 }
@@ -79,8 +79,8 @@ export class DownloadDialog {
   constructor(
     public dialogRef: MatDialogRef<DownloadDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
-    types = ["xml", "csv", "text", "json"];
+
+    types = ['xml', 'csv', 'text', 'json'];
 }
 
 
@@ -94,5 +94,5 @@ export class HelpDialog {
   constructor(
     public dialogRef: MatDialogRef<HelpDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
+
 }

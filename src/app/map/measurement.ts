@@ -15,5 +15,5 @@ export class Measurement {
     public start: string,
     public value: number
   ) {}
-  
+
 }

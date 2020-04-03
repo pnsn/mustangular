@@ -23,75 +23,75 @@
 // }
 
 export class Display {
-  data : any;
-  coloring : string;
-  binning : any;
-  displayValue : string;
+  data: any;
+  coloring: string;
+  binning: any;
+  displayValue: string;
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
-  constructor(){
-    
+  constructor() {
+
     // Data's max, min, and number of data points
-    this.data = { 
-      "min" : null,
-      "max": null,
-      "count": 0
+    this.data = {
+      'min' : null,
+      'max': null,
+      'count': 0
     };
-    
+
     this.invert = false;
-    
+
     // High and low color selections
     this.coloring = null;
-    
+
     // Upper and lower bounds for bins and number of bins
     this.binning = {
-      "min" : null, 
-      "max": null, 
-      "count": 0
+      'min' : null,
+      'max': null,
+      'count': 0
     };
-    
+
     // Currently selected value to display for stations
-    this.displayValue = "";  
-    
+    this.displayValue = '';
+
     // Channels to calculate on
     this.channels = {
-      "active" : <string[]>  null,
-      "available" : <string[]> null
+      'active' : <string[]>  null,
+      'available' : <string[]> null
     };
   }
 
   // Ensures there are values for binning
-  private fixBins() : void {
+  private fixBins(): void {
     this.binning.min = this.binning.min === null ? 0 : this.binning.min;
     this.binning.max = this.binning.max === null ? 0 : this.binning.max;
     this.binning.count = this.binning.count === null || this.binning.count <= 0 ? 1 : this.binning.count;
   }
-  
-  //Returns a URL friendly string of the Display
-  toString() : string {
+
+  // Returns a URL friendly string of the Display
+  toString(): string {
     this.fixBins();
-    let string = 
-      "&coloring=" + this.coloring +
-      "&invert=" + this.invert + 
-      "&bincount=" + this.binning.count +
-      "&binmin=" + this.binning.min +
-      "&binmax=" + this.binning.max + 
-      "&value=" + this.displayValue + 
-      "&channels=" + this.channels.active.toString(); 
+    const string =
+      '&coloring=' + this.coloring +
+      '&invert=' + this.invert +
+      '&bincount=' + this.binning.count +
+      '&binmin=' + this.binning.min +
+      '&binmax=' + this.binning.max +
+      '&value=' + this.displayValue +
+      '&channels=' + this.channels.active.toString();
     return  string ;
   }
 
-  toParams() : any {
+  toParams(): any {
     this.fixBins();
     return {
-      "coloring" : this.coloring,
-      "invert" : this.invert, 
-      "bincount" : this.binning.count,
-      "binmin" : this.binning.min,
-      "binmax" : this.binning.max, 
-      "value" : this.displayValue,
-      "channels" : this.channels.active.toString()
+      'coloring' : this.coloring,
+      'invert' : this.invert,
+      'bincount' : this.binning.count,
+      'binmin' : this.binning.min,
+      'binmax' : this.binning.max,
+      'value' : this.displayValue,
+      'channels' : this.channels.active.toString()
     };
   }
 }

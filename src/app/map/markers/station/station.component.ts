@@ -1,12 +1,12 @@
 // Generates station graphs
 
 import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
-import { MakeMarkersService } from '../../../shared/make-markers.service'
+import { MakeMarkersService } from '../../../shared/make-markers.service';
 import { DataService} from '../../../shared/data.service';
 import { Station } from '../../station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Metric } from '../../metric';
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 import { ParametersService } from '../../../shared/parameters.service';
 
 @Component({
@@ -23,27 +23,27 @@ export class StationComponent implements OnInit, OnDestroy {
     public parametersService: ParametersService
   ) {}
 
-  activeStation : Station; // Selected station
+  activeStation: Station; // Selected station
   metrics: Metric[]; // Copy of all metric data
-  activeMetric : Metric; // Currently active metric
-  subscription : Subscription = new Subscription(); // Handles connections
-  dates : any;
-  
+  activeMetric: Metric; // Currently active metric
+  subscription: Subscription = new Subscription(); // Handles connections
+  dates: any;
+
   ngOnInit() {
     // Get station when it is selected
     const sub = this.makeMarkersService.getActiveStation().subscribe(
-      activeStation => { 
-        if(activeStation){
+      activeStation => {
+        if (activeStation) {
           this.activeStation = activeStation;
           this.dates = this.parametersService.getQueryDates();
           this.openStationDialog();
-          
+
         }
       }
     );
-    
+
     this.subscription.add(sub);
-    
+
     // Get currently selected metric
     const sub1 = this.dataService.getActiveMetric().subscribe(
       activeMetric => {
@@ -51,34 +51,34 @@ export class StationComponent implements OnInit, OnDestroy {
         this.metrics = this.dataService.getMetrics();
       }
     );
-    
+
     this.subscription.add(sub1);
   }
-  
+
   ngOnDestroy () {
     this.subscription.unsubscribe();
   }
-  
+
   // Formats data for chart
-  convertDataToChart(station : Station) : any{
-    let results = [];
-    for (let c in station.channels){
-      let chan = station.channels[c];
-      
-      let ch = {
+  convertDataToChart(station: Station): any {
+    const results = [];
+    for (const c in station.channels) {
+      const chan = station.channels[c];
+
+      const ch = {
         name: chan.name,
-        series:[]
-      }
-      
-      for (let m of chan.measurements) {
-        let date = new Date(m.start + "Z");
-        //adjusts for browsers wanting to use local time
-        let adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        series: []
+      };
+
+      for (const m of chan.measurements) {
+        const date = new Date(m.start + 'Z');
+        // adjusts for browsers wanting to use local time
+        const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
         ch.series.push({
           value: m.value,
           name: adjustedDate
         });
-        
+
       }
       results.push(ch);
     }
@@ -88,8 +88,8 @@ export class StationComponent implements OnInit, OnDestroy {
 
   // Opens dialog to sort channels
   openStationDialog(): void {
-    let results = this.convertDataToChart(this.activeStation);
-    let dialogRef = this.dialog.open(StationDialog, {
+    const results = this.convertDataToChart(this.activeStation);
+    const dialogRef = this.dialog.open(StationDialog, {
       data: {
         station: this.activeStation,
         metric: this.activeMetric,
@@ -117,23 +117,23 @@ export class StationDialog {
 
     station = this.data.station;
     metric = this.data.metric;
-    
-    xAxisLabel = "Measurement Start Date";
+
+    xAxisLabel = 'Measurement Start Date';
     yAxisLabel = this.metric.unit;
-    
-    legendTitle = "Click to view PSD-PDF";
-    
+
+    legendTitle = 'Click to view PSD-PDF';
+
     colorScheme = {
-      domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
+      domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
     };
-    
+
     results = this.data.values;
-    
-    select(event) : void {
-      if(typeof event === 'string' || event instanceof String) {
-        let url = "https://service.iris.edu/mustang/noise-pdf/1/query?target=";
-        window.open(url + this.station.code +"."+ event + "." + this.station.qual +
-        "&starttime=" + this.data.start + "&endtime=" +this.data.end+"&format=plot");
+
+    select(event): void {
+      if (typeof event === 'string' || event instanceof String) {
+        const url = 'https://service.iris.edu/mustang/noise-pdf/1/query?target=';
+        window.open(url + this.station.code + '.' + event + '.' + this.station.qual +
+        '&starttime=' + this.data.start + '&endtime=' + this.data.end + '&format=plot');
       }
     }
 }

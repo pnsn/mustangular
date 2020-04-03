@@ -11,71 +11,71 @@ export class CombineMetricsService {
 
   constructor() { }
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
-  
+
   // Returns metrics
-  getMetrics() : Observable<Metric[]> {
+  getMetrics(): Observable<Metric[]> {
     return this.metrics.asObservable();
-  }   
-  
-  // Combines metrics with station data and measurements 
-  combineMetrics(measurements: any, stations: any, metrics: any) : void {
-    let combinedMetrics = new Array<Metric>();
+  }
+
+  // Combines metrics with station data and measurements
+  combineMetrics(measurements: any, stations: any, metrics: any): void {
+    const combinedMetrics = new Array<Metric>();
     let measurementCount = 0;
-    
+
     // Go through each metric
-    for (let metric of metrics){
+    for (const metric of metrics) {
 
       // Create a new metric object (See: metric.ts)
-      let unit = metric.tables[0].columns[0].description.replace(/\.*<\/*p>/g, "");
-      let combinedMetric = new Metric(metric.name, metric.title.replace("Metric", ""), metric.description, unit);
+      const unit = metric.tables[0].columns[0].description.replace(/\.*<\/*p>/g, '');
+      const combinedMetric = new Metric(metric.name, metric.title.replace('Metric', ''), metric.description, unit);
 
-      if(measurements[metric.name]) {
+      if (measurements[metric.name]) {
         // Sort through measurements and add them to correct metric
-        for (let m of measurements[metric.name]){
+        for (const m of measurements[metric.name]) {
           measurementCount++;
-          let stationCode = m.net + "." + m.sta;
+          const stationCode = m.net + '.' + m.sta;
           let station = combinedMetric.stations[stationCode];
 
-          if(stations[stationCode]) {
-          
-            // Create station if its the first pass 
+          if (stations[stationCode]) {
+
+            // Create station if its the first pass
             if (!station) {
-              let s = stations[stationCode];
+              const s = stations[stationCode];
               // Copy data from stations
               station = new Station (s.net, s.sta, s.lat, s.lon, s.name);
               station.code = stationCode;
-              station.qual = "M";
+              station.qual = 'M';
               combinedMetric.display.data.count++;
             }
 
             // Add channel to station
-            let loc = m.loc ? m.loc : "--";
-            let channelCode = loc + "." + m.cha;
-            let channels = station.channels;
-            
-            if (!channels[channelCode]){
+            const loc = m.loc ? m.loc : '--';
+            const channelCode = loc + '.' + m.cha;
+            const channels = station.channels;
+
+            if (!channels[channelCode]) {
               channels[channelCode] = new Channel(channelCode, loc, m.cha);
-            } 
+            }
             // Add measurement to channel
             channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.start, m.value));
 
             station.channels = channels;
-            
+
             combinedMetric.stations[stationCode] = station;
           }
 
         }
-      
+
       }
 
       combinedMetrics.push(combinedMetric);
     }
-  
-    if(measurementCount > 0){
+
+    if (measurementCount > 0) {
       // Sends metrics out to subscriptions
       this.metrics.next(combinedMetrics);
     } else {
-      this.metrics.next();  
+      this.metrics.next();
     }
   }
 }

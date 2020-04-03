@@ -10,77 +10,77 @@ import { ParametersService } from '../../shared/parameters.service';
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
-  styleUrls: ['./controls.component.scss'] 
+  styleUrls: ['./controls.component.scss']
 })
 
 export class ControlsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private dataService: DataService,
-    private parametersService : ParametersService
+    private parametersService: ParametersService
   ) {}
-  
+
   metrics: Metric[]; // Copy of all metric data
-  activeMetric : Metric; // Currently active metric
+  activeMetric: Metric; // Currently active metric
   display: Display; // Color/binning/value settings
   changed = false; // Status of form
-  displayValues : Array<string> = [
-    "Minimum",
-    "Maximum",
-    "Average",
-    "Median",
-    "5th_Percentile",
-    "95th_Percentile"
+  displayValues: Array<string> = [
+    'Minimum',
+    'Maximum',
+    'Average',
+    'Median',
+    '5th_Percentile',
+    '95th_Percentile'
   ]; // All possible display values for select
 
   ngOnInit() {
     // Subscribe to changes of the active metric and update display/metric data
     this.dataService.getActiveMetric().subscribe(
       activeMetric => {
-        if(activeMetric) {
+        if (activeMetric) {
           this.activeMetric = Object.assign(activeMetric);
           this.display = activeMetric.display;
           this.metrics = this.dataService.getMetrics();
         }
     });
   }
-  
+
   // Opens dialog to sort channels
   openChannelsDialog(): void {
-    let dialogRef = this.dialog.open(ChannelsDialog, {
+    const dialogRef = this.dialog.open(ChannelsDialog, {
 
       data: {
         channels: this.display.channels.available,
-        options: {  
+        options: {
           onUpdate: (event: any) => {
             // this.valueChanged();
           },
-          ghostClass: "ghost",
-          chosenClass: "chosen"
+          ghostClass: 'ghost',
+          chosenClass: 'chosen'
         },
         handle : '.handle'
     }
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.valueChanged();
         this.display.channels.available = result;
       }
     });
   }
-  
+
   // When metric is changed, switch display data to new metric
-  metricChanged(newMetricName : string) {
-    for (let metric of this.metrics) {
-      
+  metricChanged(newMetricName: string) {
+    for (const metric of this.metrics) {
+
       // Update Metric with new information
-      if(metric.name == this.activeMetric.name) {
+      if (metric.name == this.activeMetric.name) {
         metric.display = this.display;
       }
-      
+
       // Switch to newMetric
-      if(metric.name == newMetricName ){
+      if (metric.name == newMetricName ) {
         this.activeMetric = metric;
         this.display = this.activeMetric.display;
       }
@@ -88,19 +88,19 @@ export class ControlsComponent implements OnInit {
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
     // this.valueChanged();
   }
-  changeColoring(coloring){
+  changeColoring(coloring) {
     this.activeMetric.display.coloring = coloring;
     this.valueChanged();
   }
-  
+
   // Activate submit button
-  valueChanged(){
+  valueChanged() {
     this.parametersService.updateUrl(this.activeMetric.display);
     this.changed = true;
   }
-  
+
   // Submit metric changes
-  onSubmit(){ 
+  onSubmit() {
     this.changed = false;
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
   }
@@ -116,7 +116,7 @@ export class ChannelsDialog {
   constructor(
     public dialogRef: MatDialogRef<ChannelsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
-    
+
     channels = this.data.channels;
     channelSorterOptions = this.data.options;
 }

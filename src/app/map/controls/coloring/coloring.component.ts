@@ -7,40 +7,40 @@ import { BinningService } from '../../../shared/binning.service';
   styleUrls: ['./coloring.component.scss']
 })
 export class ColoringComponent implements OnInit {
-  @Input() metricColoring : String; // Gets coloring from parent component
-  @Output() changeColoring = new EventEmitter<string>(); //Sends coloring back to parent
-  
-  colorings : any[];
-  currentColoring : any;
-  constructor(private binningService : BinningService) { }
-  
+  @Input() metricColoring: String; // Gets coloring from parent component
+  @Output() changeColoring = new EventEmitter<string>(); // Sends coloring back to parent
+
+  colorings: any[];
+  currentColoring: any;
+  constructor(private binningService: BinningService) { }
+
   ngOnInit() {
     this.colorings = this.binningService.getColorings();
-    for (let coloring of this.colorings){
-      coloring.background = "linear-gradient(to right";
-      
-      for (let color of coloring.colors) {
-        coloring.background += "," + color;
+    for (const coloring of this.colorings) {
+      coloring.background = 'linear-gradient(to right';
+
+      for (const color of coloring.colors) {
+        coloring.background += ',' + color;
       }
-      
-      coloring.background += ")";
+
+      coloring.background += ')';
     }
     this.setColoring(this.metricColoring);
   }
-  
-  selectionChanged(event) : void {
-    if(event != this.metricColoring) {
+
+  selectionChanged(event): void {
+    if (event != this.metricColoring) {
       this.changeColoring.emit(event);
     }
     this.setColoring(event);
   }
-  
+
   setColoring(color) {
-    for (let coloring of this.colorings){
-      if(color == coloring.name ) {
+    for (const coloring of this.colorings) {
+      if (color == coloring.name ) {
         this.currentColoring = coloring;
       }
     }
   }
-  //return selection to controls
+  // return selection to controls
 }
