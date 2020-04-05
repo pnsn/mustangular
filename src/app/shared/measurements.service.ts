@@ -21,7 +21,7 @@ export class MeasurementsService {
     return this.url;
   }
 
-  private url = 'http://service.iris.edu/mustang/measurements/1/query?nodata=200';
+  private url = 'https://service.iris.edu/mustang/measurements/1/query?nodata=200';
 
   // Gets the measurements from the IRIS service
   getMeasurements(queryString: string, type?: string): Observable <any> {

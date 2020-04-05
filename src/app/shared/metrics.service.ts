@@ -21,7 +21,7 @@ export class MetricsService {
 
   // Gets requested metric data
   getMetrics(metric?: String): Observable <Metric[]> {
-    let metricsURL = 'http://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
+    let metricsURL = 'https://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200';
     if (metric) {
       metricsURL += metric;
     }

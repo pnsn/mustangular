@@ -34,7 +34,7 @@ export class StationsService {
    // Fetch requested stations
   getStations(queryString: string): Observable <any> {
 
-    const stationsURL = 'http://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
+    const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
 
     return this.http.get(stationsURL, { responseType: 'text' })
       .pipe(
