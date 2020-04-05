@@ -22,7 +22,7 @@ export class DataService {
   // Changes the active metric and propagates it
   private setActiveMetric(activeMetricName: String): void {
     for (const metric of this.metrics) {
-      if (metric.name == activeMetricName ) {
+      if (metric.name === activeMetricName ) {
         metric.updateValues();
         this.activeMetric.next(metric);
       }
@@ -76,7 +76,7 @@ export class DataService {
         min = length > 0 && values[minIndex] ? +values[minIndex].toFixed(2) : 0;
         max = length > 0 && values[maxIndex] ? +values[maxIndex].toFixed(2) : 1;
 
-        if (length == 0 || minIndex === maxIndex ) { // small dataset
+        if (length === 0 || minIndex === maxIndex ) { // small dataset
           count = 1;
         } else if (values[maxIndex] - values[minIndex] < 2) { // range
           count = 2;
@@ -98,7 +98,7 @@ export class DataService {
       const displayChannels = [];
       for ( const channel of channels) {
         const c = channel.split('.')[1];
-        if (displayChannels.indexOf(c) == -1 ) {
+        if (displayChannels.indexOf(c) === -1 ) {
           displayChannels.push(c);
         }
       }
@@ -139,9 +139,9 @@ export class DataService {
       }
 
       if (this.parameters.binning &&
-          this.parameters.binning.max != null &&
-          this.parameters.binning.min != null &&
-          this.parameters.binning.count != null) {
+          this.parameters.binning.max !== null &&
+          this.parameters.binning.min !== null &&
+          this.parameters.binning.count !== null) {
         display.binning = this.parameters.binning;
       } else {
         display.binning = this.initialBinning(values, display.displayType);
@@ -149,7 +149,7 @@ export class DataService {
 
       metric.display = display;
 
-      if (defaultMetric == null && metric.display.data.count > 0) {
+      if (defaultMetric === null && metric.display.data.count > 0) {
         defaultMetric = metric;
       }
 

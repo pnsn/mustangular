@@ -16,7 +16,7 @@ export class MetricsService {
 
   // Returns metrics
   private mapMetrics(response: any): Metric[] {
-    return response.metrics.filter(m => m.name != 'metric_error');
+    return response.metrics.filter(m => m.name !== 'metric_error');
   }
 
   // Gets requested metric data

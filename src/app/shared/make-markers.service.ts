@@ -82,7 +82,6 @@ export class MakeMarkersService {
   // Build an icon for a station
   private buildIcon(station: Station, displayValue: string): any {
     const value = station.displayValue;
-    let color: string;
     let activeBin: Bin;
 
     // Sort station into a bin
@@ -135,7 +134,7 @@ export class MakeMarkersService {
 
       string += '<li';
 
-      if (channel.name == station.displayChannel) {
+      if (channel.name === station.displayChannel) {
         string += ' class=\'active channel\'';
       }
       string += '>' + channel.name + '</li>';

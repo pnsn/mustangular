@@ -8,6 +8,8 @@ import { catchError, map} from 'rxjs/operators';
 @Injectable()
 export class MeasurementsService {
 
+  private url = 'https://service.iris.edu/mustang/measurements/1/query?nodata=200';
+
   constructor (
     private http: HttpClient
   ) {}
@@ -21,15 +23,13 @@ export class MeasurementsService {
     return this.url;
   }
 
-  private url = 'https://service.iris.edu/mustang/measurements/1/query?nodata=200';
-
   // Gets the measurements from the IRIS service
   getMeasurements(queryString: string, type?: string): Observable <any> {
     this.url += queryString;
 
     let measurementsURL = this.url;
     if (type) {
-      measurementsURL += '&output' + type; //FIXME: is this right
+      measurementsURL += '&output' + type; // FIXME: is this right
     } else {
       measurementsURL += '&output=jsonp';
     }

@@ -25,7 +25,7 @@ export class Channel {
 
   // Calculates the values for the channel
   private calculateValues(): void {
-    if ( !this.values || this.values.length == 0 ) {
+    if ( !this.values || this.values.length === 0 ) {
       const values = [];
 
       for (const measurement of this.measurements) {
@@ -47,7 +47,7 @@ export class Channel {
       const mid = this.values.length / 2 - 0.5;
       let median: number;
 
-      if (mid % 1 == 0) {
+      if (mid % 1 === 0) {
         median = this.values[mid];
       } else {
         median = (this.values[mid - .5] + this.values[mid - .5]) / 2;
@@ -79,7 +79,7 @@ export class Channel {
     this.calculateValues();
 
     const index = Math.ceil(percentile / 100 * this.values.length);
-    return index == this.values.length ? this.values[index - 1] : this.values[index];
+    return index === this.values.length ? this.values[index - 1] : this.values[index];
   }
 
   // Returns the channel's maximum value

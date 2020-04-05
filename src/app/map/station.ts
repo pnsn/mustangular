@@ -38,17 +38,17 @@ export class Station {
           const A = a.split('.');
           const B = b.split('.');
 
-          if (A[0] == '--') {
+          if (A[0] === '--') {
             A[0] = -1;
           }
 
-          if (B[0] == '--') {
+          if (B[0] === '--') {
             B[0] = -1;
           }
 
-          if (parseInt(A[0]) < parseInt(B[0])) {
+          if (parseInt(A[0], 10) < parseInt(B[0], 10)) {
             return -1;
-          } else if (parseInt(A[0]) > parseInt(B[0])) {
+          } else if (parseInt(A[0], 10) > parseInt(B[0], 10)) {
             return 1;
           } else {
             if (A[1] < B[1]) {
@@ -75,7 +75,7 @@ export class Station {
         if ( !this.displayChannel) {
           for (const c in this.channels) {
             const channel = this.channels[c];
-            if (channel.cha == displayChannel) {
+            if (channel.cha === displayChannel) {
               this.displayChannel = channel.name;
 
               switch (displayValue) {

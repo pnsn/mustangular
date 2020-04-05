@@ -29,7 +29,7 @@ export class ColoringComponent implements OnInit {
   }
 
   selectionChanged(event): void {
-    if (event != this.metricColoring) {
+    if (event !== this.metricColoring) {
       this.changeColoring.emit(event);
     }
     this.setColoring(event);
@@ -37,7 +37,7 @@ export class ColoringComponent implements OnInit {
 
   setColoring(color) {
     for (const coloring of this.colorings) {
-      if (color == coloring.name ) {
+      if (color === coloring.name ) {
         this.currentColoring = coloring;
       }
     }

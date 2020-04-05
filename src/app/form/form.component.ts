@@ -83,7 +83,7 @@ export class FormComponent implements OnInit, OnDestroy {
       metrics => {
         this.loading = false;
         for (const metric of metrics) {
-          if ( metric.tables[0].columns[0].name == 'value') {
+          if ( metric.tables[0].columns[0].name === 'value') {
             this.metrics.push({name: metric.name.toUpperCase(), title: metric.title});
           }
         }

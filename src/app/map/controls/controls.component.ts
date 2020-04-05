@@ -75,12 +75,12 @@ export class ControlsComponent implements OnInit {
     for (const metric of this.metrics) {
 
       // Update Metric with new information
-      if (metric.name == this.activeMetric.name) {
+      if (metric.name === this.activeMetric.name) {
         metric.display = this.display;
       }
 
       // Switch to newMetric
-      if (metric.name == newMetricName ) {
+      if (metric.name === newMetricName ) {
         this.activeMetric = metric;
         this.display = this.activeMetric.display;
       }

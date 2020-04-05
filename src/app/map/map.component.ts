@@ -141,10 +141,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
     // Wait for metric data
     const sub = this.combineMetricsService.getMetrics().subscribe(
-      metrics => {
-        if (metrics && metrics.length > 0) {
+      combinedMetrics => {
+        if (combinedMetrics && combinedMetrics.length > 0) {
           this.dataService.setDisplay(this.parametersService.getDisplay());
-          this.dataService.setMetrics(metrics);
+          this.dataService.setMetrics(combinedMetrics);
         } else {
           this.status = {
             message: 'No data returned from MUSTANG.',

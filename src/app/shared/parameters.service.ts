@@ -56,7 +56,7 @@ export class ParametersService {
       'min' : isNaN(+params.binmin) ? null : +params.binmin,
       'max' : isNaN(+params.binmax) ? null : +params.binmax
     };
-    d.invert = params.invert == 'true' ? true : false;
+    d.invert = params.invert === 'true' ? true : false;
     d.displayValue = params.value;
     d.channels.active = params.channels && params.channels.length > 1 ? params.channels.split() : params.channels;
     d.channels.available = params.cha ? params.cha.split() : null; // does this ever get used

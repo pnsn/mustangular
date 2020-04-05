@@ -103,7 +103,7 @@ export class BinningService {
 
       let coloring: any;
       for (const c of this.colorings) {
-        if (c.name == display.coloring) {
+        if (c.name === display.coloring) {
           coloring = c;
         }
       }
@@ -132,7 +132,7 @@ export class BinningService {
       let max; // if its the last bin, make it position 0.5
       for (let i = 0; i < binning.count; i++) {
           max = Math.round((min + binWidth) * 100) / 100;
-          if ( i == binning.count - 1 ) {
+          if ( i === binning.count - 1 ) {
             bins.push( new Bin (0, '#' + rainbow.colorAt(i), 0.5,  'icon-group-' + (i + 1), max, min));
           } else {
             bins.push( new Bin (0, '#' + rainbow.colorAt(i), 0,  'icon-group-' + (i + 1), max, min));

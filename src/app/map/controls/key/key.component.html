@@ -7,7 +7,7 @@
      </tr>
      
      <ng-container *ngFor="let bin of bins">
-       <tr *ngIf="bin.position < 2 || (bin.position == 2 && bin.count > 0)" [className]="bin.count == 0 ? 'disabled' : 'active'">
+       <tr *ngIf="bin.position < 2 || (bin.position === 2 && bin.count > 0)" [className]="bin.count === 0 ? 'disabled' : 'active'">
           
           <td class="key-toggle">
              <div class="key-icon"  [ngStyle]="{'background-color': bin.color}">
