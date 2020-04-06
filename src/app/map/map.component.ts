@@ -94,13 +94,12 @@ export class MapComponent implements OnInit, OnDestroy {
   // Get list of all stations from IRIS FDSNWS
   private getStations(metrics: Metric[], stations): void {
     this.status.message = 'Accessing Station Information.';
-    const sub = this.stationsService.getStationData(this.query.getString(['net', 'sta']), stations, metrics).subscribe(
+    const sub = this.stationsService.getStationData(this.query.getString(['net']), stations).subscribe(
       response => {
         console.log(response)
         this.dataService.setMetrics(metrics);
       },
       err => {
-
         this.status = {
           message: 'Unable to fetch station information.',
           error: true,

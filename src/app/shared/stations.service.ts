@@ -4,29 +4,35 @@
 import {throwError as observableThrowError,  Observable, of, EMPTY } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { catchError, map, mergeMap} from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, concatMap} from 'rxjs/operators';
 import { Station } from '../map/station';
 import { Metric } from '../map/metric';
 
 
 @Injectable()
 export class StationsService {
-  private stations = {};
+  stations = {};
 
   constructor (
     private http: HttpClient
   ) {}
 
   getMissingStationInformation (stationCode){
+    console.log("hi")
     return this.stations[stationCode] ? this.stations[stationCode] : null;
   }
 
-  getStationData(queryString: string, stations : any, metrics: Metric[]) {
-    console.log(stations)
-    return this.getFDNSWSStations(stations["M"]).pipe(
-      mergeMap(response => {
-        console.log("I got called")
-        return this.getPH5Stations(stations["D"]);
+  getStationData(queryString: string, stations : any) {
+    return this.getFDNSWSStations(queryString, stations["M"]).pipe(
+      concatMap(response => {
+        this.stations = {...this.stations, ...response};
+        return this.getPH5Stations(queryString, stations["D"]).pipe(
+          tap(
+            response => {
+              this.stations = {...this.stations, ...response};
+            }
+          )
+        );
       })
     );
   }
@@ -35,27 +41,28 @@ export class StationsService {
    private mapStations(response: String) {
      const lines = response.split('\n');
      const headers = lines.shift();
+     const stations = {};
 
      for (const line of lines) {
        if (line.length > 1) {
          const sta = line.split('|');
-        //  const station = new Station(sta[0], sta[1], parseFloat(sta[3]), sta[5]);
-         this.stations[sta[0] + '.' + sta[1]] = { 
-          name :this.stations[sta[5]],
-          lat : this.stations[parseFloat(sta[2])].lat,
-          lon : this.stations[parseFloat(sta[3])].lon
-        };
+         const staCode = sta[0] + '.' + sta[1];
+         stations[staCode] = {
+          name: sta[5],
+          lat: parseFloat(sta[2]),
+          lon: parseFloat(sta[3])
+         };
+
        }
      }
-     return;
+     return stations;
    }
 
    // Fetch stations from FDSNWS
-  getFDNSWSStations(stations : string[]): Observable <any> {
+  getFDNSWSStations(queryString : string, stations : string[]): Observable <any> {
     console.log("stations")
     if(stations.length > 0) {
-      const queryString = stations.toString();
-      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
+      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString + "&sta=?" + stations.toString();
 
       console.log("trying to get FDSNWS")
       return this.http.get(stationsURL, { responseType: 'text' })
@@ -69,11 +76,10 @@ export class StationsService {
   }
 
   // Fetch stations from PH5 service
-  getPH5Stations(stations : string[]): Observable <any> {
+  getPH5Stations(queryString: string, stations : string[]): Observable <any> {
     console.log("PH5 stations", stations)
     if(stations.length > 0) {
-      const queryString = stations.toString();
-      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString;
+      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString + "&sta=?" + stations.toString();
       console.log("Trying to get PH5")
       return this.http.get(stationsURL, { responseType: 'text' })
         .pipe(
