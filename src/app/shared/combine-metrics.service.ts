@@ -26,8 +26,6 @@ export class CombineMetricsService {
 
   // Combines metrics with station data and measurements
   combineMetrics(measurements: any, metrics: any): void {
-    console.log(measurements)
-    console.log(metrics)
     const combinedMetrics = new Array<Metric>();
     let measurementCount = 0;
 

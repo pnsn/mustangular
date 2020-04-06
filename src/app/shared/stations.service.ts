@@ -18,7 +18,6 @@ export class StationsService {
   ) {}
 
   getMissingStationInformation (stationCode){
-    console.log("hi")
     return this.stations[stationCode] ? this.stations[stationCode] : null;
   }
 
@@ -60,34 +59,28 @@ export class StationsService {
 
    // Fetch stations from FDSNWS
   getFDNSWSStations(queryString : string, stations : string[]): Observable <any> {
-    console.log("stations")
     if(stations.length > 0) {
-      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString + "&sta=?" + stations.toString();
-
-      console.log("trying to get FDSNWS")
+      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString + "&sta=" + stations.toString();
       return this.http.get(stationsURL, { responseType: 'text' })
         .pipe(
           map(this.mapStations)
         );
     } else {
-      console.log("no fdnsws")
-      return of("no fdnsws");
+      return of({});
     }
   }
 
   // Fetch stations from PH5 service
   getPH5Stations(queryString: string, stations : string[]): Observable <any> {
-    console.log("PH5 stations", stations)
     if(stations.length > 0) {
-      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString + "&sta=?" + stations.toString();
-      console.log("Trying to get PH5")
+      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString + "&sta=" + stations.toString();
       return this.http.get(stationsURL, { responseType: 'text' })
         .pipe(
           map(this.mapStations)
         );
 
     } else {
-      return of("no ph5");
+      return of({});
     }
   }
 

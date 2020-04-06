@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
   providers: [MetricsService,
               CombineMetricsService,
               MeasurementsService,
-              StationsService,
               ParametersService
             ]
 })
@@ -96,7 +95,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.status.message = 'Accessing Station Information.';
     const sub = this.stationsService.getStationData(this.query.getString(['net']), stations).subscribe(
       response => {
-        console.log(response)
         this.dataService.setMetrics(metrics);
       },
       err => {
