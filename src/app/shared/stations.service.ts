@@ -1,17 +1,17 @@
 // Fetches station data from IRIS FDSNWS
 
 
-import {throwError as observableThrowError,  Observable, of } from 'rxjs';
+import {throwError as observableThrowError,  Observable, of, EMPTY } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { catchError, map} from 'rxjs/operators';
+import { catchError, map, mergeMap} from 'rxjs/operators';
 import { Station } from '../map/station';
 import { Metric } from '../map/metric';
 
 
 @Injectable()
 export class StationsService {
-  private stations;
+  private stations = {};
 
   constructor (
     private http: HttpClient
@@ -21,22 +21,15 @@ export class StationsService {
     return this.stations[stationCode] ? this.stations[stationCode] : null;
   }
 
-    getStationData(queryString: string, stations : any, metrics: Metric[]) {
-      console.log(stations["D"].toString());
-      for( let station of stations) {
-        console.log(station)
-        if(station.qual == "D") {
-
-          // get Data from FDSNWSS
-        } else {
-          
-        }
-      }
-
-
-      return of(metrics);
-
-    }
+  getStationData(queryString: string, stations : any, metrics: Metric[]) {
+    console.log(stations)
+    return this.getFDNSWSStations(stations["M"]).pipe(
+      mergeMap(response => {
+        console.log("I got called")
+        return this.getPH5Stations(stations["D"]);
+      })
+    );
+  }
 
    // Parse text file and map to station objects
    private mapStations(response: String) {
@@ -54,37 +47,42 @@ export class StationsService {
         };
        }
      }
+     return;
    }
 
    // Fetch stations from FDSNWS
-  getFDNSWSStations(queryString: string): Observable <any> {
+  getFDNSWSStations(stations : string[]): Observable <any> {
+    console.log("stations")
+    if(stations.length > 0) {
+      const queryString = stations.toString();
+      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
 
-    const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
-
-    return this.http.get(stationsURL, { responseType: 'text' })
-      .pipe(
-        map(this.mapStations),
-        catchError((error: Error) => {
-          return observableThrowError(error);
-        })
-      );
-
+      console.log("trying to get FDSNWS")
+      return this.http.get(stationsURL, { responseType: 'text' })
+        .pipe(
+          map(this.mapStations)
+        );
+    } else {
+      console.log("no fdnsws")
+      return of("no fdnsws");
+    }
   }
 
   // Fetch stations from PH5 service
-  getPH5Stations(queryString: string): Observable <any> {
+  getPH5Stations(stations : string[]): Observable <any> {
+    console.log("PH5 stations", stations)
+    if(stations.length > 0) {
+      const queryString = stations.toString();
+      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString;
+      console.log("Trying to get PH5")
+      return this.http.get(stationsURL, { responseType: 'text' })
+        .pipe(
+          map(this.mapStations)
+        );
 
-    const stationsURL = 'https://service.iris.edu/ph5ws//station/1/query?format=text' + queryString;
-
-    return this.http.get(stationsURL, { responseType: 'text' })
-      .pipe(
-        map(this.mapStations),
-        catchError((error: Error) => {
-          return observableThrowError(error);
-        })
-      );
-
+    } else {
+      return of("no ph5");
+    }
   }
-
 
 }
