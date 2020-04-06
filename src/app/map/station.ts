@@ -15,19 +15,16 @@ export class Station {
     constructor (
       public net: string,
       public sta: string,
-      public lat: number,
-      public lon: number,
-      public name: string,
+      public code: string,
+      public qual: string
     ) {
-      this.code = ''; // NET.STA.LOC
-      this.channels = {};
       this.displayValue = null;
       this.displayChannel = null;
-      this.qual = '';
     }
-    code: string;
-    channels: any;
-    qual: string;
+    lat: number;
+    lon: number;
+    name: string;
+    channels: any = {};
     displayValue: number; // Value displayed for the station
     displayChannel: string; // Channel being used to display
 

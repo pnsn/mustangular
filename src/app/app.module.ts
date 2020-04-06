@@ -53,6 +53,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ColoringComponent } from './map/controls/coloring/coloring.component';
 import { RemoveUnderscorePipe } from './remove-underscore.pipe';
 import { LoadingComponent } from './map/loading/loading.component';
+import { StationsService } from './shared/stations.service';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { LoadingComponent } from './map/loading/loading.component';
   providers: [
     MakeMarkersService,
     BinningService,
+    StationsService,
     DataService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],

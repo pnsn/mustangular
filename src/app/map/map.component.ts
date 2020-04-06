@@ -78,7 +78,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.status.message = 'Requesting Metrics from MUSTANG.';
     const sub = this.metricsService.getMetrics(this.query.getString(['metric'])).subscribe(
       metrics => {
-        this.getStations(this.query.getString(['net', 'sta']), metrics);
+        this.getMeasurements(this.query.getString(), metrics);
       },
       err => {
         this.status = {
@@ -92,11 +92,11 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Get list of all stations from IRIS FDSNWS
-  private getStations(qString: string, metrics: Metric[]): void {
+  private getStations(metrics: Metric[], stations): void {
     this.status.message = 'Accessing FDSNWS Station Information.';
-    const sub = this.stationsService.getStations(qString).subscribe(
-      stations => {
-        this.getMeasurements(this.query.getString(), metrics, stations);
+    const sub = this.stationsService.getStationData(this.query.getString(['net', 'sta']), stations, metrics).subscribe(
+      metricsWithStations => {
+          this.dataService.setMetrics(metricsWithStations);
       },
       err => {
 
@@ -111,11 +111,11 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Get measurements from MUSTANG
-  private getMeasurements(qString: string, metrics: Metric[], stations: object): void {
+  private getMeasurements(qString: string, metrics: Metric[]): void {
     this.status.message = 'Requesting Measurements from MUSTANG.';
     const sub = this.measurementsService.getMeasurements(qString).subscribe(
       measurements => {
-        this.combineMetrics(measurements, stations, metrics);
+        this.combineMetrics(measurements, metrics);
       },
       err => {
         this.status = {
@@ -129,7 +129,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Combine all the data and update status
-  private combineMetrics(measurements: object, stations: object, metrics: Metric[]) {
+  private combineMetrics(measurements: object, metrics: Metric[]) {
     this.status.message = 'Processing Data.';
     // Wait for active metric
     this.dataService.getActiveMetric().subscribe(
@@ -144,7 +144,10 @@ export class MapComponent implements OnInit, OnDestroy {
       combinedMetrics => {
         if (combinedMetrics && combinedMetrics.length > 0) {
           this.dataService.setDisplay(this.parametersService.getDisplay());
-          this.dataService.setMetrics(combinedMetrics);
+
+          const stations = this.combineMetricsService.getStations();
+          this.getStations(combinedMetrics, stations);
+          //get station data now
         } else {
           this.status = {
             message: 'No data returned from MUSTANG.',
@@ -157,6 +160,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.subscription.add(sub);
     // Combine measurements/metrics/stations
-    this.combineMetricsService.combineMetrics(measurements, stations, metrics);
+    this.combineMetricsService.combineMetrics(measurements, metrics);
   }
 }

@@ -6,11 +6,15 @@ import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
 import { Station } from '../map/station';
 import { Bin } from '../map/bin';
 import { Subject ,  Observable } from 'rxjs';
+import { StationsService } from './stations.service';
 
 @Injectable()
 export class MakeMarkersService {
 
-  constructor(private zone: NgZone) { }
+  constructor(
+    private zone: NgZone,
+    private stationsService: StationsService
+    ) { }
 
   private latlons = []; // Array of coordinates
   private bins: Bin[]; // local copy of bins
@@ -49,6 +53,17 @@ export class MakeMarkersService {
     // Go through each station and create the icon
     for (const s in metric.stations) {
       const station = metric.stations[s];
+      if(!station.lat || !station.lon) {
+        const info = this.stationsService.getMissingStationInformation(station.code);
+        if(info) {
+          station.lat = info.lat;
+          station.lon = info.lon;
+          station.name = info.name;
+        } else {
+          return;
+        }
+      }
+
       const latlon = latLng(station.lat, station.lon);
 
       const options = this.buildIcon(station, metric.display.displayValue);
