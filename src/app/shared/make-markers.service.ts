@@ -59,25 +59,24 @@ export class MakeMarkersService {
           station.lat = info.lat;
           station.lon = info.lon;
           station.name = info.name;
-
-          const latlon = latLng(station.lat, station.lon);
-
-          const options = this.buildIcon(station, metric.display.displayValue);
-          const m = new Marker(latlon, {icon: options.icon});
-    
-          m.on('click', function() {
-            self.zone.run( () => {
-              self.activeStation.next(station);
-            });
-          });
-    
-          m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
-          //
-          markerGroups[options.binIndex].push(m);
-          latlons.push(latlon);
-          
         } 
       }
+
+      const latlon = latLng(station.lat, station.lon);
+
+      const options = this.buildIcon(station, metric.display.displayValue);
+      const m = new Marker(latlon, {icon: options.icon});
+
+      m.on('click', function() {
+        self.zone.run( () => {
+          self.activeStation.next(station);
+        });
+      });
+
+      m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
+      //
+      markerGroups[options.binIndex].push(m);
+      latlons.push(latlon);
 
 
     }

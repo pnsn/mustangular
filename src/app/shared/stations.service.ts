@@ -12,7 +12,7 @@ import { Metric } from '../map/metric';
 @Injectable()
 export class StationsService {
   stations = {};
-
+  private stationCount : number = 0;
   constructor (
     private http: HttpClient
   ) {}
@@ -21,16 +21,34 @@ export class StationsService {
     return this.stations[stationCode] ? this.stations[stationCode] : null;
   }
 
-  getStationData(queryString: string, stations : any) {
-    return this.getFDNSWSStations(queryString, stations["M"]).pipe(
+  getStationData(queryString: string) {
+    return this.getFDNSWSStations(queryString).pipe(
+      catchError(err => {
+        //if no stations, keep going
+        if(this.stationCount === 0) {
+          return of({});
+        }
+      }),
       concatMap(response => {
+        this.stationCount = Object.keys(response).length;
         this.stations = {...this.stations, ...response};
-        return this.getPH5Stations(queryString, stations["D"]).pipe(
+        return this.getPH5Stations(queryString).pipe(
+          catchError(err => {
+            //if neither have stations, throw error
+            if(this.stationCount === 0) {
+              throw "No station data returned: " + err;
+            } else {
+              //if one has stations, keep going
+              return of({});
+            }
+          }),
           tap(
             response => {
+              this.stationCount += Object.keys(response).length;
               this.stations = {...this.stations, ...response};
             }
           )
+
         );
       })
     );
@@ -58,30 +76,20 @@ export class StationsService {
    }
 
    // Fetch stations from FDSNWS
-  getFDNSWSStations(queryString : string, stations : string[]): Observable <any> {
-    if(stations.length > 0) {
-      const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString + "&sta=" + stations.toString();
-      return this.http.get(stationsURL, { responseType: 'text' })
-        .pipe(
-          map(this.mapStations)
-        );
-    } else {
-      return of({});
-    }
+  getFDNSWSStations(queryString : string): Observable <any> {
+    const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
+    return this.http.get(stationsURL, { responseType: 'text' })
+      .pipe(
+        map(this.mapStations)
+      );
   }
 
   // Fetch stations from PH5 service
-  getPH5Stations(queryString: string, stations : string[]): Observable <any> {
-    if(stations.length > 0) {
-      const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString + "&sta=" + stations.toString();
-      return this.http.get(stationsURL, { responseType: 'text' })
-        .pipe(
-          map(this.mapStations)
-        );
-
-    } else {
-      return of({});
-    }
+  getPH5Stations(queryString: string): Observable <any> {
+    const stationsURL = 'https://service.iris.edu/ph5ws/station/1/query?format=text' + queryString;
+    return this.http.get(stationsURL, { responseType: 'text' })
+      .pipe(
+        map(this.mapStations)
+      );
   }
-
 }

@@ -11,14 +11,7 @@ export class CombineMetricsService {
 
   constructor() { }
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
-  private stations : any = {
-    "D" : [],
-    "M" : []
-  }; 
 
-  getStations() {
-    return this.stations;
-  }
   // Returns metrics
   getMetrics(): Observable<Metric[]> {
     return this.metrics.asObservable();
@@ -45,15 +38,7 @@ export class CombineMetricsService {
 
             // Create station if its the first pass
             if (!station) {
-              station = new Station (m.net, m.sta, stationCode, m.qual);
-
-              //sort stations by quality
-              if(m.qual === "D") {
-                this.stations["D"].push(m.sta);
-              } else {
-                this.stations["M"].push(m.sta);
-              }
-              
+              station = new Station (m.net, m.sta, stationCode, m.qual);              
               combinedMetric.display.data.count++;
             }
 

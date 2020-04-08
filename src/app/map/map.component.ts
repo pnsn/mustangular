@@ -91,9 +91,9 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Get list of all stations from IRIS FDSNWS
-  private getStations(metrics: Metric[], stations): void {
+  private getStations(metrics: Metric[]): void {
     this.status.message = 'Accessing Station Information.';
-    const sub = this.stationsService.getStationData(this.query.getString(['net']), stations).subscribe(
+    const sub = this.stationsService.getStationData(this.query.getString(['net', 'sta'])).subscribe(
       response => {
         this.dataService.setMetrics(metrics);
       },
@@ -143,8 +143,7 @@ export class MapComponent implements OnInit, OnDestroy {
         if (combinedMetrics && combinedMetrics.length > 0) {
           this.dataService.setDisplay(this.parametersService.getDisplay());
 
-          const stations = this.combineMetricsService.getStations();
-          this.getStations(combinedMetrics, stations);
+          this.getStations(combinedMetrics);
           //get station data now
         } else {
           this.status = {
