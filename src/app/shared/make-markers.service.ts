@@ -53,13 +53,13 @@ export class MakeMarkersService {
     // Go through each station and create the icon
     for (const s in metric.stations) {
       const station = metric.stations[s];
-      if(!station.lat || !station.lon) {
+      if (!station.lat || !station.lon) {
         const info = this.stationsService.getMissingStationInformation(station.code);
-        if(info) {
+        if (info) {
           station.lat = info.lat;
           station.lon = info.lon;
           station.name = info.name;
-        } 
+        }
       }
 
       const latlon = latLng(station.lat, station.lon);

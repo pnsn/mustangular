@@ -38,7 +38,7 @@ export class CombineMetricsService {
 
             // Create station if its the first pass
             if (!station) {
-              station = new Station (m.net, m.sta, stationCode, m.qual);              
+              station = new Station (m.net, m.sta, stationCode, m.qual);
               combinedMetric.display.data.count++;
             }
 
@@ -56,7 +56,7 @@ export class CombineMetricsService {
             station.channels = channels;
             combinedMetric.stations[stationCode] = station;
           }
-        
+
       }
 
       combinedMetrics.push(combinedMetric);

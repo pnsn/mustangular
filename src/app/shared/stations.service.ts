@@ -12,41 +12,41 @@ import { Metric } from '../map/metric';
 @Injectable()
 export class StationsService {
   stations = {};
-  private stationCount : number = 0;
+  private stationCount = 0;
   constructor (
     private http: HttpClient
   ) {}
 
-  getMissingStationInformation (stationCode){
+  getMissingStationInformation (stationCode) {
     return this.stations[stationCode] ? this.stations[stationCode] : null;
   }
 
   getStationData(queryString: string) {
-    return this.getStations("fdsnws", queryString).pipe(
+    return this.getStations('fdsnws', queryString).pipe(
       catchError((err, caught) => {
-        //if no stations, keep going
-        if(this.stationCount === 0) {
+        // if no stations, keep going
+        if (this.stationCount === 0) {
           return of({});
-        } else { //An actual error should be thrown
+        } else { // An actual error should be thrown
           throwError(err);
         }
       }),
-      concatMap(response => {
-        this.stationCount = Object.keys(response).length;
-        this.stations = {...this.stations, ...response};
-        return this.getStations("ph5ws", queryString).pipe(
+      concatMap(fdsnResponse => {
+        this.stationCount = Object.keys(fdsnResponse).length;
+        this.stations = {...this.stations, ...fdsnResponse};
+        return this.getStations('ph5ws', queryString).pipe(
           tap(
-            response => {
-              this.stationCount += Object.keys(response).length;
-              this.stations = {...this.stations, ...response};
+            ph5Response => {
+              this.stationCount += Object.keys(ph5Response).length;
+              this.stations = {...this.stations, ...ph5Response};
             }
           ),
           catchError(err => {
-            //if neither have stations, throw error
-            if(this.stationCount === 0) {
-              throw "No station data returned: " + err;
+            // if neither have stations, throw error
+            if (this.stationCount === 0) {
+              throw new Error('No station data returned: ' + err);
             } else {
-              //if one has stations, keep going
+              // if one has stations, keep going
               return of({});
             }
           })

@@ -144,7 +144,7 @@ export class MapComponent implements OnInit, OnDestroy {
           this.dataService.setDisplay(this.parametersService.getDisplay());
 
           this.getStations(combinedMetrics);
-          //get station data now
+          // get station data now
         } else {
           this.status = {
             message: 'No data returned from MUSTANG.',
