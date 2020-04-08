@@ -1,7 +1,7 @@
 // Fetches station data from IRIS FDSNWS
 
 
-import {throwError as observableThrowError,  Observable, of, EMPTY } from 'rxjs';
+import {throwError as observableThrowError,  Observable, of, EMPTY, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { catchError, map, mergeMap, tap, concatMap} from 'rxjs/operators';
@@ -23,16 +23,24 @@ export class StationsService {
 
   getStationData(queryString: string) {
     return this.getFDNSWSStations(queryString).pipe(
-      catchError(err => {
+      catchError((err, caught) => {
         //if no stations, keep going
         if(this.stationCount === 0) {
           return of({});
+        } else { //An actual error should be thrown
+          throwError(err);
         }
       }),
       concatMap(response => {
         this.stationCount = Object.keys(response).length;
         this.stations = {...this.stations, ...response};
         return this.getPH5Stations(queryString).pipe(
+          tap(
+            response => {
+              this.stationCount += Object.keys(response).length;
+              this.stations = {...this.stations, ...response};
+            }
+          ),
           catchError(err => {
             //if neither have stations, throw error
             if(this.stationCount === 0) {
@@ -41,13 +49,7 @@ export class StationsService {
               //if one has stations, keep going
               return of({});
             }
-          }),
-          tap(
-            response => {
-              this.stationCount += Object.keys(response).length;
-              this.stations = {...this.stations, ...response};
-            }
-          )
+          })
 
         );
       })
@@ -77,7 +79,7 @@ export class StationsService {
 
    // Fetch stations from FDSNWS
   getFDNSWSStations(queryString : string): Observable <any> {
-    const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?format=text' + queryString;
+    const stationsURL = 'https://service.iris.edu/fdsnws/station/1/query?type=text' + queryString;
     return this.http.get(stationsURL, { responseType: 'text' })
       .pipe(
         map(this.mapStations)
