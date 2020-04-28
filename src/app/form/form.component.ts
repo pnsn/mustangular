@@ -120,7 +120,7 @@ export class FormComponent implements OnInit, OnDestroy {
     const day = d;
     const tomorrow = moment().add(1, 'days');
     
-    if ( this.query.end ) {
+    if ( this.end ) {
       return day < tomorrow && day < this.end;
     } else {
       return day < tomorrow;
@@ -132,7 +132,7 @@ export class FormComponent implements OnInit, OnDestroy {
     const day = d;
     const tomorrow = moment().add(1, 'days');
 
-    if ( this.query.start ) {
+    if ( this.start) {
       return day < tomorrow && day > this.start;
     } else {
       return day < tomorrow;
