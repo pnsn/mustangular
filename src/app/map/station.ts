@@ -73,7 +73,7 @@ export class Station {
         if ( !this.displayChannel) {
           for (const c in this.channels) {
             const channel = this.channels[c];
-            if (channel.cha === displayChannel) {
+            if (channel.name === displayChannel) {
               this.displayChannel = channel.name;
 
               switch (displayValue) {

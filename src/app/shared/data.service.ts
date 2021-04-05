@@ -97,9 +97,8 @@ export class DataService {
     if (channels.length > 0) {
       const displayChannels = [];
       for ( const channel of channels) {
-        const c = channel.split('.')[1];
-        if (displayChannels.indexOf(c) === -1 ) {
-          displayChannels.push(c);
+        if (displayChannels.indexOf(channel) === -1 ) {
+          displayChannels.push(channel);
         }
       }
       return displayChannels;

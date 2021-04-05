@@ -77,7 +77,7 @@ export class Metric {
     const activeChannels = [];
     for (const s in this.stations) {
       const station = this.stations[s];
-      const c = station.displayChannel.split('.')[1];
+      const c = station.displayChannel;
       if (activeChannels.indexOf(c) < 0 ) {
         activeChannels.push(c);
       }
