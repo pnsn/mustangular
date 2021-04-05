@@ -42,7 +42,7 @@ import {
 } from '@angular/material';
 import { SortablejsModule } from 'angular-sortablejs';
 import { MarkersComponent } from './map/markers/markers.component';
-import { ControlsComponent, ChannelsDialog} from './map/controls/controls.component';
+import { ControlsComponent} from './map/controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './map/controls/key/key.component';
@@ -54,6 +54,7 @@ import { ColoringComponent } from './map/controls/coloring/coloring.component';
 import { RemoveUnderscorePipe } from './remove-underscore.pipe';
 import { LoadingComponent } from './map/loading/loading.component';
 import { StationsService } from './shared/stations.service';
+import { ChannelsDialogComponent } from './map/controls/channels-dialog/channels-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { StationsService } from './shared/stations.service';
     StationComponent,
     MarkersComponent,
     ControlsComponent,
-    ChannelsDialog,
+    ChannelsDialogComponent,
     DownloadDialog,
     StationDialog,
     HelpDialog,
@@ -116,7 +117,7 @@ import { StationsService } from './shared/stations.service';
     DataService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
-  entryComponents: [ChannelsDialog, DownloadDialog, StationDialog, HelpDialog],
+  entryComponents: [ChannelsDialogComponent, DownloadDialog, StationDialog, HelpDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
