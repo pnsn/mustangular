@@ -18,6 +18,20 @@
     <div class="form-body" fxLayout="column">
         <div class="form-title"> Options for {{activeMetric.title}}</div>
         
+                
+        <div class="form-section" fxLayout="column">
+            <div class="section-title">Channel Value Across Timespan</div>
+            
+            <mat-select id="displayDropdown" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="value">
+                <mat-option *ngFor="let value of displayValues" [value]="value">
+                    {{ value | removeUnderscore }}
+                </mat-option>
+            </mat-select>
+            
+        </div>
+
+        <mat-divider></mat-divider>
+
         <div class="form-section channels-dialog" fxFlex="100">
             <div class="section-title">Channel Priority</div>
             <span class="status">Click to prioritize</span>
@@ -31,18 +45,8 @@
 
         </div>
         
+
         <mat-divider></mat-divider>
-        
-        <div class="form-section" fxLayout="column">
-            <div class="section-title">Value</div>
-            
-            <mat-select id="displayDropdown" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="value">
-                <mat-option *ngFor="let value of displayValues" [value]="value">
-                    {{ value | removeUnderscore }}
-                </mat-option>
-            </mat-select>
-            
-        </div>
 
         <div class="form-section" fxLayout="column" fxFlex="100">
             <div class="section-title">Binning </div>

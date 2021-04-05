@@ -61,6 +61,7 @@ export class Station {
          ..._sortedObj,
          [key]: this.channels[key]
        }), {});
+       console.log(this.channels)
      }
 
 
