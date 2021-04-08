@@ -27,6 +27,7 @@ export class Display {
   coloring: string;
   binning: any;
   displayValue: string;
+  stationValue: string;
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
@@ -51,10 +52,13 @@ export class Display {
       'count': 0
     };
 
-    // Currently selected value to display for stations
+    // Currently selected value to display for channels
     this.displayValue = '';
 
-    // Channels to calculate on
+    // Currently selected value to display for stations
+    this.stationValue = '';
+    
+    // Channels to display
     this.channels = {
       'active' : <string[]>  null,
       'available' : <string[]> null
@@ -78,6 +82,7 @@ export class Display {
       '&binmin=' + this.binning.min +
       '&binmax=' + this.binning.max +
       '&value=' + this.displayValue +
+      '&stationValue=' + this.stationValue +
       '&channels=' + this.channels.active.toString();
     return  string ;
   }
@@ -91,6 +96,7 @@ export class Display {
       'binmin' : this.binning.min,
       'binmax' : this.binning.max,
       'value' : this.displayValue,
+      'stationValue' : this.stationValue,
       'channels' : this.channels.active.toString()
     };
   }
