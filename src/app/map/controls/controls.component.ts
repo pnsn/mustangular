@@ -35,6 +35,12 @@ export class ControlsComponent implements OnInit {
     '95th_Percentile'
   ]; // All possible display values for select
 
+  aggregateValues: Array<string> = [
+    'Minimum',
+    'Maximum',
+    'Most_Extreme'
+  ]; // Aggregate options
+
   ngOnInit() {
     // Subscribe to changes of the active metric and update display/metric data
     this.dataService.getActiveMetric().subscribe(

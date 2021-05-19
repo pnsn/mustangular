@@ -10,6 +10,8 @@
 //   channels: any
 // }
 
+import { Channel } from "./channel";
+
 export class Station {
 
     constructor (
@@ -63,11 +65,7 @@ export class Station {
        }), {});
      }
 
-
-    // Sets the station value according to the display value and selected channels
-    setValue(displayValue: string, stationValue: string, displayChannels: string[]): void {
-      console.log(stationValue)
-      this.sortChannels();
+    private getValueFromDisplayChannel(displayValue: string, displayChannels: string[]) {
       this.displayChannel = null;
       for (const displayChannel of displayChannels ) {
         if ( !this.displayChannel) {
@@ -76,40 +74,89 @@ export class Station {
             if (channel.name === displayChannel) {
               this.displayChannel = channel.name;
 
-              switch (displayValue) {
-                case 'Minimum' : {
-                  this.displayValue = channel.getMin();
-                  break;
-                }
-                case 'Maximum' : {
-                  this.displayValue = channel.getMax();
-                  break;
-                }
-                case 'Average' : {
-                  this.displayValue = channel.getAverage();
-                  break;
-                }
-                case 'Median' : {
-                  this.displayValue = channel.getMedian();
-                  break;
-                }
-                case '5th_Percentile' : {
-                  this.displayValue = channel.getPercentile(5);
-                  break;
-                }
-                case '95th_Percentile' : {
-                  this.displayValue = channel.getPercentile(95);
-                  break;
-                }
-                default : {
-                  this.displayValue = null;
-                  break;
-                }
-              }
+              this.displayValue = this.getValueFromChannel(displayValue, channel)
             }
           }
         }
 
+      }
+    }
+
+    private getValueFromChannel(displayValue: string, channel: Channel) : number{
+      let value;
+      switch (displayValue) {
+        case 'Minimum' : {
+          value = channel.getMin();
+          break;
+        }
+        case 'Maximum' : {
+          value = channel.getMax();
+          break;
+        }
+        case 'Average' : {
+          value = channel.getAverage();
+          break;
+        }
+        case 'Median' : {
+          value = channel.getMedian();
+          break;
+        }
+        case '5th_Percentile' : {
+          value = channel.getPercentile(5);
+          break;
+        }
+        case '95th_Percentile' : {
+          value = channel.getPercentile(95);
+          break;
+        }
+        default : {
+          value = null;
+          break;
+        }
+      }
+
+      return value;
+    }
+    //FIXME: need to get display value first to figure out which channel values to look at
+    private getValueFromAggregate(displayValue: string, aggregateValue: string) {
+      let channelValues = [];
+      for (const c in this.channels) {
+        const channel = this.channels[c];
+        channelValues.push(this.getValueFromChannel(displayValue, channel));
+      }
+
+      switch (aggregateValue) {
+        case 'Minimum' : {
+          this.displayValue = Math.min(...channelValues);
+          break;
+        }
+        case 'Maximum' : {
+          this.displayValue = Math.max(...channelValues);
+          break;
+        }
+        case 'Most_Extreme' : {
+          const min = Math.min(...channelValues);
+          const max = Math.max(...channelValues);
+
+          this.displayValue = Math.abs(min) > Math.abs(max) ? min : max;
+          break;
+        }
+        default : {
+          this.displayValue = null;
+          break;
+        }
+      }
+    }
+
+    // Sets the station value according to the display value and selected channels
+    setValue(displayValue: string, aggregateValue: string, displayChannels: string[]): void {
+      console.log(displayValue, aggregateValue, displayChannels)
+      this.sortChannels();
+
+      if( aggregateValue !== "" || null ) {
+        this.getValueFromAggregate(displayValue, aggregateValue)
+      } else {
+        this.getValueFromDisplayChannel(displayValue, displayChannels);
       }
     }
 }

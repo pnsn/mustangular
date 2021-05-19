@@ -16,6 +16,7 @@
 //     count : number
 //   },
 //   displayValue : string,
+//   aggregateValue: string,
 //   channels : {
 //     active : string array,
 //     available : string array
@@ -27,7 +28,7 @@ export class Display {
   coloring: string;
   binning: any;
   displayValue: string;
-  stationValue: string;
+  aggregateValue: string;
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
@@ -55,8 +56,9 @@ export class Display {
     // Currently selected value to display for channels
     this.displayValue = '';
 
+    this.aggregateValue = '';
     // Currently selected value to display for stations
-    this.stationValue = '';
+    this.aggregateValue = '';
     
     // Channels to display
     this.channels = {
@@ -81,8 +83,8 @@ export class Display {
       '&bincount=' + this.binning.count +
       '&binmin=' + this.binning.min +
       '&binmax=' + this.binning.max +
-      '&value=' + this.displayValue +
-      '&stationValue=' + this.stationValue +
+      '&displayValue=' + this.displayValue +
+      '&aggregateValue=' + this.aggregateValue +
       '&channels=' + this.channels.active.toString();
     return  string ;
   }
@@ -95,8 +97,8 @@ export class Display {
       'bincount' : this.binning.count,
       'binmin' : this.binning.min,
       'binmax' : this.binning.max,
-      'value' : this.displayValue,
-      'stationValue' : this.stationValue,
+      'displayValue' : this.displayValue,
+      'aggregateValue' : this.aggregateValue,
       'channels' : this.channels.active.toString()
     };
   }

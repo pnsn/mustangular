@@ -123,6 +123,8 @@ export class DataService {
         display.displayValue = 'Average';
       }
 
+      console.log(display.displayValue)
+
       display.invert = this.parameters.invert ? this.parameters.invert : false;
 
       display.channels.available = this.sortChannels(metric.getChannels());
