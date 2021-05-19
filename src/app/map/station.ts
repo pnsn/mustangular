@@ -65,7 +65,8 @@ export class Station {
 
 
     // Sets the station value according to the display value and selected channels
-    setValue(displayValue: string, displayChannels: string[]): void {
+    setValue(displayValue: string, stationValue: string, displayChannels: string[]): void {
+      console.log(stationValue)
       this.sortChannels();
       this.displayChannel = null;
       for (const displayChannel of displayChannels ) {

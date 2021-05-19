@@ -36,7 +36,7 @@ export class Metric {
     for (const s in this.stations) {
       const station = this.stations[s];
       // New value for the stations
-      station.setValue(this.display.displayValue, this.display.channels.available);
+      station.setValue(this.display.displayValue, this.display.stationValue, this.display.channels.available);
       values.push(station.displayValue);
     }
 
