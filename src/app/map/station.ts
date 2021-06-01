@@ -65,6 +65,7 @@ export class Station {
        }), {});
      }
 
+    // Finds the single display value for the station from all the channels
     private getValueFromDisplayChannel(displayValue: string, displayChannels: string[]) {
       this.displayChannel = null;
       for (const displayChannel of displayChannels ) {
@@ -82,6 +83,7 @@ export class Station {
       }
     }
 
+    // returns the displayValue calculated for the channel
     private getValueFromChannel(displayValue: string, channel: Channel) : number{
       let value;
       switch (displayValue) {
@@ -117,7 +119,8 @@ export class Station {
 
       return value;
     }
-    //FIXME: need to get display value first to figure out which channel values to look at
+
+    // Calculates the given aggregate value for the station
     private getValueFromAggregate(displayValue: string, aggregateValue: string) {
       let channelValues = [];
       for (const c in this.channels) {
@@ -150,7 +153,6 @@ export class Station {
 
     // Sets the station value according to the display value and selected channels
     setValue(displayValue: string, aggregateValue: string, displayChannels: string[]): void {
-      console.log(displayValue, aggregateValue, displayChannels)
       this.sortChannels();
 
       if( aggregateValue !== "" || null ) {

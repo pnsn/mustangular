@@ -123,7 +123,13 @@ export class DataService {
         display.displayValue = 'Average';
       }
 
-      console.log(display.displayValue)
+      if (this.parameters.aggregateValue) {
+        display.aggregateValue = this.parameters.aggregateValue;
+      }
+
+
+
+      console.log(display.aggregateValue)
 
       display.invert = this.parameters.invert ? this.parameters.invert : false;
 
