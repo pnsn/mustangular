@@ -123,13 +123,17 @@ export class DataService {
         display.displayValue = 'Average';
       }
 
-      if (this.parameters.aggregateValue) {
-        display.aggregateValue = this.parameters.aggregateValue;
+      if (this.parameters.colocatedType) {
+        display.colocatedType = this.parameters.colocatedType;
+      } else {
+        display.colocatedType = 'channel';
       }
 
-
-
-      console.log(display.aggregateValue)
+      if (this.parameters.aggregateValue) {
+        display.aggregateValue = this.parameters.aggregateValue;
+      } else if (display.colocatedType = "aggregate") {
+        display.aggregateValue = "Minimum";
+      }
 
       display.invert = this.parameters.invert ? this.parameters.invert : false;
 

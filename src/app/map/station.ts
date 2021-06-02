@@ -66,7 +66,7 @@ export class Station {
      }
 
     // Finds the single display value for the station from all the channels
-    private getValueFromDisplayChannel(displayValue: string, displayChannels: string[]) {
+    private getValueFromDisplayChannel(displayValue: string, displayChannels: string[], setDisplay: boolean) {
       this.displayChannel = null;
       for (const displayChannel of displayChannels ) {
         if ( !this.displayChannel) {
@@ -75,7 +75,9 @@ export class Station {
             if (channel.name === displayChannel) {
               this.displayChannel = channel.name;
 
-              this.displayValue = this.getValueFromChannel(displayValue, channel)
+              if( setDisplay ) {
+                this.displayValue = this.getValueFromChannel(displayValue, channel);
+              }
             }
           }
         }
@@ -155,10 +157,11 @@ export class Station {
     setValue(displayValue: string, aggregateValue: string, displayChannels: string[]): void {
       this.sortChannels();
 
-      if( aggregateValue !== "" || null ) {
-        this.getValueFromAggregate(displayValue, aggregateValue)
+      if( aggregateValue !== "" || aggregateValue == null ) {
+        this.getValueFromAggregate(displayValue, aggregateValue);
+        this.getValueFromDisplayChannel(displayValue, displayChannels, false);
       } else {
-        this.getValueFromDisplayChannel(displayValue, displayChannels);
+        this.getValueFromDisplayChannel(displayValue, displayChannels, true);
       }
     }
 }

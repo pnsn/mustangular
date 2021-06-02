@@ -17,7 +17,7 @@
 
     <div class="form-body" fxLayout="column">
         <div class="form-title">Options for {{activeMetric.title}}</div>
-        
+
         <div class="form-section" fxLayout="column">
             <div class="section-title">Channel Value Across Timespan</div>
             <mat-select id="displayDropdown" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="displayValue">
@@ -29,28 +29,48 @@
         </div>
 
         <mat-divider></mat-divider>
-        <div class="section-title">Channel Choice for Co-Located Channels</div>
-        <div class="form-section channels-dialog" fxFlex="100">
-            <div class="section-title">Channel Priority</div>
-            <span class="status">Click to prioritize</span>
-            
-            <div (click)="openChannelsDialog()" id="openChannelsDialog">
-              <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
-                <span *ngIf="i > 0"> > </span>
-                <span> {{i + 1}}. {{ channel }}</span>
-              </ng-container>
-            </div>
+
+        <div class="form-section channels-dialog" fxLayout="column" >
+            <div class="section-title">Channel Choice for Co-Located Channels</div>
+            <label for="colocated-select"></label>
+            <mat-radio-group
+                aria-labelledby="colocated-select"
+                class="example-radio-group"
+                [(ngModel)]="display.colocatedType"
+                name="colocated-select"
+                (ngModelChange)="valueChanged()"
+                >
+                <mat-radio-button value="channel">
+                    <div>
+                        Channel Priority
+                        <span class="status">Click to prioritize</span>
+                    </div>
+                    <div (click)="openChannelsDialog()" id="openChannelsDialog">
+                        <ng-container *ngFor="let channel of display.channels.active; let i = index"> 
+                          <span *ngIf="i > 0"> > </span>
+                          <span> {{i + 1}}. {{ channel }}</span>
+                        </ng-container>
+                      </div>
+                </mat-radio-button>
+    
+                <mat-radio-button value="aggregate">
+                    <div>
+                        Aggregate Channels for Station
+                    </div>
+                    <div>
+                        <mat-select id="aggregateDropdown" [(ngModel)]="display.aggregateValue" (ngModelChange)="valueChanged()" name="aggregateValue">
+                            <mat-option *ngFor="let value of aggregateValues" [value]="value">
+                                {{ value | removeUnderscore }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </mat-radio-button>
+            </mat-radio-group>
+
+
 
         </div>
-        {{display.aggregateValue}}
-        <div class="form-section channels-dialog" fxFlex="100">
-            <div class="section-title">Aggregate Channels for Station</div>
-            <mat-select id="aggregateDropdown" [(ngModel)]="display.aggregateValue" (ngModelChange)="valueChanged()" name="aggregateValue">
-                <mat-option *ngFor="let value of aggregateValues" [value]="value">
-                    {{ value | removeUnderscore }}
-                </mat-option>
-            </mat-select>
-        </div>
+
 
         <mat-divider></mat-divider>
 

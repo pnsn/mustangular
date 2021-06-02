@@ -48,6 +48,8 @@
 }
 
 #openChannelsDialog{
+  max-width: 250px;
+  overflow: auto;
   border-radius: 2px;
   border: solid 1px $border;
   padding: 10px;

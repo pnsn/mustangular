@@ -29,6 +29,7 @@ export class Display {
   binning: any;
   displayValue: string;
   aggregateValue: string;
+  colocatedType: string;
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
@@ -53,10 +54,12 @@ export class Display {
       'count': 0
     };
 
+    // Type of display: channels or aggregate
+    this.colocatedType = '';
+
     // Currently selected value to display for channels
     this.displayValue = '';
 
-    this.aggregateValue = '';
     // Currently selected value to display for stations
     this.aggregateValue = '';
     
@@ -84,6 +87,7 @@ export class Display {
       '&binmin=' + this.binning.min +
       '&binmax=' + this.binning.max +
       '&displayValue=' + this.displayValue +
+      '&colocatedType=' + this.colocatedType +
       '&aggregateValue=' + this.aggregateValue +
       '&channels=' + this.channels.active.toString();
     return  string ;
@@ -98,6 +102,7 @@ export class Display {
       'binmin' : this.binning.min,
       'binmax' : this.binning.max,
       'displayValue' : this.displayValue,
+      'colocatedType' : this.colocatedType,
       'aggregateValue' : this.aggregateValue,
       'channels' : this.channels.active.toString()
     };
