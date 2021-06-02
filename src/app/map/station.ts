@@ -76,7 +76,7 @@ export class Station {
               this.displayChannel = channel.name;
 
               if( setDisplay ) {
-                this.displayValue = this.getValueFromChannel(displayValue, channel);
+                this.displayValue = channel.getValue(displayValue);
               }
             }
           }
@@ -84,50 +84,13 @@ export class Station {
 
       }
     }
-
-    // returns the displayValue calculated for the channel
-    private getValueFromChannel(displayValue: string, channel: Channel) : number{
-      let value;
-      switch (displayValue) {
-        case 'Minimum' : {
-          value = channel.getMin();
-          break;
-        }
-        case 'Maximum' : {
-          value = channel.getMax();
-          break;
-        }
-        case 'Average' : {
-          value = channel.getAverage();
-          break;
-        }
-        case 'Median' : {
-          value = channel.getMedian();
-          break;
-        }
-        case '5th_Percentile' : {
-          value = channel.getPercentile(5);
-          break;
-        }
-        case '95th_Percentile' : {
-          value = channel.getPercentile(95);
-          break;
-        }
-        default : {
-          value = null;
-          break;
-        }
-      }
-
-      return value;
-    }
-
+    
     // Calculates the given aggregate value for the station
     private getValueFromAggregate(displayValue: string, aggregateValue: string) {
       let channelValues = [];
       for (const c in this.channels) {
         const channel = this.channels[c];
-        channelValues.push(this.getValueFromChannel(displayValue, channel));
+        channelValues.push(channel.getValue(displayValue));
       }
 
       switch (aggregateValue) {
