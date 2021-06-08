@@ -39,11 +39,11 @@ export class Channel {
   }
 
   // returns the value for the given display option
-  getValue(displayValue:string): number {
-    let value:number;
+  getValue(displayValue: string): number {
+    let value: number;
 
     this.calculateValues();
-    
+
     switch (displayValue) {
       case 'Minimum' : {
         value = this.getMin();

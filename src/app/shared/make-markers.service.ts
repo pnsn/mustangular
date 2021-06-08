@@ -63,27 +63,27 @@ export class MakeMarkersService {
         }
       }
 
-      if(station.lat && station.lon) {
+      if (station.lat && station.lon) {
         const latlon = latLng(station.lat, station.lon);
 
         const options = this.buildIcon(station, metric.display.displayValue);
         const m = new Marker(latlon, {icon: options.icon});
-  
+
         m.on('click', function() {
           self.zone.run( () => {
             self.activeStation.next(station);
           });
         });
-  
+
         m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
-     
+
         markerGroups[options.binIndex].push(m);
         latlons.push(latlon);
       } else {
         // Station does not have data in fdsnws and must be skipped
-        console.log("no station data for: " + station.code);
+        console.log('no station data for: ' + station.code);
       }
-    } 
+    }
 
     this.latlons = latlons;
 
@@ -101,7 +101,7 @@ export class MakeMarkersService {
   // Build an icon for a station
   private buildIcon(station: Station, displayValue: string): any {
     const value = station.displayValue;
-    let activeBin: Bin = this.getBin(value);
+    const activeBin: Bin = this.getBin(value);
 
     // Sort station into a bin
     if (activeBin) {
@@ -115,11 +115,11 @@ export class MakeMarkersService {
             }),
             binIndex: activeBin.layer
       };
-    } 
+    }
   }
 
   // Returns the bin the given value falls into
-  private getBin(value: number) : Bin{
+  private getBin(value: number): Bin {
     let activeBin: Bin;
 
     // bin for no value
@@ -133,9 +133,9 @@ export class MakeMarkersService {
       }
     }
     // catch any without a bin
-    if(!activeBin) {
-      //highest value
-      if(value === this.bins[this.bins.length - 2].max) {
+    if (!activeBin) {
+      // highest value
+      if (value === this.bins[this.bins.length - 2].max) {
         activeBin = this.bins[this.bins.length - 2];
       } else {
         activeBin = this.bins[this.bins.length - 1];
@@ -156,18 +156,18 @@ export class MakeMarkersService {
                 '<div> Channels: <ul id=\'channel-list\'>';
 
     for (const c in station.channels ) {
-      const channel : Channel = station.channels[c];
+      const channel: Channel = station.channels[c];
       const value = channel.getValue(displayValue);
       const bin = this.getBin(value);
 
       string += '<li style="color:' + bin.color;
-      
-      if (bin.color === "#ffffff" || bin.color === "white") {
+
+      if (bin.color === '#ffffff' || bin.color === 'white') {
         string += '; background-color: gray;"';
       } else {
         string += ';"';
       }
-      console.log(string)
+
       if (channel.name === station.displayChannel) {
         string += ' class=\'active channel\'';
       }

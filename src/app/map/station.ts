@@ -10,7 +10,7 @@
 //   channels: any
 // }
 
-import { Channel } from "./channel";
+import { Channel } from './channel';
 
 export class Station {
 
@@ -75,7 +75,7 @@ export class Station {
             if (channel.name === displayChannel) {
               this.displayChannel = channel.name;
 
-              if( setDisplay ) {
+              if ( setDisplay ) {
                 this.displayValue = channel.getValue(displayValue);
               }
             }
@@ -84,10 +84,10 @@ export class Station {
 
       }
     }
-    
+
     // Calculates the given aggregate value for the station
     private getValueFromAggregate(displayValue: string, aggregateValue: string) {
-      let channelValues = [];
+      const channelValues = [];
       for (const c in this.channels) {
         const channel = this.channels[c];
         channelValues.push(channel.getValue(displayValue));
@@ -120,7 +120,7 @@ export class Station {
     setValue(displayValue: string, aggregateValue: string, displayChannels: string[]): void {
       this.sortChannels();
 
-      if( aggregateValue !== "" || aggregateValue == null ) {
+      if ( aggregateValue !== '' || aggregateValue == null ) {
         this.getValueFromAggregate(displayValue, aggregateValue);
         this.getValueFromDisplayChannel(displayValue, displayChannels, false);
       } else {

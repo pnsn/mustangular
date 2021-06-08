@@ -1,5 +1,5 @@
-import { Component, Inject } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 // Dialog for channel sorter
 @Component({
@@ -14,7 +14,7 @@ export class ChannelsDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ChannelsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ) { 
+    ) {
       this.channels = this.data.channels;
       this.channelSorterOptions = this.data.options;
       this.activeChannels = this.data.activeChannels;

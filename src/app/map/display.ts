@@ -62,7 +62,7 @@ export class Display {
 
     // Currently selected value to display for stations
     this.aggregateValue = '';
-    
+
     // Channels to display
     this.channels = {
       'active' : <string[]>  null,
