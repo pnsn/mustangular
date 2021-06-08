@@ -7,6 +7,7 @@ import { Station } from '../map/station';
 import { Bin } from '../map/bin';
 import { Subject ,  Observable } from 'rxjs';
 import { StationsService } from './stations.service';
+import { Channel } from '../map/channel';
 
 @Injectable()
 export class MakeMarkersService {
@@ -100,41 +101,48 @@ export class MakeMarkersService {
   // Build an icon for a station
   private buildIcon(station: Station, displayValue: string): any {
     const value = station.displayValue;
-    let activeBin: Bin;
+    let activeBin: Bin = this.getBin(value);
 
     // Sort station into a bin
-    for (const binIndex in this.bins) {
-      const bin = this.bins[+binIndex];
-      if (value === null) {
-        activeBin = this.bins[this.bins.length - 1]; // last bin for no data
-      } else if (+binIndex === this.bins.length - 2 && value > bin.min ||
-                +binIndex === this.bins.length - 3 && value <= bin.max ||
-                value >= bin.min && value < bin.max ) {// inclusive on upper end
-        activeBin = bin;
+    if (activeBin) {
+      activeBin.count++;
+      return {
+            icon: divIcon({
+              'className': 'icon',
+              'html': '<div class=\'icon-color ' + activeBin.layer + '\' style=\'background-color:' + activeBin.color + '\'></div>',
+              'iconAnchor': [5, 5], // Make sure icon is centered over coordinates
+              'popupAnchor':  [1 , -2]
+            }),
+            binIndex: activeBin.layer
+      };
+    } 
+  }
+
+  // Returns the bin the given value falls into
+  private getBin(value: number) : Bin{
+    let activeBin: Bin;
+
+    // bin for no value
+    if (value === null || value !== 0 && !value) {
+      activeBin = this.bins[this.bins.length - 1]; // last bin for no data
+    } else {
+      // find correct bin
+      for (const binIndex in this.bins) {
+        const bin = this.bins[+binIndex];
+        activeBin = !activeBin && bin.inBin(value) ? bin : activeBin;
       }
-
-      // make inclusive on upper end - so the bin 3 from the end?
-      // min bin
-      // other bins
-      // almost last
-      // max bin
-      // no data
-
-      if (activeBin) {
-        activeBin.count++;
-        return {
-              icon: divIcon({
-                'className': 'icon',
-                'html': '<div class=\'icon-color ' + activeBin.layer + '\' style=\'background-color:' + activeBin.color + '\'></div>',
-                'iconAnchor': [5, 5], // Make sure icon is centered over coordinates
-                'popupAnchor':  [1 , -2]
-              }),
-              binIndex: activeBin.layer
-        };
+    }
+    // catch any without a bin
+    if(!activeBin) {
+      //highest value
+      if(value === this.bins[this.bins.length - 2].max) {
+        activeBin = this.bins[this.bins.length - 2];
+      } else {
+        activeBin = this.bins[this.bins.length - 1];
       }
-
     }
 
+    return activeBin;
   }
 
   // Builds the station information popup
@@ -148,14 +156,22 @@ export class MakeMarkersService {
                 '<div> Channels: <ul id=\'channel-list\'>';
 
     for (const c in station.channels ) {
-      const channel = station.channels[c];
+      const channel : Channel = station.channels[c];
+      const value = channel.getValue(displayValue);
+      const bin = this.getBin(value);
 
-      string += '<li';
-
+      string += '<li style="color:' + bin.color;
+      
+      if (bin.color === "#ffffff" || bin.color === "white") {
+        string += '; background-color: gray;"';
+      } else {
+        string += ';"';
+      }
+      console.log(string)
       if (channel.name === station.displayChannel) {
         string += ' class=\'active channel\'';
       }
-      string += '>' + channel.name + '</li>';
+      string += '>' + channel.name + ' (' + Math.round(value * 100) / 100 + ') </li>';
     }
 
     string += '</ul>';
