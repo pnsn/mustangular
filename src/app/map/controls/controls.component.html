@@ -19,7 +19,12 @@
         <div class="form-title">Options for {{activeMetric.title}}</div>
 
         <div class="form-section" fxLayout="column">
-            <div class="section-title">Channel Value Across Timespan</div>
+            <div class="section-title">Channel Value Across Timespan
+                <mat-icon
+                matTooltipPosition="above"
+                matTooltip="Value calculated for each channel for all data"
+            >help_outline</mat-icon>
+            </div>
             <mat-select id="displayDropdown" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()" name="displayValue">
                 <mat-option *ngFor="let value of displayValues" [value]="value">
                     {{ value | removeUnderscore }}
@@ -31,7 +36,13 @@
         <mat-divider></mat-divider>
 
         <div class="form-section channels-dialog" fxLayout="column" >
-            <div class="section-title">Channel Choice for Co-Located Channels</div>
+            <div class="section-title">Display Value for Co-Located Channels 
+                <mat-icon
+                    color="secondary"
+                    matTooltipPosition="above"
+                    matTooltip="Value shown on the map for a station"
+                >help_outline</mat-icon>
+            </div>
             <label for="colocated-select"></label>
             <mat-radio-group
                 aria-labelledby="colocated-select"
@@ -42,7 +53,7 @@
                 >
                 <mat-radio-button value="channel">
                     <div>
-                        Channel Priority
+                        Display single channel
                         <span class="status">Click to prioritize</span>
                     </div>
                     <div (click)="openChannelsDialog()" id="openChannelsDialog">
@@ -55,7 +66,7 @@
     
                 <mat-radio-button value="aggregate">
                     <div>
-                        Aggregate Channels for Station
+                        Aggregate channels
                     </div>
                     <div>
                         <mat-select id="aggregateDropdown" [(ngModel)]="display.aggregateValue" (ngModelChange)="valueChanged()" name="aggregateValue">

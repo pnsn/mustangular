@@ -1,10 +1,10 @@
 <div mat-dialog-title>Channel Display Priority</div>
 
 <mat-divider></mat-divider>
-<p>Drag the channels to reorder. The highest priority channel the station has available will be used to display the station on the map.
-  Active channels are currently being used to represent stations.</p>
+<p>Drag the channels to reorder. The highest priority channel that has data will be used to display the station on the map.
+  Active channels are currently being used to represent stations on the map.</p>
 <div mat-dialog-content>
-  <mat-list id="channels-list" [sortablejs]="channels" [sortablejsOptions]="channelSorterOptions">
+  <mat-list dense id="channels-list" [sortablejs]="channels" [sortablejsOptions]="channelSorterOptions">
    
     <mat-list-item [disableRipple]="true" *ngFor="let channel of channels">
       <mat-icon matListIcon class="handle">drag_indicator</mat-icon>

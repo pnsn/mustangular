@@ -18,7 +18,7 @@ mat-list {
   mat-list-item{
     border-top:dotted 1px $border;
     border-bottom: none;
-    height: 35px;
+    height: 35px !important;
   }
   .handle{
     margin-right: 40px;

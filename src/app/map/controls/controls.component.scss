@@ -1,22 +1,22 @@
 @import "styles.scss";
 
-.section-title {
-  font-size: 18px;
-  font-weight: 400;
-}
-
 #metric-section {
   padding: 10px 15px;
   overflow: hidden;
 }
-
+.section-title {
+  mat-icon {
+    font-size: 1em;
+    color: $secondary;
+  }
+}
 .select-active {
   display: inline-flex;
   flex-direction: column;
+}
 
-  mat-radio-button {
-    margin: 5px;
-  }
+mat-radio-button {
+  margin: 5px;
 }
 
 .form-body {
