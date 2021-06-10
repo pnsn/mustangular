@@ -53,35 +53,37 @@ export class MakeMarkersService {
 
     // Go through each station and create the icon
     for (const s in metric.stations) {
-      const station = metric.stations[s];
-      if (!station.lat || !station.lon) {
-        const info = this.stationsService.getMissingStationInformation(station.code);
-        if (info) {
-          station.lat = info.lat;
-          station.lon = info.lon;
-          station.name = info.name;
+      if (metric.stations[s]) {
+        const station = metric.stations[s];
+        if (!station.lat || !station.lon) {
+          const info = this.stationsService.getMissingStationInformation(station.code);
+          if (info) {
+            station.lat = info.lat;
+            station.lon = info.lon;
+            station.name = info.name;
+          }
         }
-      }
 
-      if (station.lat && station.lon) {
-        const latlon = latLng(station.lat, station.lon);
+        if (station.lat && station.lon) {
+          const latlon = latLng(station.lat, station.lon);
 
-        const options = this.buildIcon(station, metric.display.displayValue);
-        const m = new Marker(latlon, {icon: options.icon});
+          const options = this.buildIcon(station, metric.display.displayValue);
+          const m = new Marker(latlon, {icon: options.icon});
 
-        m.on('click', function() {
-          self.zone.run( () => {
-            self.activeStation.next(station);
+          m.on('click', function() {
+            self.zone.run( () => {
+              self.activeStation.next(station);
+            });
           });
-        });
 
-        m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
+          m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
 
-        markerGroups[options.binIndex].push(m);
-        latlons.push(latlon);
-      } else {
-        // Station does not have data in fdsnws and must be skipped
-        console.log('no station data for: ' + station.code);
+          markerGroups[options.binIndex].push(m);
+          latlons.push(latlon);
+        } else {
+          // Station does not have data in fdsnws and must be skipped
+          console.log('no station data for: ' + station.code);
+        }
       }
     }
 
@@ -92,7 +94,9 @@ export class MakeMarkersService {
     }
 
     for (const group in markerGroups) {
-      this.overlays.push(layerGroup(markerGroups[group]));
+      if (markerGroups[group]) {
+        this.overlays.push(layerGroup(markerGroups[group]));
+      }
     }
 
     return this.overlays;
@@ -128,8 +132,10 @@ export class MakeMarkersService {
     } else {
       // find correct bin
       for (const binIndex in this.bins) {
-        const bin = this.bins[+binIndex];
-        activeBin = !activeBin && bin.inBin(value) ? bin : activeBin;
+        if (this.bins[+binIndex]) {
+          const bin = this.bins[+binIndex];
+          activeBin = !activeBin && bin.inBin(value) ? bin : activeBin;
+        }
       }
     }
     // catch any without a bin
@@ -156,22 +162,24 @@ export class MakeMarkersService {
                 '<div> Channels: <ul id=\'channel-list\'>';
 
     for (const c in station.channels ) {
-      const channel: Channel = station.channels[c];
-      const value = channel.getValue(displayValue);
-      const bin = this.getBin(value);
+      if (station.channels[c]) {
+        const channel: Channel = station.channels[c];
+        const channelValue = channel.getValue(displayValue);
+        const bin = this.getBin(value);
 
-      string += '<li style="color:' + bin.color;
+        string += '<li style="color:' + bin.color;
 
-      if (bin.color === '#ffffff' || bin.color === 'white') {
-        string += '; background-color: gray;"';
-      } else {
-        string += ';"';
+        if (bin.color === '#ffffff' || bin.color === 'white') {
+          string += '; background-color: gray;"';
+        } else {
+          string += ';"';
+        }
+
+        if (channel.name === station.displayChannel) {
+          string += ' class=\'active channel\'';
+        }
+        string += '>' + channel.name + ' (' + Math.round(channelValue * 100) / 100 + ') </li>';
       }
-
-      if (channel.name === station.displayChannel) {
-        string += ' class=\'active channel\'';
-      }
-      string += '>' + channel.name + ' (' + Math.round(value * 100) / 100 + ') </li>';
     }
 
     string += '</ul>';

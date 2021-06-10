@@ -71,12 +71,14 @@ export class Station {
       for (const displayChannel of displayChannels ) {
         if ( !this.displayChannel) {
           for (const c in this.channels) {
-            const channel = this.channels[c];
-            if (channel.name === displayChannel) {
-              this.displayChannel = channel.name;
+            if (this.channels[c]) {
+              const channel = this.channels[c];
+              if (channel.name === displayChannel) {
+                this.displayChannel = channel.name;
 
-              if ( setDisplay ) {
-                this.displayValue = channel.getValue(displayValue);
+                if ( setDisplay ) {
+                  this.displayValue = channel.getValue(displayValue);
+                }
               }
             }
           }
@@ -89,8 +91,10 @@ export class Station {
     private getValueFromAggregate(displayValue: string, aggregateValue: string) {
       const channelValues = [];
       for (const c in this.channels) {
-        const channel = this.channels[c];
-        channelValues.push(channel.getValue(displayValue));
+        if (this.channels[c]) {
+          const channel = this.channels[c];
+          channelValues.push(channel.getValue(displayValue));
+        }
       }
 
       switch (aggregateValue) {

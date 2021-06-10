@@ -10,7 +10,7 @@ import { HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MapComponent } from './map/map.component';
 import { FormComponent } from './form/form.component';
-import { StationComponent , StationDialog} from './map/markers/station/station.component';
+import { StationComponent , StationDialogComponent} from './map/markers/station/station.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MakeMarkersService } from './shared/make-markers.service';
@@ -46,7 +46,7 @@ import { ControlsComponent} from './map/controls/controls.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ColorPickerModule} from 'ngx-color-picker';
 import { KeyComponent } from './map/controls/key/key.component';
-import { ButtonsComponent, DownloadDialog, HelpDialog} from './map/controls/buttons/buttons.component';
+import { ButtonsComponent, DownloadDialogComponent, HelpDialogComponent} from './map/controls/buttons/buttons.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -65,9 +65,9 @@ import { ChannelsDialogComponent } from './map/controls/channels-dialog/channels
     MarkersComponent,
     ControlsComponent,
     ChannelsDialogComponent,
-    DownloadDialog,
-    StationDialog,
-    HelpDialog,
+    DownloadDialogComponent,
+    StationDialogComponent,
+    HelpDialogComponent,
     KeyComponent,
     ButtonsComponent,
     ColoringComponent,
@@ -117,7 +117,7 @@ import { ChannelsDialogComponent } from './map/controls/channels-dialog/channels
     DataService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
-  entryComponents: [ChannelsDialogComponent, DownloadDialog, StationDialog, HelpDialog],
+  entryComponents: [ChannelsDialogComponent, DownloadDialogComponent, StationDialogComponent, HelpDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

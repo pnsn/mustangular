@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 // Dialog for channel sorter
 @Component({
-  selector: 'channels-dialog',
+  selector: 'app-channels-dialog',
   templateUrl: './channels-dialog.component.html',
   styleUrls: ['./channels-dialog.component.scss']
 })
