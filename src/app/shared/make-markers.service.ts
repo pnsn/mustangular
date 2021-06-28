@@ -67,7 +67,7 @@ export class MakeMarkersService {
         if (station.lat && station.lon) {
           const latlon = latLng(station.lat, station.lon);
 
-          const options = this.buildIcon(station, metric.display.displayValue);
+          const options = this.buildIcon(station);
           const m = new Marker(latlon, {icon: options.icon});
 
           m.on('click', function() {
@@ -75,8 +75,8 @@ export class MakeMarkersService {
               self.activeStation.next(station);
             });
           });
-
-          m.bindTooltip(self.buildPopup(station, metric.display.displayValue));
+          console.log(metric.display)
+          m.bindTooltip(self.buildPopup(station, metric.display.displayValue, metric.display.colocatedType));
 
           markerGroups[options.binIndex].push(m);
           latlons.push(latlon);
@@ -103,7 +103,7 @@ export class MakeMarkersService {
   }
 
   // Build an icon for a station
-  private buildIcon(station: Station, displayValue: string): any {
+  private buildIcon(station: Station): any {
     const value = station.displayValue;
     const activeBin: Bin = this.getBin(value);
 
@@ -152,14 +152,19 @@ export class MakeMarkersService {
   }
 
   // Builds the station information popup
-  private buildPopup(station: Station, displayValue: string): string {
+  private buildPopup(station: Station, displayValue: string, colocatedType: string): string {
     let value = station.displayValue;
     value = Math.round(value * 10 ) / 10;
 
     let string = '<h3>' + station.net + '.' + station.sta + '</h3>' +
-                '<span> Click to view data</span>' +
-                '<div> Value: (' + station.displayChannel + ') ' + value +
-                '<div> Channels: <ul id=\'channel-list\'>';
+                '<span> Click to view data</span><div> Value: (';
+    
+    if(colocatedType ==="channel" && station.displayChannel) {
+      string += station.displayChannel;
+    } else {
+      string += "aggregate"
+    }
+    string += ') ' + value +'<div> Channels: <ul id=\'channel-list\'>';
 
     for (const c in station.channels ) {
       if (station.channels[c]) {
@@ -175,7 +180,7 @@ export class MakeMarkersService {
           string += ';"';
         }
 
-        if (channel.name === station.displayChannel) {
+        if (colocatedType === "channel" && channel.name === station.displayChannel) {
           string += ' class=\'active channel\'';
         }
         string += '>' + channel.name + ' (' + Math.round(channelValue * 100) / 100 + ') </li>';
