@@ -75,7 +75,6 @@ export class Station {
               const channel = this.channels[c];
               if (channel.name === displayChannel) {
                 this.displayChannel = channel.name;
-
                 if ( setDisplay ) {
                   this.displayValue = channel.getValue(displayValue);
                 }
@@ -121,10 +120,10 @@ export class Station {
     }
 
     // Sets the station value according to the display value and selected channels
-    setValue(displayValue: string, aggregateValue: string, displayChannels: string[]): void {
+    setValue(colocatedType:string, displayValue: string, aggregateValue: string, displayChannels: string[]): void {
       this.sortChannels();
 
-      if ( aggregateValue !== '' || aggregateValue == null ) {
+      if ( colocatedType && colocatedType === 'aggregate' ) {
         this.getValueFromAggregate(displayValue, aggregateValue);
         this.getValueFromDisplayChannel(displayValue, displayChannels, false);
       } else {

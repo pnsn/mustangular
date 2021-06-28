@@ -37,7 +37,7 @@ export class Metric {
       if (this.stations[s]) {
         const station = this.stations[s];
         // New value for the stations
-        station.setValue(this.display.displayValue, this.display.aggregateValue, this.display.channels.available);
+        station.setValue(this.display.colocatedType, this.display.displayValue, this.display.aggregateValue, this.display.channels.available);
         values.push(station.displayValue);
       }
     }

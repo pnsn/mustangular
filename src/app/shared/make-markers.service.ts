@@ -75,7 +75,7 @@ export class MakeMarkersService {
               self.activeStation.next(station);
             });
           });
-          console.log(metric.display)
+
           m.bindTooltip(self.buildPopup(station, metric.display.displayValue, metric.display.colocatedType));
 
           markerGroups[options.binIndex].push(m);
@@ -121,34 +121,22 @@ export class MakeMarkersService {
       };
     }
   }
-
+  // Bins: user sets binning max and min and n number of bins between them
+  // [0] - all values < than set binning min
+  // [1] to [n-2] - bin min < values < bin max
+  // [n-1] - binmin < value <= bin max (this one is inclusive)
+  // [n] - all values > than set binning max
   // Returns the bin the given value falls into
   private getBin(value: number): Bin {
     let activeBin: Bin;
 
-    // bin for no value
-    if (value === null || value !== 0 && !value) {
-      activeBin = this.bins[this.bins.length - 1]; // last bin for no data
-    } else {
-      // find correct bin
-      for (const binIndex in this.bins) {
-        if (this.bins[+binIndex]) {
-          const bin = this.bins[+binIndex];
-          activeBin = !activeBin && bin.inBin(value) ? bin : activeBin;
-        }
-      }
+    let binIndex = 0;
+    while(!activeBin && binIndex < this.bins.length) {
+      const bin = this.bins[binIndex];
+      activeBin = bin.inBin(value, binIndex, this.bins.length) ? bin : activeBin;
+      binIndex++;
     }
-    // catch any without a bin
-    if (!activeBin) {
-      // highest value
-      if (value === this.bins[this.bins.length - 2].max) {
-        activeBin = this.bins[this.bins.length - 2];
-      } else {
-        activeBin = this.bins[this.bins.length - 1];
-      }
-    }
-
-    return activeBin;
+    return activeBin ? activeBin : this.bins[this.bins.length - 1];
   }
 
   // Builds the station information popup
@@ -170,7 +158,7 @@ export class MakeMarkersService {
       if (station.channels[c]) {
         const channel: Channel = station.channels[c];
         const channelValue = channel.getValue(displayValue);
-        const bin = this.getBin(value);
+        const bin = this.getBin(channelValue);
 
         string += '<li style="color:' + bin.color;
 
