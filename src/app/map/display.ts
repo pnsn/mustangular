@@ -33,6 +33,7 @@ export class Display {
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
+  hasCoLocatedChannels: boolean;
   constructor() {
 
     // Data's max, min, and number of data points
@@ -68,6 +69,8 @@ export class Display {
       'active' : <string[]>  null,
       'available' : <string[]> null
     };
+
+    this.hasCoLocatedChannels = false;
   }
 
   // Ensures there are values for binning

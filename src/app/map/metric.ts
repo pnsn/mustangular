@@ -61,10 +61,15 @@ export class Metric {
 
   // Return all of metric's channels
   getChannels(): Array<string> {
+    let hasCoLocatedChannels: boolean = false;
+
     const channels = [];
     for (const s in this.stations) {
       if (this.stations[s]) {
         const station = this.stations[s];
+        if(Object.keys(station.channels).length > 1) {
+          hasCoLocatedChannels = true;
+        }
         for ( const c in station.channels ) {
           if (channels.indexOf(c) < 0 ) {
             channels.push(c);
@@ -72,6 +77,7 @@ export class Metric {
         }
       }
     }
+    this.display.hasCoLocatedChannels = hasCoLocatedChannels;
     return channels;
   }
 
