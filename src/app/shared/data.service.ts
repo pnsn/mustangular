@@ -131,6 +131,8 @@ export class DataService {
 
       if (this.parameters.aggregateValue) {
         display.aggregateValue = this.parameters.aggregateValue;
+      } else {
+        display.aggregateValue = 'Minimum';
       }
 
       display.invert = this.parameters.invert ? this.parameters.invert : false;
