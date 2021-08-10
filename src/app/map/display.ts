@@ -16,6 +16,7 @@
 //     count : number
 //   },
 //   displayValue : string,
+//   aggregateValue: string,
 //   channels : {
 //     active : string array,
 //     available : string array
@@ -27,9 +28,12 @@ export class Display {
   coloring: string;
   binning: any;
   displayValue: string;
+  aggregateValue: string;
+  colocatedType: string;
   channels: any;
   invert: boolean;
   displayType: string; // Binary/Percent
+  hasCoLocatedChannels: boolean;
   constructor() {
 
     // Data's max, min, and number of data points
@@ -51,14 +55,22 @@ export class Display {
       'count': 0
     };
 
-    // Currently selected value to display for stations
+    // Type of display: channels or aggregate
+    this.colocatedType = '';
+
+    // Currently selected value to display for channels
     this.displayValue = '';
 
-    // Channels to calculate on
+    // Currently selected value to display for stations
+    this.aggregateValue = '';
+
+    // Channels to display
     this.channels = {
       'active' : <string[]>  null,
       'available' : <string[]> null
     };
+
+    this.hasCoLocatedChannels = false;
   }
 
   // Ensures there are values for binning
@@ -77,7 +89,9 @@ export class Display {
       '&bincount=' + this.binning.count +
       '&binmin=' + this.binning.min +
       '&binmax=' + this.binning.max +
-      '&value=' + this.displayValue +
+      '&displayValue=' + this.displayValue +
+      '&colocatedType=' + this.colocatedType +
+      '&aggregateValue=' + this.aggregateValue +
       '&channels=' + this.channels.active.toString();
     return  string ;
   }
@@ -90,7 +104,9 @@ export class Display {
       'bincount' : this.binning.count,
       'binmin' : this.binning.min,
       'binmax' : this.binning.max,
-      'value' : this.displayValue,
+      'displayValue' : this.displayValue,
+      'colocatedType' : this.colocatedType,
+      'aggregateValue' : this.aggregateValue,
       'channels' : this.channels.active.toString()
     };
   }
