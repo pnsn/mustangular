@@ -5,7 +5,7 @@ import { Component, OnInit} from '@angular/core';
 import { Metric } from '../metric';
 import { DataService } from '../../shared/data.service';
 import { Display } from '../display';
-import { MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ParametersService } from '../../shared/parameters.service';
 import { ChannelsDialogComponent } from './channels-dialog/channels-dialog.component';
 

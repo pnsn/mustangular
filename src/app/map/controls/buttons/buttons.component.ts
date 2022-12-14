@@ -1,7 +1,8 @@
 // Handles dialogs and logic for downloading, help text, and sharing
 
 import { Component, OnInit , Input, Inject} from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Metric } from '../../metric';
 import { MeasurementsService } from '../../../shared/measurements.service';
 

@@ -4,7 +4,7 @@ import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
 import { MakeMarkersService } from '../../../shared/make-markers.service';
 import { DataService} from '../../../shared/data.service';
 import { Station } from '../../station';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Metric } from '../../metric';
 import { Subscription } from 'rxjs';
 import { ParametersService } from '../../../shared/parameters.service';
