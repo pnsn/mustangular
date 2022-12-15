@@ -133,7 +133,6 @@
       }
     }
   },
-  "defaultProject": "mustangular-v2",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
