@@ -23,7 +23,6 @@
     "@angular/platform-browser": "^13.3.12",
     "@angular/platform-browser-dynamic": "^13.3.12",
     "@angular/router": "^13.3.12",
-    "@swimlane/ngx-charts": "^19.2.0",
     "angular-font-awesome": "^3.1.2",
     "angular-sortablejs": "^2.7.0",
     "font-awesome": "^4.7.0",
