@@ -1,16 +1,16 @@
 //Global styles
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 // Main app colors, uses Material color specifications
-$app-primary: mat-palette($mat-deep-purple);
-$app-accent:  mat-palette($mat-orange, A200, A100, A400);
-$app-warn:    mat-palette($mat-red);
+$app-primary: mat.define-palette(mat.$deep-purple-palette);
+$app-accent:  mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$app-warn:    mat.define-palette(mat.$red-palette);
 
 
 // Create your Sass color variables
-$primary: mat-color($app-primary);
-$accent: mat-color($app-accent);
-$warning: mat-color($app-warn);
+$primary: mat.get-color-from-palette($app-primary);
+$accent: mat.get-color-from-palette($app-accent);
+$warning: mat.get-color-from-palette($app-warn);
 $background: #f2efe9;
 $border: #cccccc;
 $secondary: #707070;
