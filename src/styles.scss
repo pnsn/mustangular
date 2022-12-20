@@ -1,5 +1,7 @@
 //Global styles
 @use '@angular/material' as mat;
+// @import '~@swimlane/ngx-charts/index.css';
+@import '~leaflet/dist/leaflet.css';
 
 // Main app colors, uses Material color specifications
 $app-primary: mat.define-palette(mat.$deep-purple-palette);
@@ -17,7 +19,7 @@ $secondary: #707070;
 
 $header-height : 60px;
 
-html,body { 
+html,body {
   margin: 0px;
   font-size: 14px;
   font-family: "Helvetica Neue", sans-serif !important;
