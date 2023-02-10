@@ -3,6 +3,7 @@ import * as Rainbow from "rainbowvis.js";
 import { Subject, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { ColorOption } from "@interfaces/binning.interface";
+import { Display } from "@models/display";
 
 // Generates bins to color map icons
 @Injectable()
@@ -98,7 +99,7 @@ export class BinningService {
   }
 
   // Creates the bins
-  makeBins(display: any): Bin[] {
+  makeBins(display: Display): Bin[] {
     const binning = display.binning;
     const data = display.data;
 

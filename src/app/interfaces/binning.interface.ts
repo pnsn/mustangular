@@ -17,3 +17,8 @@ export interface Data {
   max: number;
   count: number;
 }
+
+export interface Channels {
+  active: string[];
+  available: string[];
+}

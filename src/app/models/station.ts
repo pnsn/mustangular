@@ -1,3 +1,5 @@
+import { AggregateValue, ColocatedType, DisplayValue } from "app/types";
+
 // Describes a Station object
 export class Station {
   constructor(
@@ -80,8 +82,8 @@ export class Station {
 
   // Calculates the given aggregate value for the station
   private getValueFromAggregate(
-    displayValue: string,
-    aggregateValue: string
+    displayValue: DisplayValue,
+    aggregateValue: AggregateValue
   ): void {
     const channelValues = [];
     for (const c in this.channels) {
@@ -116,9 +118,9 @@ export class Station {
 
   // Sets the station value according to the display value and selected channels
   setValue(
-    colocatedType: string,
-    displayValue: string,
-    aggregateValue: string,
+    colocatedType: ColocatedType,
+    displayValue: DisplayValue,
+    aggregateValue: AggregateValue,
     displayChannels: string[]
   ): void {
     this.sortChannels();

@@ -1,5 +1,5 @@
 // Generates the leaflet map and the markers on it
-import { Component, OnInit, ElementRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { latLngBounds, tileLayer, Map } from "leaflet";
 import { Metric } from "@models/metric";
 import { MakeMarkersService } from "@services/make-markers.service";
@@ -16,8 +16,7 @@ export class MarkersComponent implements OnInit, OnDestroy {
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
-    private binningService: BinningService,
-    private elementRef: ElementRef
+    private binningService: BinningService
   ) {}
 
   subscription: Subscription = new Subscription(); // Used to close connections
@@ -65,7 +64,7 @@ export class MarkersComponent implements OnInit, OnDestroy {
     },
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Wait for active metric
     const sub = this.dataService.getActiveMetric().subscribe((activeMetric) => {
       if (activeMetric) {
@@ -92,11 +91,13 @@ export class MarkersComponent implements OnInit, OnDestroy {
   }
 
   // Close connections when navigating away
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  onMapReady(map: Map) {}
+  onMapReady(_map: Map): void {
+    return;
+  }
 
   // Make the markers for the map
   private makeMarkers(): void {

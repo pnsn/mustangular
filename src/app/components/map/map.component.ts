@@ -127,7 +127,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Combine all the data and update status
-  private combineMetrics(measurements: object, metrics: Metric[]) {
+  private combineMetrics(measurements: object, metrics: Metric[]): void {
     this.status.message = "Processing Data.";
     // Wait for active metric
     this.dataService.getActiveMetric().subscribe((activeMetric) => {

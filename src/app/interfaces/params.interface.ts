@@ -1,3 +1,5 @@
+import { AggregateValue, ColocatedType, DisplayValue } from "app/types";
+
 //query params
 export interface DisplayParams {
   coloring?: string;
@@ -5,8 +7,8 @@ export interface DisplayParams {
   bincount?: number;
   binmin?: number;
   binmax?: number;
-  displayValue?: string;
-  colocatedType?: string;
-  aggregateValue?: string;
+  displayValue?: DisplayValue;
+  colocatedType?: ColocatedType;
+  aggregateValue?: AggregateValue;
   channels?: string;
 }

@@ -5,6 +5,7 @@
 //   measurements : Measurement array
 // }
 
+import { DisplayValue } from "app/types";
 import { Measurement } from "./measurement";
 export class Channel {
   constructor(public name: string, public loc = "", public cha = "") {
@@ -35,7 +36,7 @@ export class Channel {
   }
 
   // returns the value for the given display option
-  getValue(displayValue: string): number {
+  getValue(displayValue: DisplayValue): number {
     let value: number;
 
     this.calculateValues();

@@ -1,6 +1,7 @@
 // Describes a Metric object
 import { MetricType } from "app/types";
 import { Display } from "./display";
+import { Station } from "./station";
 export class Metric {
   constructor(
     public name: string,
@@ -15,7 +16,7 @@ export class Metric {
   }
 
   display: Display; // Metric's display settings
-  stations: any; // Metric's stations
+  stations: Record<string, Station>; // Metric's stations
   private values: Array<number>; // Metric's display values
 
   // Set new values for Metric and it's stations

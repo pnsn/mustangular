@@ -8,6 +8,7 @@ import { Display } from "@models/display";
 import { MatDialog } from "@angular/material/dialog";
 import { ParametersService } from "@services/parameters.service";
 import { ChannelsDialogComponent } from "./channels-dialog/channels-dialog.component";
+import { AggregateValue, DisplayValue } from "app/types";
 
 @Component({
   selector: "app-controls",
@@ -25,7 +26,7 @@ export class ControlsComponent implements OnInit {
   activeMetric: Metric; // Currently active metric
   display: Display; // Color/binning/value settings
   changed = false; // Status of form
-  displayValues: Array<string> = [
+  displayValues: Array<DisplayValue> = [
     "Minimum",
     "Maximum",
     "Average",
@@ -34,9 +35,13 @@ export class ControlsComponent implements OnInit {
     "95th_Percentile",
   ]; // All possible display values for select
 
-  aggregateValues: Array<string> = ["Minimum", "Maximum", "Most_Extreme"]; // Aggregate options
+  aggregateValues: Array<AggregateValue> = [
+    "Minimum",
+    "Maximum",
+    "Most_Extreme",
+  ]; // Aggregate options
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Subscribe to changes of the active metric and update display/metric data
     this.dataService.getActiveMetric().subscribe((activeMetric) => {
       if (activeMetric) {

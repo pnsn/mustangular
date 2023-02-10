@@ -14,7 +14,7 @@ export class ColoringComponent implements OnInit {
   currentColoring: any;
   constructor(private binningService: BinningService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.colorings = this.binningService.getColorings();
     for (const coloring of this.colorings) {
       coloring.background = "linear-gradient(to right";
@@ -35,7 +35,7 @@ export class ColoringComponent implements OnInit {
     this.setColoring(event);
   }
 
-  setColoring(color) {
+  setColoring(color): void {
     for (const coloring of this.colorings) {
       if (color === coloring.name) {
         this.currentColoring = coloring;

@@ -1,56 +1,49 @@
 // Describes a Display object
 
-import { Binning, Data } from "@interfaces/binning.interface";
+import { Binning, Channels, Data } from "@interfaces/binning.interface";
 import { DisplayParams } from "@interfaces/params.interface";
-import { MetricType } from "app/types";
+import {
+  AggregateValue,
+  ColocatedType,
+  DisplayValue,
+  MetricType,
+} from "app/types";
 
 export class Display {
+  // Data's max, min, and number of data points
   data: Data;
+  // High and low color selections
   coloring: string;
+  // Upper and lower bounds for bins and number of bins
   binning: Binning;
-  displayValue: string;
-  aggregateValue: string;
-  colocatedType: string;
-  channels: any;
+  // Currently selected value to display for channels
+  displayValue: DisplayValue;
+  // Currently selected value to display for stations
+  aggregateValue: AggregateValue;
+  // Type of display: channels or aggregate
+  colocatedType: ColocatedType;
+  channels: Channels;
   invert: boolean;
   metricType?: MetricType; // Binary/Percent
   hasCoLocatedChannels: boolean;
   constructor() {
-    // Data's max, min, and number of data points
     this.data = {
       min: null,
       max: null,
       count: 0,
     };
 
-    this.invert = false;
-
-    // High and low color selections
-    this.coloring = null;
-
-    // Upper and lower bounds for bins and number of bins
     this.binning = {
       min: null,
       max: null,
       count: 0,
     };
 
-    // Type of display: channels or aggregate
-    this.colocatedType = "";
-
-    // Currently selected value to display for channels
-    this.displayValue = "";
-
-    // Currently selected value to display for stations
-    this.aggregateValue = "";
-
     // Channels to display
     this.channels = {
       active: <string[]>null,
       available: <string[]>null,
     };
-
-    this.hasCoLocatedChannels = false;
   }
 
   // Ensures there are values for binning
