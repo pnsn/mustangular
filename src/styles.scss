@@ -1,13 +1,12 @@
 //Global styles
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // @import '~@swimlane/ngx-charts/index.css';
-@import '~leaflet/dist/leaflet.css';
+@import "~leaflet/dist/leaflet.css";
 
 // Main app colors, uses Material color specifications
 $app-primary: mat.define-palette(mat.$deep-purple-palette);
-$app-accent:  mat.define-palette(mat.$orange-palette, A200, A100, A400);
-$app-warn:    mat.define-palette(mat.$red-palette);
-
+$app-accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
+$app-warn: mat.define-palette(mat.$red-palette);
 
 // Create your Sass color variables
 $primary: mat.get-color-from-palette($app-primary);
@@ -17,9 +16,10 @@ $background: #f2efe9;
 $border: #cccccc;
 $secondary: #707070;
 
-$header-height : 60px;
+$header-height: 54px;
 
-html,body {
+html,
+body {
   margin: 0px;
   font-size: 14px;
   font-family: "Helvetica Neue", sans-serif !important;
@@ -28,27 +28,27 @@ html,body {
 }
 
 .info-text {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 400;
 }
 
 .section-title {
   font-size: 1.1rem;
-  font-weight:400;
+  font-weight: 400;
   margin-bottom: 5px;
 }
 
 .form-title {
   font-size: 1.3rem;
   font-weight: 400;
-  color : $primary;
+  color: $primary;
   display: inline;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 400;
-  color : $primary;
+  color: $primary;
   display: inline;
 }
 
@@ -64,12 +64,16 @@ html,body {
 
 h2 {
   color: $accent;
-  margin:10px 0px;
-  font-weight:500;
+  margin: 10px 0px;
+  font-weight: 500;
 }
 
 h1 {
   color: $primary;
-  margin-top:0px;
+  margin-top: 0px;
   display: inline-block;
+}
+
+.mat-toolbar-single-row {
+  height: unset;
 }

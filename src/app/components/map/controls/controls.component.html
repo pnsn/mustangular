@@ -113,12 +113,38 @@
     <mat-divider></mat-divider>
 
     <div class="form-section" fxLayout="column" fxFlex="100">
-      <div class="section-title">
-        binning
-        <mat-icon matTooltipPosition="above" matTooltip="Default binning uses "
-          >help_outline</mat-icon
-        >
-        <button mat-button type="button" (click)="resetBins()">Recalculate bins</button>
+      <div class="section-title" fxLayoutAlign="space-between center">
+        <div>
+          Binning
+          <ng-container [ngSwitch]="activeMetric?.display.metricType">
+            {{ activeMetric.display.metricType }}
+            <mat-icon
+              *ngSwitchCase="'percent'"
+              matTooltipPosition="above"
+              matTooltip="defaults are 0 and 100 for percent metrics"
+              >help_outline</mat-icon
+            >
+            <mat-icon
+              *ngSwitchCase="'boolean'"
+              matTooltipPosition="above"
+              matTooltip="defaults are 0 and 1 for boolean metrics"
+              >help_outline</mat-icon
+            >
+            <mat-icon
+              *ngSwitchCase="'polarity'"
+              matTooltipPosition="above"
+              matTooltip="defaults are -1 and 1 for polarity metrics"
+              >help_outline</mat-icon
+            >
+            <mat-icon
+              *ngSwitchDefault
+              matTooltipPosition="above"
+              matTooltip="defaults are the 5th and 95th percentile"
+              >help_outline</mat-icon
+            >
+          </ng-container>
+        </div>
+        <button mat-button type="button" (click)="resetBins()">Reset</button>
       </div>
 
       <div fxLayout="row" fxLayoutGap="5px">
@@ -126,7 +152,7 @@
           <input
             matInput
             type="number"
-            placeholder="Min = {{ display.data.min | number : '1.2-2' }}"
+            placeholder="Min = {{ display.data.min | number: '1.2-2' }}"
             [(ngModel)]="display.binning.min"
             (change)="valueChanged()"
             max="{{ display.binning.max - 0.01 }}"
@@ -138,7 +164,7 @@
           <input
             matInput
             type="number"
-            placeholder="Max = {{ display.data.max | number : '1.2-2' }}"
+            placeholder="Max = {{ display.data.max | number: '1.2-2' }}"
             [(ngModel)]="display.binning.max"
             (change)="valueChanged()"
             min="{{ display.binning.min + 0.01 }}"
