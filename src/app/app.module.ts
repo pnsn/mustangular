@@ -35,7 +35,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SortablejsModule } from 'ngx-sortablejs';
+// import { SortablejsModule } from 'ngx-sortablejs';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 import { MarkersComponent } from './map/markers/markers.component';
 import { ControlsComponent} from './map/controls/controls.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -103,7 +104,7 @@ import { ChannelsDialogComponent } from './map/controls/channels-dialog/channels
         ColorPickerModule,
         NgxChartsModule,
         NoopAnimationsModule,
-        SortablejsModule.forRoot({ animation: 150 })
+        DragDropModule
     ],
     providers: [
         MakeMarkersService,

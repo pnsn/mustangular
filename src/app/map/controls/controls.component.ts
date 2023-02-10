@@ -60,13 +60,6 @@ export class ControlsComponent implements OnInit {
       data: {
         channels: this.display.channels.available,
         activeChannels: this.display.channels.active,
-        options: {
-          onUpdate: (event: any) => {
-            // this.valueChanged();
-          },
-          ghostClass: 'ghost',
-          chosenClass: 'chosen'
-        },
         handle : '.handle'
     }
     });
