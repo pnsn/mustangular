@@ -1,18 +1,16 @@
 // Fetches measurements from MUSTANG
 
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { map} from 'rxjs/operators';
+import { Observable } from "rxjs";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class MeasurementsService {
+  private url =
+    "https://service.iris.edu/mustang/measurements/1/query?nodata=200";
 
-  private url = 'https://service.iris.edu/mustang/measurements/1/query?nodata=200';
-
-  constructor (
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   // Returns the measurements
   private mapMeasurements(response: any): object {
@@ -24,20 +22,18 @@ export class MeasurementsService {
   }
 
   // Gets the measurements from the IRIS service
-  getMeasurements(queryString: string, type?: string): Observable <any> {
+  getMeasurements(queryString: string, type?: string): Observable<any> {
     this.url += queryString;
 
     let measurementsURL = this.url;
     if (type) {
-      measurementsURL += '&output' + type; // FIXME: is this right
+      measurementsURL += "&output" + type; // FIXME: is this right
     } else {
-      measurementsURL += '&output=jsonp';
+      measurementsURL += "&output=jsonp";
     }
 
-
-    return this.http.jsonp(measurementsURL, 'callback')
-      .pipe(
-        map(this.mapMeasurements)
-      );
+    return this.http
+      .jsonp(measurementsURL, "callback")
+      .pipe(map(this.mapMeasurements));
   }
 }

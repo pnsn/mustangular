@@ -1,20 +1,19 @@
 // Component handles the right side form controls
 // Contains popups for sorting channels
 
-import { Component, OnInit} from '@angular/core';
-import { Metric } from '@models/metric';
-import { DataService } from '@services/data.service';
-import { Display } from '@models/display';
-import { MatDialog } from '@angular/material/dialog';
-import { ParametersService } from '@services/parameters.service';
-import { ChannelsDialogComponent } from './channels-dialog/channels-dialog.component';
+import { Component, OnInit } from "@angular/core";
+import { Metric } from "@models/metric";
+import { DataService } from "@services/data.service";
+import { Display } from "@models/display";
+import { MatDialog } from "@angular/material/dialog";
+import { ParametersService } from "@services/parameters.service";
+import { ChannelsDialogComponent } from "./channels-dialog/channels-dialog.component";
 
 @Component({
-  selector: 'app-controls',
-  templateUrl: './controls.component.html',
-  styleUrls: ['./controls.component.scss']
+  selector: "app-controls",
+  templateUrl: "./controls.component.html",
+  styleUrls: ["./controls.component.scss"],
 })
-
 export class ControlsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
@@ -27,44 +26,38 @@ export class ControlsComponent implements OnInit {
   display: Display; // Color/binning/value settings
   changed = false; // Status of form
   displayValues: Array<string> = [
-    'Minimum',
-    'Maximum',
-    'Average',
-    'Median',
-    '5th_Percentile',
-    '95th_Percentile'
+    "Minimum",
+    "Maximum",
+    "Average",
+    "Median",
+    "5th_Percentile",
+    "95th_Percentile",
   ]; // All possible display values for select
 
-  aggregateValues: Array<string> = [
-    'Minimum',
-    'Maximum',
-    'Most_Extreme'
-  ]; // Aggregate options
+  aggregateValues: Array<string> = ["Minimum", "Maximum", "Most_Extreme"]; // Aggregate options
 
   ngOnInit() {
     // Subscribe to changes of the active metric and update display/metric data
-    this.dataService.getActiveMetric().subscribe(
-      activeMetric => {
-        if (activeMetric) {
-          this.activeMetric = Object.assign(activeMetric);
-          this.display = activeMetric.display;
-          this.metrics = this.dataService.getMetrics();
-        }
+    this.dataService.getActiveMetric().subscribe((activeMetric) => {
+      if (activeMetric) {
+        this.activeMetric = Object.assign(activeMetric);
+        this.display = activeMetric.display;
+        this.metrics = this.dataService.getMetrics();
+      }
     });
   }
 
   // Opens dialog to sort channels
   openChannelsDialog(): void {
     const dialogRef = this.dialog.open(ChannelsDialogComponent, {
-
       data: {
         channels: this.display.channels.available,
         activeChannels: this.display.channels.active,
-        handle : '.handle'
-    }
+        handle: ".handle",
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.valueChanged();
         this.display.channels.available = result;
@@ -75,14 +68,13 @@ export class ControlsComponent implements OnInit {
   // When metric is changed, switch display data to new metric
   metricChanged(newMetricName: string) {
     for (const metric of this.metrics) {
-
       // Update Metric with new information
       if (metric.name === this.activeMetric.name) {
         metric.display = this.display;
       }
 
       // Switch to newMetric
-      if (metric.name === newMetricName ) {
+      if (metric.name === newMetricName) {
         this.activeMetric = metric;
         this.display = this.activeMetric.display;
       }
@@ -90,7 +82,6 @@ export class ControlsComponent implements OnInit {
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
     // this.valueChanged();
   }
-
 
   resetBins() {
     this.activeMetric.display.resetBins();
@@ -115,4 +106,3 @@ export class ControlsComponent implements OnInit {
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
   }
 }
-

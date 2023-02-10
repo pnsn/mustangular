@@ -1,29 +1,29 @@
-import { Component, OnInit, Input , Output, EventEmitter} from '@angular/core';
-import { BinningService } from '@services/binning.service';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { BinningService } from "@services/binning.service";
 
 @Component({
-  selector: 'app-coloring',
-  templateUrl: './coloring.component.html',
-  styleUrls: ['./coloring.component.scss']
+  selector: "app-coloring",
+  templateUrl: "./coloring.component.html",
+  styleUrls: ["./coloring.component.scss"],
 })
 export class ColoringComponent implements OnInit {
-  @Input() metricColoring: String; // Gets coloring from parent component
+  @Input() metricColoring: string; // Gets coloring from parent component
   @Output() changeColoring = new EventEmitter<string>(); // Sends coloring back to parent
 
   colorings: any[];
   currentColoring: any;
-  constructor(private binningService: BinningService) { }
+  constructor(private binningService: BinningService) {}
 
   ngOnInit() {
     this.colorings = this.binningService.getColorings();
     for (const coloring of this.colorings) {
-      coloring.background = 'linear-gradient(to right';
+      coloring.background = "linear-gradient(to right";
 
       for (const color of coloring.colors) {
-        coloring.background += ',' + color;
+        coloring.background += "," + color;
       }
 
-      coloring.background += ')';
+      coloring.background += ")";
     }
     this.setColoring(this.metricColoring);
   }
@@ -37,7 +37,7 @@ export class ColoringComponent implements OnInit {
 
   setColoring(color) {
     for (const coloring of this.colorings) {
-      if (color === coloring.name ) {
+      if (color === coloring.name) {
         this.currentColoring = coloring;
       }
     }

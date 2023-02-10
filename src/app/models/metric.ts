@@ -9,10 +9,9 @@
 //   stations : Station object
 // }
 
-import { Display } from './display';
+import { Display } from "./display";
 export class Metric {
-
-  constructor (
+  constructor(
     public name: string,
     public title: string,
     public description?: string,
@@ -30,19 +29,25 @@ export class Metric {
 
   // Set new values for Metric and it's stations
   updateValues(): void {
-
     const values = [];
 
     for (const s in this.stations) {
       if (this.stations[s]) {
         const station = this.stations[s];
         // New value for the stations
-        station.setValue(this.display.colocatedType, this.display.displayValue, this.display.aggregateValue, this.display.channels.available);
+        station.setValue(
+          this.display.colocatedType,
+          this.display.displayValue,
+          this.display.aggregateValue,
+          this.display.channels.available
+        );
         values.push(station.displayValue);
       }
     }
 
-    values.sort(function(a, b) {return a - b; });
+    values.sort(function (a, b) {
+      return a - b;
+    });
 
     if (values.length > 0) {
       this.display.data.max = values[values.length - 1];
@@ -53,7 +58,6 @@ export class Metric {
     this.getActiveChannels();
   }
 
-
   // Returns metric's values
   getValues(): Array<number> {
     return this.values;
@@ -61,17 +65,17 @@ export class Metric {
 
   // Return all of metric's channels
   getChannels(): Array<string> {
-    let hasCoLocatedChannels: boolean = false;
+    let hasCoLocatedChannels = false;
 
     const channels = [];
     for (const s in this.stations) {
       if (this.stations[s]) {
         const station = this.stations[s];
-        if(Object.keys(station.channels).length > 1) {
+        if (Object.keys(station.channels).length > 1) {
           hasCoLocatedChannels = true;
         }
-        for ( const c in station.channels ) {
-          if (channels.indexOf(c) < 0 ) {
+        for (const c in station.channels) {
+          if (channels.indexOf(c) < 0) {
             channels.push(c);
           }
         }
@@ -89,22 +93,24 @@ export class Metric {
       if (this.stations[s]) {
         const station = this.stations[s];
         const c = station.displayChannel;
-        if (activeChannels.indexOf(c) < 0 ) {
+        if (activeChannels.indexOf(c) < 0) {
           activeChannels.push(c);
         }
       }
     }
-    this.display.channels.active = availableChannels.filter(channel => activeChannels.indexOf(channel) > -1);
+    this.display.channels.active = availableChannels.filter(
+      (channel) => activeChannels.indexOf(channel) > -1
+    );
   }
 
   private setDisplayType(): void {
     let dType: string;
-    if ( this.description.search(/percent/i) > -1 ) {
-      dType = 'percent';
-    } else if ( this.description.search(/boolean/i) > -1 ) {
-      dType = 'boolean';
-    } else if ( this.description.search(/polarity/i) > -1 ) {
-      dType = 'polarity';
+    if (this.description.search(/percent/i) > -1) {
+      dType = "percent";
+    } else if (this.description.search(/boolean/i) > -1) {
+      dType = "boolean";
+    } else if (this.description.search(/polarity/i) > -1) {
+      dType = "polarity";
     }
     this.display.displayType = dType;
   }

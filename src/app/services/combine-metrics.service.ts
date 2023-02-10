@@ -1,15 +1,14 @@
 // Takes in station, metric, and measurement data and makes an object
 
-import { Injectable} from '@angular/core';
-import { Subject ,  Observable} from 'rxjs';
-import { Metric } from '@models/metric';
-import { Channel } from '@models/channel';
-import { Measurement } from '@models/measurement';
-import { Station } from '@models/station';
+import { Injectable } from "@angular/core";
+import { Subject, Observable } from "rxjs";
+import { Metric } from "@models/metric";
+import { Channel } from "@models/channel";
+import { Measurement } from "@models/measurement";
+import { Station } from "@models/station";
 @Injectable()
 export class CombineMetricsService {
-
-  constructor() { }
+  constructor() {}
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
 
   // Returns metrics
@@ -25,38 +24,46 @@ export class CombineMetricsService {
     // Go through each metric
     for (const metric of metrics) {
       // Create a new metric object (See: metric.ts)
-      const unit = metric.tables[0].columns[0].description.replace(/\.*<\/*p>/g, '');
-      const combinedMetric = new Metric(metric.name, metric.title.replace('Metric', ''), metric.description, unit);
+      const unit = metric.tables[0].columns[0].description.replace(
+        /\.*<\/*p>/g,
+        ""
+      );
+      const combinedMetric = new Metric(
+        metric.name,
+        metric.title.replace("Metric", ""),
+        metric.description,
+        unit
+      );
 
       if (measurements[metric.name]) {
         // Sort through measurements and add them to correct metric
         for (const m of measurements[metric.name]) {
           measurementCount++;
-          const stationCode = m.net + '.' + m.sta;
+          const stationCode = m.net + "." + m.sta;
           let station = combinedMetric.stations[stationCode];
 
-
-            // Create station if its the first pass
-            if (!station) {
-              station = new Station (m.net, m.sta, stationCode, m.qual);
-              combinedMetric.display.data.count++;
-            }
-
-            // Add channel to station
-            const loc = m.loc ? m.loc : '--';
-            const channelCode = loc + '.' + m.cha;
-            const channels = station.channels;
-
-            if (!channels[channelCode]) {
-              channels[channelCode] = new Channel(channelCode, loc, m.cha);
-            }
-            // Add measurement to channel
-            channels[channelCode].measurements.push(new Measurement(m.end, m.lddate, m.start, m.value));
-
-            station.channels = channels;
-            combinedMetric.stations[stationCode] = station;
+          // Create station if its the first pass
+          if (!station) {
+            station = new Station(m.net, m.sta, stationCode, m.qual);
+            combinedMetric.display.data.count++;
           }
 
+          // Add channel to station
+          const loc = m.loc ? m.loc : "--";
+          const channelCode = loc + "." + m.cha;
+          const channels = station.channels;
+
+          if (!channels[channelCode]) {
+            channels[channelCode] = new Channel(channelCode, loc, m.cha);
+          }
+          // Add measurement to channel
+          channels[channelCode].measurements.push(
+            new Measurement(m.end, m.lddate, m.start, m.value)
+          );
+
+          station.channels = channels;
+          combinedMetric.stations[stationCode] = station;
+        }
       }
 
       combinedMetrics.push(combinedMetric);

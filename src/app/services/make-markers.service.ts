@@ -1,21 +1,17 @@
 // Takes a metric and the bins and creates marker layers for the map
 
-import { Injectable, NgZone } from '@angular/core';
-import { Metric } from '@models/metric';
-import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
-import { Station } from '@models/station';
-import { Bin } from '@models/bin';
-import { Subject ,  Observable } from 'rxjs';
-import { StationsService } from '@services/stations.service';
-import { Channel } from '@models/channel';
+import { Injectable, NgZone } from "@angular/core";
+import { Metric } from "@models/metric";
+import { divIcon, latLng, Marker, layerGroup } from "leaflet";
+import { Station } from "@models/station";
+import { Bin } from "@models/bin";
+import { Subject, Observable } from "rxjs";
+import { StationsService } from "@services/stations.service";
+import { Channel } from "@models/channel";
 
 @Injectable()
 export class MakeMarkersService {
-
-  constructor(
-    private zone: NgZone,
-    private stationsService: StationsService
-    ) { }
+  constructor(private zone: NgZone, private stationsService: StationsService) {}
 
   private latlons = []; // Array of coordinates
   private bins: Bin[]; // local copy of bins
@@ -56,7 +52,9 @@ export class MakeMarkersService {
       if (metric.stations[s]) {
         const station = metric.stations[s];
         if (!station.lat || !station.lon) {
-          const info = this.stationsService.getMissingStationInformation(station.code);
+          const info = this.stationsService.getMissingStationInformation(
+            station.code
+          );
           if (info) {
             station.lat = info.lat;
             station.lon = info.lon;
@@ -68,21 +66,27 @@ export class MakeMarkersService {
           const latlon = latLng(station.lat, station.lon);
 
           const options = this.buildIcon(station);
-          const m = new Marker(latlon, {icon: options.icon});
+          const m = new Marker(latlon, { icon: options.icon });
 
-          m.on('click', function() {
-            self.zone.run( () => {
+          m.on("click", function () {
+            self.zone.run(() => {
               self.activeStation.next(station);
             });
           });
 
-          m.bindTooltip(self.buildPopup(station, metric.display.displayValue, metric.display.colocatedType));
+          m.bindTooltip(
+            self.buildPopup(
+              station,
+              metric.display.displayValue,
+              metric.display.colocatedType
+            )
+          );
 
           markerGroups[options.binIndex].push(m);
           latlons.push(latlon);
         } else {
           // Station does not have data in fdsnws and must be skipped
-          console.log('no station data for: ' + station.code);
+          console.log("no station data for: " + station.code);
         }
       }
     }
@@ -111,13 +115,18 @@ export class MakeMarkersService {
     if (activeBin) {
       activeBin.count++;
       return {
-            icon: divIcon({
-              'className': 'icon',
-              'html': '<div class=\'icon-color ' + activeBin.layer + '\' style=\'background-color:' + activeBin.color + '\'></div>',
-              'iconAnchor': [5, 5], // Make sure icon is centered over coordinates
-              'popupAnchor':  [1 , -2]
-            }),
-            binIndex: activeBin.layer
+        icon: divIcon({
+          className: "icon",
+          html:
+            "<div class='icon-color " +
+            activeBin.layer +
+            "' style='background-color:" +
+            activeBin.color +
+            "'></div>",
+          iconAnchor: [5, 5], // Make sure icon is centered over coordinates
+          popupAnchor: [1, -2],
+        }),
+        binIndex: activeBin.layer,
       };
     }
   }
@@ -131,30 +140,41 @@ export class MakeMarkersService {
     let activeBin: Bin;
 
     let binIndex = 0;
-    while(!activeBin && binIndex < this.bins.length) {
+    while (!activeBin && binIndex < this.bins.length) {
       const bin = this.bins[binIndex];
-      activeBin = bin.inBin(value, binIndex, this.bins.length) ? bin : activeBin;
+      activeBin = bin.inBin(value, binIndex, this.bins.length)
+        ? bin
+        : activeBin;
       binIndex++;
     }
     return activeBin ? activeBin : this.bins[this.bins.length - 1];
   }
 
   // Builds the station information popup
-  private buildPopup(station: Station, displayValue: string, colocatedType: string): string {
+  private buildPopup(
+    station: Station,
+    displayValue: string,
+    colocatedType: string
+  ): string {
     let value = station.displayValue;
-    value = Math.round(value * 10 ) / 10;
+    value = Math.round(value * 10) / 10;
 
-    let string = '<h3>' + station.net + '.' + station.sta + '</h3>' +
-                '<span> Click to view data</span><div> Value: (';
+    let string =
+      "<h3>" +
+      station.net +
+      "." +
+      station.sta +
+      "</h3>" +
+      "<span> Click to view data</span><div> Value: (";
 
-    if(colocatedType ==="channel" && station.displayChannel) {
+    if (colocatedType === "channel" && station.displayChannel) {
       string += station.displayChannel;
     } else {
-      string += "aggregate"
+      string += "aggregate";
     }
-    string += ') ' + value +'<div> Channels: <ul id=\'channel-list\'>';
+    string += ") " + value + "<div> Channels: <ul id='channel-list'>";
 
-    for (const c in station.channels ) {
+    for (const c in station.channels) {
       if (station.channels[c]) {
         const channel: Channel = station.channels[c];
         const channelValue = channel.getValue(displayValue);
@@ -162,20 +182,28 @@ export class MakeMarkersService {
 
         string += '<li style="color:' + bin.color;
 
-        if (bin.color === '#ffffff' || bin.color === 'white') {
+        if (bin.color === "#ffffff" || bin.color === "white") {
           string += '; background-color: gray;"';
         } else {
           string += ';"';
         }
 
-        if (colocatedType === "channel" && channel.name === station.displayChannel) {
-          string += ' class=\'active channel\'';
+        if (
+          colocatedType === "channel" &&
+          channel.name === station.displayChannel
+        ) {
+          string += " class='active channel'";
         }
-        string += '>' + channel.name + ' (' + Math.round(channelValue * 100) / 100 + ') </li>';
+        string +=
+          ">" +
+          channel.name +
+          " (" +
+          Math.round(channelValue * 100) / 100 +
+          ") </li>";
       }
     }
 
-    string += '</ul>';
+    string += "</ul>";
     return string;
   }
 }

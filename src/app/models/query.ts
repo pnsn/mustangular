@@ -11,7 +11,7 @@
 // }
 
 export class Query {
-  constructor (
+  constructor(
     public net?: string,
     public cha?: string,
     public sta?: string,
@@ -23,13 +23,15 @@ export class Query {
   ) {}
 
   // Returns a string of requested query parameters
- getString(keys?: Array<string>): string {
-    let str = '';
+  getString(keys?: Array<string>): string {
+    let str = "";
 
-    const queryKeys = keys ? keys : ['net', 'cha', 'sta', 'loc', 'qual', 'start', 'end', 'metric'];
+    const queryKeys = keys
+      ? keys
+      : ["net", "cha", "sta", "loc", "qual", "start", "end", "metric"];
     for (const key of queryKeys) {
       if (this[key] && this[key].length > 0) {
-        str += '&' + key + '=' + this[key];
+        str += "&" + key + "=" + this[key];
       }
     }
     return str;
@@ -37,13 +39,13 @@ export class Query {
 
   // Cleans up the query parameters so they can be used
   sanitize(start: any, end: any): void {
-    const queryKeys = ['net', 'cha', 'sta', 'loc', 'qual', 'metric'];
+    const queryKeys = ["net", "cha", "sta", "loc", "qual", "metric"];
     for (const key of queryKeys) {
       if (this[key]) {
-        this[key] = this[key].replace(/\s/gm, '').toUpperCase(); // remove spaces
+        this[key] = this[key].replace(/\s/gm, "").toUpperCase(); // remove spaces
       }
     }
-    this.start = start.format('YYYY-MM-DD');
-    this.end = end.format('YYYY-MM-DD');
+    this.start = start.format("YYYY-MM-DD");
+    this.end = end.format("YYYY-MM-DD");
   }
 }

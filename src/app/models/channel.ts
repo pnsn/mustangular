@@ -5,15 +5,9 @@
 //   measurements : Measurement array
 // }
 
-import { Measurement } from './measurement';
+import { Measurement } from "./measurement";
 export class Channel {
-
-  constructor (
-    public name: string,
-    public loc = '',
-    public cha = ''
-  ) {
-
+  constructor(public name: string, public loc = "", public cha = "") {
     this.measurements = new Array<Measurement>();
   }
   public measurements: Measurement[];
@@ -24,14 +18,16 @@ export class Channel {
   private min?: number; // Minimum channel value
   // Calculates the values for the channel
   private calculateValues(): void {
-    if ( !this.values || this.values.length === 0 ) {
+    if (!this.values || this.values.length === 0) {
       const values = [];
 
       for (const measurement of this.measurements) {
         values.push(+measurement.value);
       }
 
-      values.sort(function(a, b) {return a - b; });
+      values.sort(function (a, b) {
+        return a - b;
+      });
       this.values = values;
       this.max = values[values.length - 1];
       this.min = values[0];
@@ -45,31 +41,31 @@ export class Channel {
     this.calculateValues();
 
     switch (displayValue) {
-      case 'Minimum' : {
+      case "Minimum": {
         value = this.getMin();
         break;
       }
-      case 'Maximum' : {
+      case "Maximum": {
         value = this.getMax();
         break;
       }
-      case 'Average' : {
+      case "Average": {
         value = this.getAverage();
         break;
       }
-      case 'Median' : {
+      case "Median": {
         value = this.getMedian();
         break;
       }
-      case '5th_Percentile' : {
+      case "5th_Percentile": {
         value = this.getPercentile(5);
         break;
       }
-      case '95th_Percentile' : {
+      case "95th_Percentile": {
         value = this.getPercentile(95);
         break;
       }
-      default : {
+      default: {
         value = null;
         break;
       }
@@ -79,14 +75,14 @@ export class Channel {
 
   // Calculates the median for the channel
   private getMedian(): number {
-    if ( !this.median ) {
+    if (!this.median) {
       const mid = this.values.length / 2 - 0.5;
       let median: number;
 
       if (mid % 1 === 0) {
         median = this.values[mid];
       } else {
-        median = (this.values[mid - .5] + this.values[mid - .5]) / 2;
+        median = (this.values[mid - 0.5] + this.values[mid - 0.5]) / 2;
       }
 
       this.median = median;
@@ -96,22 +92,23 @@ export class Channel {
 
   // Calculates the average value for the channel
   private getAverage(): number {
-    if ( !this.average ) {
+    if (!this.average) {
       let sum = 0;
       for (const value of this.values) {
         sum += value;
       }
       const average = sum / this.values.length;
       this.average = average;
-
     }
     return this.average;
   }
 
   // Returns requested percentile, probably
   private getPercentile(percentile: number): number {
-    const index = Math.ceil(percentile / 100 * this.values.length);
-    return index === this.values.length ? this.values[index - 1] : this.values[index];
+    const index = Math.ceil((percentile / 100) * this.values.length);
+    return index === this.values.length
+      ? this.values[index - 1]
+      : this.values[index];
   }
 
   // Returns the channel's maximum value
@@ -123,5 +120,4 @@ export class Channel {
   private getMin(): number {
     return this.min;
   }
-
 }

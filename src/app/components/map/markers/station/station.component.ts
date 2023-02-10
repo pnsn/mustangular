@@ -1,21 +1,23 @@
 // Generates station graphs
 
-import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
-import { MakeMarkersService } from '@services/make-markers.service';
-import { DataService} from '@services/data.service';
-import { Station } from '@models/station';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Metric } from '@models/metric';
-import { Subscription } from 'rxjs';
-import { ParametersService } from '@services/parameters.service';
+import { Component, OnInit, Inject, OnDestroy } from "@angular/core";
+import { MakeMarkersService } from "@services/make-markers.service";
+import { DataService } from "@services/data.service";
+import { Station } from "@models/station";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { Metric } from "@models/metric";
+import { Subscription } from "rxjs";
+import { ParametersService } from "@services/parameters.service";
 
 @Component({
-  selector: 'app-station',
-  template: ''
+  selector: "app-station",
+  template: "",
 })
-
 export class StationComponent implements OnInit, OnDestroy {
-
   constructor(
     private makeMarkersService: MakeMarkersService,
     private dataService: DataService,
@@ -31,31 +33,30 @@ export class StationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Get station when it is selected
-    const sub = this.makeMarkersService.getActiveStation().subscribe(
-      activeStation => {
+    const sub = this.makeMarkersService
+      .getActiveStation()
+      .subscribe((activeStation) => {
         if (activeStation) {
           this.activeStation = activeStation;
           this.dates = this.parametersService.getQueryDates();
           this.openStationDialog();
-
         }
-      }
-    );
+      });
 
     this.subscription.add(sub);
 
     // Get currently selected metric
-    const sub1 = this.dataService.getActiveMetric().subscribe(
-      activeMetric => {
+    const sub1 = this.dataService
+      .getActiveMetric()
+      .subscribe((activeMetric) => {
         this.activeMetric = Object.assign(activeMetric);
         this.metrics = this.dataService.getMetrics();
-      }
-    );
+      });
 
     this.subscription.add(sub1);
   }
 
-  ngOnDestroy () {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
@@ -68,16 +69,18 @@ export class StationComponent implements OnInit, OnDestroy {
 
         const ch = {
           name: chan.name,
-          series: []
+          series: [],
         };
 
         for (const m of chan.measurements) {
-          const date = new Date(m.start + 'Z');
+          const date = new Date(m.start + "Z");
           // adjusts for browsers wanting to use local time
-          const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+          const adjustedDate = new Date(
+            date.getTime() + date.getTimezoneOffset() * 60000
+          );
           ch.series.push({
             value: m.value,
-            name: adjustedDate
+            name: adjustedDate,
           });
         }
         results.push(ch);
@@ -85,7 +88,6 @@ export class StationComponent implements OnInit, OnDestroy {
     }
     return results;
   }
-
 
   // Opens dialog to sort channels
   openStationDialog(): void {
@@ -96,45 +98,56 @@ export class StationComponent implements OnInit, OnDestroy {
         metric: this.activeMetric,
         values: results,
         start: this.dates.start,
-        end: this.dates.end
+        end: this.dates.end,
       },
-      width: '80%',
-      height: '60%'
+      width: "80%",
+      height: "60%",
     });
   }
 }
 
 // Dialog for channel sorter
 @Component({
-  selector: 'app-station-dialog',
-  templateUrl: './station.component.html',
-  styleUrls: ['./station.component.scss']
+  selector: "app-station-dialog",
+  templateUrl: "./station.component.html",
+  styleUrls: ["./station.component.scss"],
 })
-
 export class StationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<StationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
-    station = this.data.station;
-    metric = this.data.metric;
+  station = this.data.station;
+  metric = this.data.metric;
 
-    xAxisLabel = 'Measurement Start Date';
-    yAxisLabel = this.metric.unit;
+  xAxisLabel = "Measurement Start Date";
+  yAxisLabel = this.metric.unit;
 
-    legendTitle = 'Click to view PSD-PDF';
+  legendTitle = "Click to view PSD-PDF";
 
-    colorScheme = {
-      domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-    };
+  colorScheme = {
+    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
+  };
 
-    results = this.data.values;
+  results = this.data.values;
 
-    select(event): void {
-      if (typeof event === 'string' || event instanceof String) {
-        const url = 'https://service.iris.edu/mustang/noise-pdf/1/query?target=';
-        window.open(url + this.station.code + '.' + event + '.' + this.station.qual +
-        '&starttime=' + this.data.start + '&endtime=' + this.data.end + '&format=plot');
-      }
+  select(event): void {
+    if (typeof event === "string" || event instanceof String) {
+      const url = "https://service.iris.edu/mustang/noise-pdf/1/query?target=";
+      window.open(
+        url +
+          this.station.code +
+          "." +
+          event +
+          "." +
+          this.station.qual +
+          "&starttime=" +
+          this.data.start +
+          "&endtime=" +
+          this.data.end +
+          "&format=plot"
+      );
     }
+  }
 }

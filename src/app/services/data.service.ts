@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Metric } from '@models/metric';
-import { Subject ,  Observable } from 'rxjs';
-import { Display } from '@models/display';
+import { Injectable } from "@angular/core";
+import { Metric } from "@models/metric";
+import { Subject, Observable } from "rxjs";
+import { Display } from "@models/display";
 @Injectable()
 export class DataService {
-
-  constructor() { }
+  constructor() {}
 
   private defaultDisplay: Display;
   private metrics: Metric[];
@@ -25,14 +24,13 @@ export class DataService {
   }
 
   // Changes the active metric and propagates it
-  private setActiveMetric(activeMetricName: String): void {
+  private setActiveMetric(activeMetricName: string): void {
     for (const metric of this.metrics) {
-      if (metric.name === activeMetricName ) {
+      if (metric.name === activeMetricName) {
         metric.updateValues();
         this.activeMetric.next(metric);
       }
     }
-
   }
 
   getMetrics(): Metric[] {
@@ -49,12 +47,10 @@ export class DataService {
     this.metrics = metrics;
     let defaultMetric = null;
     for (const metric of this.metrics) {
-
       const updatedMetric = this.calculateValuesForMetric(metric);
       if (defaultMetric === null && updatedMetric.display.data.count > 0) {
         defaultMetric = updatedMetric;
       }
-
     }
     if (defaultMetric) {
       this.activeMetric.next(defaultMetric);
@@ -71,30 +67,32 @@ export class DataService {
 
     // Find max and min values - default to %iles unless specified
     switch (displayType) {
-      case 'percent' :
+      case "percent":
         min = 0;
         max = 100;
         count = 5;
         break;
-      case 'boolean':
+      case "boolean":
         min = 0;
         max = 1;
         count = 2;
         break;
-      case 'polarity' :
+      case "polarity":
         min = -1;
         max = 1;
         count = 2;
         break;
       default:
-        minIndex = Math.ceil(.05 * length) - 1;
+        minIndex = Math.ceil(0.05 * length) - 1;
         maxIndex = Math.floor(0.95 * length);
         min = length > 0 && values[minIndex] ? +values[minIndex].toFixed(2) : 0;
         max = length > 0 && values[maxIndex] ? +values[maxIndex].toFixed(2) : 1;
 
-        if (length === 0 || minIndex === maxIndex ) { // small dataset
+        if (length === 0 || minIndex === maxIndex) {
+          // small dataset
           count = 1;
-        } else if (values[maxIndex] - values[minIndex] < 2) { // range
+        } else if (values[maxIndex] - values[minIndex] < 2) {
+          // range
           count = 2;
         } else {
           count = 3;
@@ -103,17 +101,17 @@ export class DataService {
     }
 
     return {
-        'max' : max,
-        'min' : min,
-        'count' : count
+      max: max,
+      min: min,
+      count: count,
     };
   }
 
-  private sortChannels(channels: Array <string>): Array <string> {
+  private sortChannels(channels: Array<string>): Array<string> {
     if (channels.length > 0) {
       const displayChannels = [];
-      for ( const channel of channels) {
-        if (displayChannels.indexOf(channel) === -1 ) {
+      for (const channel of channels) {
+        if (displayChannels.indexOf(channel) === -1) {
           displayChannels.push(channel);
         }
       }
@@ -123,12 +121,12 @@ export class DataService {
     }
   }
 
- recalculateMetrics(metrics: Metric[]) : void {
+  recalculateMetrics(metrics: Metric[]): void {
     this.defaultDisplay.resetBins();
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       this.calculateValuesForMetric(metric);
-    })
- }
+    });
+  }
 
   // Apply default value, parameter values or calculate new ones.
   private calculateValuesForMetric(metric: Metric): Metric {
@@ -141,22 +139,24 @@ export class DataService {
     if (this.defaultDisplay.displayValue) {
       display.displayValue = this.defaultDisplay.displayValue;
     } else {
-      display.displayValue = 'Average';
+      display.displayValue = "Average";
     }
 
     if (this.defaultDisplay.colocatedType) {
       display.colocatedType = this.defaultDisplay.colocatedType;
     } else {
-      display.colocatedType = 'channel';
+      display.colocatedType = "channel";
     }
 
     if (this.defaultDisplay.aggregateValue) {
       display.aggregateValue = this.defaultDisplay.aggregateValue;
     } else {
-      display.aggregateValue = 'Minimum';
+      display.aggregateValue = "Minimum";
     }
 
-    display.invert = this.defaultDisplay.invert ? this.defaultDisplay.invert : false;
+    display.invert = this.defaultDisplay.invert
+      ? this.defaultDisplay.invert
+      : false;
 
     display.channels.available = this.sortChannels(metric.getChannels());
 
@@ -167,13 +167,15 @@ export class DataService {
     if (this.defaultDisplay.coloring) {
       display.coloring = this.defaultDisplay.coloring;
     } else {
-      display.coloring = 'red_to_green';
+      display.coloring = "red_to_green";
     }
 
-    if (this.defaultDisplay.binning &&
-        this.defaultDisplay.binning.max !== null &&
-        this.defaultDisplay.binning.min !== null &&
-        this.defaultDisplay.binning.count !== null) {
+    if (
+      this.defaultDisplay.binning &&
+      this.defaultDisplay.binning.max !== null &&
+      this.defaultDisplay.binning.min !== null &&
+      this.defaultDisplay.binning.count !== null
+    ) {
       display.binning = this.defaultDisplay.binning;
     } else {
       display.binning = this.initialBinning(values, display.displayType);

@@ -1,16 +1,16 @@
 // Generates the leaflet map and the markers on it
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { latLngBounds, tileLayer, Map } from 'leaflet';
-import { Metric } from '@models/metric';
-import { MakeMarkersService } from '@services/make-markers.service';
-import { DataService } from '@services/data.service';
-import { BinningService } from '@services/binning.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ElementRef, OnDestroy } from "@angular/core";
+import { latLngBounds, tileLayer, Map } from "leaflet";
+import { Metric } from "@models/metric";
+import { MakeMarkersService } from "@services/make-markers.service";
+import { DataService } from "@services/data.service";
+import { BinningService } from "@services/binning.service";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-markers',
-  templateUrl: './markers.component.html',
-  styleUrls: ['./markers.component.scss'],
+  selector: "app-markers",
+  templateUrl: "./markers.component.html",
+  styleUrls: ["./markers.component.scss"],
 })
 export class MarkersComponent implements OnInit, OnDestroy {
   constructor(
@@ -27,9 +27,9 @@ export class MarkersComponent implements OnInit, OnDestroy {
   fitBounds: any; // Bounds to zoom map to
   layers: any = {}; // Layer statuses
 
-  baseLayer = tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  baseLayer = tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
-    attribution: 'OSM',
+    attribution: "OSM",
   });
   // Leaflet map options
   options = {
@@ -41,25 +41,25 @@ export class MarkersComponent implements OnInit, OnDestroy {
 
   layersControl = {
     baseLayers: {
-      'Street Map': this.baseLayer,
-      'Black and White': tileLayer(
-        'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
-        { maxZoom: 18, attribution: 'OpenStreetMap' }
+      "Street Map": this.baseLayer,
+      "Black and White": tileLayer(
+        "http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
+        { maxZoom: 18, attribution: "OpenStreetMap" }
       ),
-      'World Topo': tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      "World Topo": tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         {
           maxZoom: 18,
           attribution:
-            'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+            "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
         }
       ),
-      'World Imagery': tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      "World Imagery": tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         {
           maxZoom: 18,
           attribution:
-            'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         }
       ),
     },

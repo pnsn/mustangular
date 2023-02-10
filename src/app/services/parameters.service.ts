@@ -1,18 +1,14 @@
 // Gets parameters from URL
 
-import { Injectable } from '@angular/core';
-import { Subject ,  Observable , Subscription} from 'rxjs';
-import { ActivatedRoute, Router} from '@angular/router';
-import { Query } from '@models/query';
-import { Display } from '@models/display';
+import { Injectable } from "@angular/core";
+import { Subject, Observable, Subscription } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Query } from "@models/query";
+import { Display } from "@models/display";
 
 @Injectable()
 export class ParametersService {
-
-  constructor (
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   private query = new Subject<Query>(); // Subscribeable query parameters
   private display: Display = new Display(); // Display information
@@ -30,47 +26,48 @@ export class ParametersService {
   }
 
   updateUrl(changedDisplay: any): void {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: changedDisplay.toParams(),
-        queryParamsHandling: 'merge',
-      });
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: changedDisplay.toParams(),
+      queryParamsHandling: "merge",
+    });
   }
 
   // Returns query start and end times
   getQueryDates(): any {
     return {
-      'start': this.start,
-      'end' : this.end
+      start: this.start,
+      end: this.end,
     };
   }
 
   // Sets display with url parameters
-  setDisplay( params: any): void {
+  setDisplay(params: any): void {
     const d = this.display;
     d.coloring = params.coloring;
     d.binning = {
-      'count' : isNaN(+params.bincount) ? null : +params.bincount,
-      'min' : isNaN(+params.binmin) ? null : +params.binmin,
-      'max' : isNaN(+params.binmax) ? null : +params.binmax
+      count: isNaN(+params.bincount) ? null : +params.bincount,
+      min: isNaN(+params.binmin) ? null : +params.binmin,
+      max: isNaN(+params.binmax) ? null : +params.binmax,
     };
-    d.invert = params.invert === 'true' ? true : false;
+    d.invert = params.invert === "true" ? true : false;
     d.displayValue = params.displayValue;
     d.aggregateValue = params.aggregateValue;
     d.colocatedType = params.colocatedType;
-    d.channels.active = params.channels && params.channels.length > 1 ? params.channels.split() : params.channels;
+    d.channels.active =
+      params.channels && params.channels.length > 1
+        ? params.channels.split()
+        : params.channels;
     d.channels.available = params.cha ? params.cha.split() : null; // does this ever get used
     this.display = d;
   }
 
   // Grab query parameters from URL
   setQueryParameters(): void {
-    const queryParamMap: Subscription = this.route.queryParamMap
-      .subscribe(params => {
-        if (params && params['params']) {
-          const pa = params['params'];
+    const queryParamMap: Subscription = this.route.queryParamMap.subscribe(
+      (params) => {
+        if (params && params["params"]) {
+          const pa = params["params"];
           // grab other query params here
 
           const query = new Query(
@@ -89,8 +86,8 @@ export class ParametersService {
           this.setDisplay(pa);
           this.query.next(query);
         }
-      });
-      queryParamMap.unsubscribe();
+      }
+    );
+    queryParamMap.unsubscribe();
   }
-
 }
