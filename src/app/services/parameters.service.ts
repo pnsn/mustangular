@@ -3,8 +3,8 @@
 import { Injectable } from '@angular/core';
 import { Subject ,  Observable , Subscription} from 'rxjs';
 import { ActivatedRoute, Router} from '@angular/router';
-import { Query } from '../query';
-import { Display } from '../map/display';
+import { Query } from '@models/query';
+import { Display } from '@models/display';
 
 @Injectable()
 export class ParametersService {

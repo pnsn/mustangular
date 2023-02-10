@@ -2,11 +2,11 @@
 // Contains popups for sorting channels
 
 import { Component, OnInit} from '@angular/core';
-import { Metric } from '../metric';
-import { DataService } from '../../shared/data.service';
-import { Display } from '../display';
+import { Metric } from '@models/metric';
+import { DataService } from '@services/data.service';
+import { Display } from '@models/display';
 import { MatDialog } from '@angular/material/dialog';
-import { ParametersService } from '../../shared/parameters.service';
+import { ParametersService } from '@services/parameters.service';
 import { ChannelsDialogComponent } from './channels-dialog/channels-dialog.component';
 
 @Component({

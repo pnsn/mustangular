@@ -1,13 +1,13 @@
 // Takes a metric and the bins and creates marker layers for the map
 
 import { Injectable, NgZone } from '@angular/core';
-import { Metric } from '../map/metric';
+import { Metric } from '@models/metric';
 import { divIcon, latLng, Marker, layerGroup} from 'leaflet';
-import { Station } from '../map/station';
-import { Bin } from '../map/bin';
+import { Station } from '@models/station';
+import { Bin } from '@models/bin';
 import { Subject ,  Observable } from 'rxjs';
-import { StationsService } from './stations.service';
-import { Channel } from '../map/channel';
+import { StationsService } from '@services/stations.service';
+import { Channel } from '@models/channel';
 
 @Injectable()
 export class MakeMarkersService {
@@ -146,7 +146,7 @@ export class MakeMarkersService {
 
     let string = '<h3>' + station.net + '.' + station.sta + '</h3>' +
                 '<span> Click to view data</span><div> Value: (';
-    
+
     if(colocatedType ==="channel" && station.displayChannel) {
       string += station.displayChannel;
     } else {

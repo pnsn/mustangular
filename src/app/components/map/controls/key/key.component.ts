@@ -1,8 +1,8 @@
 // Generates the key
 
 import { Component, OnInit } from '@angular/core';
-import { BinningService } from '../../../shared/binning.service';
-import { Bin } from '../../bin';
+import { BinningService } from '@services/binning.service';
+import { Bin } from '@models/bin';
 
 @Component({
   selector: 'app-key',

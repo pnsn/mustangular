@@ -5,8 +5,6 @@ import {throwError as observableThrowError,  Observable, of, EMPTY, throwError }
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { catchError, map, mergeMap, tap, concatMap} from 'rxjs/operators';
-import { Station } from '../map/station';
-import { Metric } from '../map/metric';
 
 
 @Injectable()

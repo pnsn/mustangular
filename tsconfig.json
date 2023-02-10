@@ -1,7 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "src",
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "module": "ES2020",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -13,7 +15,13 @@
     "lib": [
       "ES2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@models/*": ["app/models/*"],
+      "@pipes/*": ["app/pipes/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+    },
   },
   "preserveWhitespaces": "off"
 }

@@ -1,10 +1,10 @@
 // Generates the leaflet map and the markers on it
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { latLngBounds, tileLayer, Map } from 'leaflet';
-import { Metric } from '../metric';
-import { MakeMarkersService } from '../../shared/make-markers.service';
-import { DataService } from '../../shared/data.service';
-import { BinningService } from '../../shared/binning.service';
+import { Metric } from '@models/metric';
+import { MakeMarkersService } from '@services/make-markers.service';
+import { DataService } from '@services/data.service';
+import { BinningService } from '@services/binning.service';
 import { Subscription } from 'rxjs';
 
 @Component({

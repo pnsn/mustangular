@@ -1,13 +1,13 @@
 // Generates station graphs
 
 import { Component, OnInit , Inject, OnDestroy} from '@angular/core';
-import { MakeMarkersService } from '../../../shared/make-markers.service';
-import { DataService} from '../../../shared/data.service';
-import { Station } from '../../station';
+import { MakeMarkersService } from '@services/make-markers.service';
+import { DataService} from '@services/data.service';
+import { Station } from '@models/station';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Metric } from '../../metric';
+import { Metric } from '@models/metric';
 import { Subscription } from 'rxjs';
-import { ParametersService } from '../../../shared/parameters.service';
+import { ParametersService } from '@services/parameters.service';
 
 @Component({
   selector: 'app-station',

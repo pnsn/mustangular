@@ -1,27 +1,16 @@
 // Describes a Display object
 
-// {
-//   data : {
-//     max : number
-//     min : number
-//     count : number
-//   },
-//   coloring : {
-//     low : color,
-//     high : color
-//   },
-//   binning : {
-//     min : number,
-//     max : number,
-//     count : number
-//   },
-//   displayValue : string,
-//   aggregateValue: string,
-//   channels : {
-//     active : string array,
-//     available : string array
-//   }
-// }
+export interface Binning {
+  min: number;
+  max: number;
+  count: number;
+}
+
+export interface Data {
+  min: number;
+  max: number;
+  count: number;
+}
 
 export class Display {
   data: any;
@@ -123,3 +112,26 @@ export class Display {
 
 
 
+
+// {
+//   data : {
+//     max : number
+//     min : number
+//     count : number
+//   },
+//   coloring : {
+//     low : color,
+//     high : color
+//   },
+//   binning : {
+//     min : number,
+//     max : number,
+//     count : number
+//   },
+//   displayValue : string,
+//   aggregateValue: string,
+//   channels : {
+//     active : string array,
+//     available : string array
+//   }
+// }

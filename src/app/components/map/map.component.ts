@@ -1,14 +1,14 @@
 // Initiates data requests and handles top info bar
 
 import { Component, OnInit , OnDestroy} from '@angular/core';
-import { MetricsService } from '../shared/metrics.service';
-import { Metric } from './metric';
-import { MeasurementsService } from '../shared/measurements.service';
-import { StationsService } from '../shared/stations.service';
-import { Query } from '../query';
-import { CombineMetricsService} from '../shared/combine-metrics.service';
-import { ParametersService } from '../shared/parameters.service';
-import { DataService } from '../shared/data.service';
+import { MetricsService } from '@services/metrics.service';
+import { Metric } from '@models/metric';
+import { MeasurementsService } from '@services/measurements.service';
+import { StationsService } from '@services/stations.service';
+import { Query } from '@models/query';
+import { CombineMetricsService} from '@services/combine-metrics.service';
+import { ParametersService } from '@services/parameters.service';
+import { DataService } from '@services/data.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 

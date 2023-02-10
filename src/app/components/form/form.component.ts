@@ -1,10 +1,10 @@
 // Entry form for MUSTANGular
 
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Query } from '../app/query';
-import { MetricsService } from '../app/shared/metrics.service';
+import { Query } from '@models/query';
+import { MetricsService } from '@services/metrics.service';
 import { Router } from '@angular/router';
-import { ParametersService } from '../app/shared/parameters.service';
+import { ParametersService } from '@services/parameters.service';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';

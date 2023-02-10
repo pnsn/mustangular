@@ -1,6 +1,6 @@
 // Generates bins to color map icons
 
-import { Bin } from '../map/bin';
+import { Bin } from '@models/bin';
 import * as Rainbow from 'rainbowvis.js';
 import { Subject ,  Observable } from 'rxjs';
 import { Injectable } from "@angular/core";

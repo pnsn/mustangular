@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Metric } from '../map/metric';
+import { Metric } from '@models/metric';
 import { Subject ,  Observable } from 'rxjs';
-import { Display } from '../map/display';
+import { Display } from '@models/display';
 @Injectable()
 export class DataService {
 
