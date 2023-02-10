@@ -58,42 +58,34 @@ export class Display {
 
   // Returns a URL friendly string of the Display
   toString(): string {
-    this.fixBins();
-    const string =
-      "&coloring=" +
-      this.coloring +
-      "&invert=" +
-      this.invert +
-      "&bincount=" +
-      this.binning.count +
-      "&binmin=" +
-      this.binning.min +
-      "&binmax=" +
-      this.binning.max +
-      "&displayValue=" +
-      this.displayValue +
-      "&colocatedType=" +
-      this.colocatedType +
-      "&aggregateValue=" +
-      this.aggregateValue +
-      "&channels=" +
-      this.channels.active.toString();
+    const params = this.toParams();
+    let string = "";
+    for (const key in params) {
+      if (params[key]) {
+        string += `&${key}=${params[key]}`;
+      }
+    }
     return string;
   }
 
+  // returns display formatted for url params
   toParams(): DisplayParams {
     this.fixBins();
-    return {
-      coloring: this.coloring,
-      invert: this.invert,
-      bincount: this.binning.count,
-      binmin: this.binning.min,
-      binmax: this.binning.max,
-      displayValue: this.displayValue,
-      colocatedType: this.colocatedType,
-      aggregateValue: this.aggregateValue,
-      channels: this.channels.active.toString(),
-    };
+    const params: DisplayParams = {};
+
+    if (this.coloring) params["coloring"] = this.coloring;
+    if (this.invert) params["invert"] = this.invert;
+    if (this.binning) {
+      if (this.binning.min !== null) params["binmin"] = this.binning.min;
+      if (this.binning.max !== null) params["binmax"] = this.binning.max;
+      if (this.binning.count !== null) params["bincount"] = this.binning.count;
+    }
+    if (this.displayValue) params["displayValue"] = this.displayValue;
+    if (this.colocatedType) params["colocatedType"] = this.colocatedType;
+    if (this.aggregateValue) params["aggregateValue"] = this.aggregateValue;
+    if (this.channels && this.channels.active)
+      params["channels"] = this.channels.active.toString();
+    return params;
   }
 
   resetBins(): void {
