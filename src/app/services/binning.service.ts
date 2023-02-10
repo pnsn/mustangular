@@ -4,12 +4,13 @@ import { Bin } from '@models/bin';
 import * as Rainbow from 'rainbowvis.js';
 import { Subject ,  Observable } from 'rxjs';
 import { Injectable } from "@angular/core";
+import { ColorOption } from '@interfaces/binning.interface';
 
 @Injectable()
 export class BinningService {
 
     constructor() {}
-    private colorings: any[] = [
+    private colorings: ColorOption[] = [
     {
       name: 'rainbow',
       title: 'Rainbow',
@@ -94,7 +95,7 @@ export class BinningService {
       this.bins.next(bins);
     }
 
-    getColorings(): any[] {
+    getColorings(): ColorOption[] {
       return this.colorings;
     }
 
@@ -103,7 +104,7 @@ export class BinningService {
       const binning = display.binning;
       const data = display.data;
 
-      let coloring: any;
+      let coloring: ColorOption;
       for (const c of this.colorings) {
         if (c.name === display.coloring) {
           coloring = c;

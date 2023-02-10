@@ -1,10 +1,10 @@
 // Get metric information from MUSTANG
 
-import {throwError as observableThrowError,  Observable ,  of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Metric } from '@models/metric';
 import { HttpClient} from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 
