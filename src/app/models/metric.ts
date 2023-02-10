@@ -1,4 +1,5 @@
 // Describes a Metric object
+import { MetricType } from "app/types";
 import { Display } from "./display";
 export class Metric {
   constructor(
@@ -10,7 +11,7 @@ export class Metric {
   ) {
     this.display = new Display();
     this.stations = {};
-    this.setDisplayType();
+    this.setMetricType();
   }
 
   display: Display; // Metric's display settings
@@ -93,8 +94,8 @@ export class Metric {
     );
   }
 
-  private setDisplayType(): void {
-    let dType: string;
+  private setMetricType(): void {
+    let dType: MetricType;
     if (this.description.search(/percent/i) > -1) {
       dType = "percent";
     } else if (this.description.search(/boolean/i) > -1) {
@@ -102,6 +103,6 @@ export class Metric {
     } else if (this.description.search(/polarity/i) > -1) {
       dType = "polarity";
     }
-    this.display.displayType = dType;
+    this.display.metricType = dType;
   }
 }

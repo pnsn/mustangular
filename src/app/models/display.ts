@@ -1,6 +1,8 @@
 // Describes a Display object
 
 import { Binning, Data } from "@interfaces/binning.interface";
+import { DisplayParams } from "@interfaces/params.interface";
+import { MetricType } from "app/types";
 
 export class Display {
   data: Data;
@@ -11,7 +13,7 @@ export class Display {
   colocatedType: string;
   channels: any;
   invert: boolean;
-  displayType: string; // Binary/Percent
+  metricType?: MetricType; // Binary/Percent
   hasCoLocatedChannels: boolean;
   constructor() {
     // Data's max, min, and number of data points
@@ -86,7 +88,7 @@ export class Display {
     return string;
   }
 
-  toParams(): any {
+  toParams(): DisplayParams {
     this.fixBins();
     return {
       coloring: this.coloring,

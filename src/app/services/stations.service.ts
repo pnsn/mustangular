@@ -26,7 +26,7 @@ export class StationsService {
   // Concat data from fdnsws and ph5ws
   getStationsData(queryString: string): Observable<Stations> {
     return this.getStations("fdsnws", queryString).pipe(
-      catchError((err, caught) => {
+      catchError((err) => {
         // if no stations, keep going
         if (this.stationCount === 0) {
           return of({});

@@ -6,12 +6,15 @@ import { Metric } from "@models/metric";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 
+export interface MetricResponse {
+  metrics?: any[];
+}
 @Injectable()
 export class MetricsService {
   constructor(private http: HttpClient) {}
 
-  // Returns metrics
-  private mapMetrics(response: any): Metric[] {
+  // Returns metrics and filters out errored metrics
+  private mapMetrics(response: MetricResponse): Metric[] {
     return response.metrics.filter((m) => m.name !== "metric_error");
   }
 

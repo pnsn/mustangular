@@ -66,7 +66,7 @@ export class ControlsComponent implements OnInit {
   }
 
   // When metric is changed, switch display data to new metric
-  metricChanged(newMetricName: string) {
+  metricChanged(newMetricName: string): void {
     for (const metric of this.metrics) {
       // Update Metric with new information
       if (metric.name === this.activeMetric.name) {
@@ -83,25 +83,25 @@ export class ControlsComponent implements OnInit {
     // this.valueChanged();
   }
 
-  resetBins() {
+  resetBins(): void {
     this.activeMetric.display.resetBins();
     this.valueChanged();
     this.dataService.recalculateMetrics(this.metrics);
   }
 
-  changeColoring(coloring) {
+  changeColoring(coloring): void {
     this.activeMetric.display.coloring = coloring;
     this.valueChanged();
   }
 
   // Activate submit button
-  valueChanged() {
+  valueChanged(): void {
     this.parametersService.updateUrl(this.activeMetric.display);
     this.changed = true;
   }
 
   // Submit metric changes
-  onSubmit() {
+  onSubmit(): void {
     this.changed = false;
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
   }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
 import { Subject, Observable } from "rxjs";
 import { Display } from "@models/display";
+import { MetricType } from "app/types";
 
 /** Handles metrics and calculating displays */
 @Injectable()
@@ -59,14 +60,14 @@ export class DataService {
 
   // Calculates 5th and 95th percentile of data
   // gets weird when there's only a few values
-  private initialBinning(values: number[], displayType?: string): any {
+  private initialBinning(values: number[], type?: MetricType): any {
     const length = values.length;
     let minIndex: number;
     let maxIndex: number;
     let max, min, count: number;
 
     // Find max and min values - default to %iles unless specified
-    switch (displayType) {
+    switch (type) {
       case "percent":
         min = 0;
         max = 100;
@@ -178,7 +179,7 @@ export class DataService {
     ) {
       display.binning = this.defaultDisplay.binning;
     } else {
-      display.binning = this.initialBinning(values, display.displayType);
+      display.binning = this.initialBinning(values, display.metricType);
     }
 
     metric.display = display;
