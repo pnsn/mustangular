@@ -46,7 +46,7 @@ export class MapComponent implements OnInit, OnDestroy {
     message: "Loading",
     error: false,
   };
-  ngOnInit() {
+  ngOnInit(): void {
     // Wait for query parameters to be populated
     const sub = this.parametersService.getQuery().subscribe((query) => {
       this.query = query;
@@ -64,7 +64,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.parametersService.setQueryParameters();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -92,9 +92,9 @@ export class MapComponent implements OnInit, OnDestroy {
   private getStations(metrics: Metric[]): void {
     this.status.message = "Accessing Station Information.";
     const sub = this.stationsService
-      .getStationData(this.query.getString(["net", "sta"]))
+      .getStationsData(this.query.getString(["net", "sta"]))
       .subscribe(
-        (response) => {
+        () => {
           this.dataService.setMetrics(metrics);
         },
         (err) => {
@@ -115,7 +115,7 @@ export class MapComponent implements OnInit, OnDestroy {
       (measurements) => {
         this.combineMetrics(measurements, metrics);
       },
-      (err) => {
+      () => {
         this.status = {
           message: "Unable to fetch Measurements from MUSTANG.",
           error: true,

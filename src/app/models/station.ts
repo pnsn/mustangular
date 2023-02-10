@@ -1,15 +1,4 @@
 // Describes a Station object
-// {
-//   net: string,
-//   sta: string,
-//   lat: number,
-//   lon: number,
-//   name: string,
-//   loc: string,
-//   code: string, //NET.STA.LOC
-//   channels: any
-// }
-
 export class Station {
   constructor(
     public net: string,
@@ -70,7 +59,7 @@ export class Station {
     displayValue: string,
     displayChannels: string[],
     setDisplay: boolean
-  ) {
+  ): void {
     this.displayChannel = null;
     for (const displayChannel of displayChannels) {
       if (!this.displayChannel) {
@@ -90,7 +79,10 @@ export class Station {
   }
 
   // Calculates the given aggregate value for the station
-  private getValueFromAggregate(displayValue: string, aggregateValue: string) {
+  private getValueFromAggregate(
+    displayValue: string,
+    aggregateValue: string
+  ): void {
     const channelValues = [];
     for (const c in this.channels) {
       if (this.channels[c]) {

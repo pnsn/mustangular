@@ -1,21 +1,11 @@
 // Describes a Display object
 
-export interface Binning {
-  min: number;
-  max: number;
-  count: number;
-}
-
-export interface Data {
-  min: number;
-  max: number;
-  count: number;
-}
+import { Binning, Data } from "@interfaces/binning.interface";
 
 export class Display {
-  data: any;
+  data: Data;
   coloring: string;
-  binning: any;
+  binning: Binning;
   displayValue: string;
   aggregateValue: string;
   colocatedType: string;

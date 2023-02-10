@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
 import { Subject, Observable } from "rxjs";
 import { Display } from "@models/display";
+
+/** Handles metrics and calculating displays */
 @Injectable()
 export class DataService {
-  constructor() {}
-
   private defaultDisplay: Display;
   private metrics: Metric[];
   private activeMetric = new Subject<Metric>();

@@ -1,14 +1,12 @@
-// Generates bins to color map icons
-
 import { Bin } from "@models/bin";
 import * as Rainbow from "rainbowvis.js";
 import { Subject, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { ColorOption } from "@interfaces/binning.interface";
 
+// Generates bins to color map icons
 @Injectable()
 export class BinningService {
-  constructor() {}
   private colorings: ColorOption[] = [
     {
       name: "rainbow",

@@ -1,14 +1,13 @@
-// Takes in station, metric, and measurement data and makes an object
-
 import { Injectable } from "@angular/core";
 import { Subject, Observable } from "rxjs";
 import { Metric } from "@models/metric";
 import { Channel } from "@models/channel";
 import { Measurement } from "@models/measurement";
 import { Station } from "@models/station";
+
+/** Takes in station, metric, and measurement data and comines */
 @Injectable()
 export class CombineMetricsService {
-  constructor() {}
   private metrics = new Subject<Metric[]>(); // Subscribeable metrics
 
   // Returns metrics

@@ -1,14 +1,4 @@
 // Describes a Metric object
-
-// {
-//   name : string,
-//   title : string,
-//   description : string,
-//   unit : string,
-//   display : Display,
-//   stations : Station object
-// }
-
 import { Display } from "./display";
 export class Metric {
   constructor(

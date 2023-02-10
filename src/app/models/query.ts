@@ -1,15 +1,4 @@
 // Describes a Query object
-// {
-//   net: string,
-//   cha: string,
-//   sta: string,
-//   loc: string,
-//   qual: string,
-//   start: string,
-//   end: string,
-//   metric: string
-// }
-
 export class Query {
   constructor(
     public net?: string,

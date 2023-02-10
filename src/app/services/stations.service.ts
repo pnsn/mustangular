@@ -5,17 +5,26 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, tap, concatMap } from "rxjs/operators";
 
+export interface StationData {
+  name: string;
+  lat: number;
+  lon: number;
+}
+export type Stations = Record<string, StationData>;
+
 @Injectable()
 export class StationsService {
-  stations = {};
+  stations: Stations = {};
   private stationCount = 0;
   constructor(private http: HttpClient) {}
 
-  getMissingStationInformation(stationCode) {
-    return this.stations[stationCode] ? this.stations[stationCode] : null;
+  /** returns data for single station with code */
+  getStationData(stationCode: string): StationData {
+    return this.stations[stationCode] ?? null;
   }
 
-  getStationData(queryString: string) {
+  // Concat data from fdnsws and ph5ws
+  getStationsData(queryString: string): Observable<Stations> {
     return this.getStations("fdsnws", queryString).pipe(
       catchError((err, caught) => {
         // if no stations, keep going
@@ -49,9 +58,9 @@ export class StationsService {
   }
 
   // Parse text file and map to station objects
-  private mapStations(response: string) {
+  private mapStations(response: string): Stations {
     const lines = response.split("\n");
-    const headers = lines.shift();
+    const _headers = lines.shift();
     const stations = {};
 
     for (const line of lines) {
@@ -69,7 +78,7 @@ export class StationsService {
   }
 
   // Fetch stations from service
-  getStations(source: string, queryString: string): Observable<any> {
+  getStations(source: string, queryString: string): Observable<Stations> {
     const stationsURL =
       "https://service.iris.edu/" +
       source +

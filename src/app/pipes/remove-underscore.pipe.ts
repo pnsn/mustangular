@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
+/** Removes underscores from strings */
 @Pipe({
   name: "removeUnderscore",
 })

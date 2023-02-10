@@ -1,5 +1,3 @@
-// Takes a metric and the bins and creates marker layers for the map
-
 import { Injectable, NgZone } from "@angular/core";
 import { Metric } from "@models/metric";
 import { divIcon, latLng, Marker, layerGroup } from "leaflet";
@@ -9,6 +7,7 @@ import { Subject, Observable } from "rxjs";
 import { StationsService } from "@services/stations.service";
 import { Channel } from "@models/channel";
 
+/** Takes a metric and the bins and creates marker layers for the map */
 @Injectable()
 export class MakeMarkersService {
   constructor(private zone: NgZone, private stationsService: StationsService) {}
@@ -39,6 +38,7 @@ export class MakeMarkersService {
     const latlons = [];
     this.overlays = [];
     this.bins = bins;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
 
     for (const bin of this.bins) {
@@ -52,9 +52,7 @@ export class MakeMarkersService {
       if (metric.stations[s]) {
         const station = metric.stations[s];
         if (!station.lat || !station.lon) {
-          const info = this.stationsService.getMissingStationInformation(
-            station.code
-          );
+          const info = this.stationsService.getStationData(station.code);
           if (info) {
             station.lat = info.lat;
             station.lon = info.lon;
