@@ -89,9 +89,8 @@ export class ControlsComponent implements OnInit {
   }
 
   resetBins(): void {
-    this.activeMetric.display.resetBins();
-    this.valueChanged();
     this.dataService.recalculateMetrics(this.metrics);
+    this.valueChanged();
   }
 
   changeColoring(coloring): void {

@@ -34,8 +34,9 @@ export class DataService {
     }
   }
 
+  // return metrics
   getMetrics(): Metric[] {
-    return Object.assign(this.metrics);
+    return this.metrics.slice();
   }
 
   updateMetrics(metrics: Metric[], activeMetricName: string): void {
@@ -48,7 +49,7 @@ export class DataService {
     this.metrics = metrics;
     let defaultMetric = null;
     for (const metric of this.metrics) {
-      const updatedMetric = this.calculateValuesForMetric(metric);
+      const updatedMetric = this.setDefaultDisplay(metric);
       if (defaultMetric === null && updatedMetric.display.data.count > 0) {
         defaultMetric = updatedMetric;
       }
@@ -60,7 +61,7 @@ export class DataService {
 
   // Calculates 5th and 95th percentile of data
   // gets weird when there's only a few values
-  private initialBinning(values: number[], type?: MetricType): any {
+  private calculateBinning(values: number[], type?: MetricType): any {
     const length = values.length;
     let minIndex: number;
     let maxIndex: number;
@@ -122,38 +123,30 @@ export class DataService {
     }
   }
 
+  // recalculate values for metric after change
   recalculateMetrics(metrics: Metric[]): void {
-    this.defaultDisplay.resetBins();
     metrics.forEach((metric) => {
-      this.calculateValuesForMetric(metric);
+      metric.updateValues();
+      const values = metric.getValues();
+      metric.display.binning = this.calculateBinning(
+        values,
+        metric.display.metricType
+      );
     });
   }
 
   // Apply default value, parameter values or calculate new ones.
-  private calculateValuesForMetric(metric: Metric): Metric {
+  private setDefaultDisplay(metric: Metric): Metric {
     const display = metric.display;
 
     if (this.metricNames.indexOf(metric.name) < 0) {
       this.metricNames.push(metric.name);
     }
 
-    if (this.defaultDisplay.displayValue) {
-      display.displayValue = this.defaultDisplay.displayValue;
-    } else {
-      display.displayValue = "Average";
-    }
-
-    if (this.defaultDisplay.colocatedType) {
-      display.colocatedType = this.defaultDisplay.colocatedType;
-    } else {
-      display.colocatedType = "channel";
-    }
-
-    if (this.defaultDisplay.aggregateValue) {
-      display.aggregateValue = this.defaultDisplay.aggregateValue;
-    } else {
-      display.aggregateValue = "Minimum";
-    }
+    display.displayValue = this.defaultDisplay.displayValue ?? "Average";
+    display.colocatedType = this.defaultDisplay.colocatedType ?? "channel";
+    display.aggregateValue = this.defaultDisplay.aggregateValue ?? "Minimum";
+    display.coloring = this.defaultDisplay.coloring ?? "red_to_green";
 
     display.invert = this.defaultDisplay.invert
       ? this.defaultDisplay.invert
@@ -162,14 +155,7 @@ export class DataService {
     display.channels.available = this.sortChannels(metric.getChannels());
 
     metric.updateValues();
-
     const values = metric.getValues();
-
-    if (this.defaultDisplay.coloring) {
-      display.coloring = this.defaultDisplay.coloring;
-    } else {
-      display.coloring = "red_to_green";
-    }
 
     if (
       this.defaultDisplay.binning &&
@@ -179,11 +165,8 @@ export class DataService {
     ) {
       display.binning = this.defaultDisplay.binning;
     } else {
-      display.binning = this.initialBinning(values, display.metricType);
+      display.binning = this.calculateBinning(values, display.metricType);
     }
-
-    metric.display = display;
-
     return metric;
   }
 }

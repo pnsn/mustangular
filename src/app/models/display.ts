@@ -97,26 +97,3 @@ export class Display {
     };
   }
 }
-
-// {
-//   data : {
-//     max : number
-//     min : number
-//     count : number
-//   },
-//   coloring : {
-//     low : color,
-//     high : color
-//   },
-//   binning : {
-//     min : number,
-//     max : number,
-//     count : number
-//   },
-//   displayValue : string,
-//   aggregateValue: string,
-//   channels : {
-//     active : string array,
-//     available : string array
-//   }
-// }
