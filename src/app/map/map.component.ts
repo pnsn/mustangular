@@ -141,7 +141,7 @@ export class MapComponent implements OnInit, OnDestroy {
     const sub = this.combineMetricsService.getMetrics().subscribe(
       combinedMetrics => {
         if (combinedMetrics && combinedMetrics.length > 0) {
-          this.dataService.setDisplay(this.parametersService.getDisplay());
+          this.dataService.display = this.parametersService.getDisplay();
 
           this.getStations(combinedMetrics);
           // get station data now

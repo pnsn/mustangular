@@ -110,6 +110,15 @@ export class Display {
       'channels' : this.channels.active.toString()
     };
   }
+
+  resetBins(): void {
+    // Upper and lower bounds for bins and number of bins
+    this.binning = {
+      'min' : null,
+      'max': null,
+      'count': 0
+    };
+  }
 }
 
 

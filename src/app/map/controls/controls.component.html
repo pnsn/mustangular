@@ -113,17 +113,23 @@
     <mat-divider></mat-divider>
 
     <div class="form-section" fxLayout="column" fxFlex="100">
-      <div class="section-title">Binning</div>
+      <div class="section-title">
+        binning
+        <mat-icon matTooltipPosition="above" matTooltip="Default binning uses "
+          >help_outline</mat-icon
+        >
+        <button mat-button type="button" (click)="resetBins()">Recalculate bins</button>
+      </div>
 
       <div fxLayout="row" fxLayoutGap="5px">
         <mat-form-field class="binning">
           <input
             matInput
             type="number"
-            placeholder="Min = {{ display.data.min | number: '1.2-2' }}"
+            placeholder="Min = {{ display.data.min | number : '1.2-2' }}"
             [(ngModel)]="display.binning.min"
             (change)="valueChanged()"
-            max="{{ display.binning.max - 1 }}"
+            max="{{ display.binning.max - 0.01 }}"
             name="minimum"
           />
         </mat-form-field>
@@ -132,10 +138,10 @@
           <input
             matInput
             type="number"
-            placeholder="Max = {{ display.data.max | number: '1.2-2' }}"
+            placeholder="Max = {{ display.data.max | number : '1.2-2' }}"
             [(ngModel)]="display.binning.max"
             (change)="valueChanged()"
-            min="{{ display.binning.min + 1 }}"
+            min="{{ display.binning.min + 0.01 }}"
             name="maximum"
           />
         </mat-form-field>

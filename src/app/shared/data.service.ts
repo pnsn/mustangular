@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Metric } from '../map/metric';
 import { Subject ,  Observable } from 'rxjs';
+import { Display } from '../map/display';
 @Injectable()
 export class DataService {
 
   constructor() { }
 
-  private parameters: any;
+  private defaultDisplay: Display;
   private metrics: Metric[];
   private activeMetric = new Subject<Metric>();
   private metricNames: string[] = [];
 
-  setDisplay(parameters: any): void {
-    this.parameters = parameters;
+  set display(display: Display) {
+    this.defaultDisplay = display;
+  }
+
+  get display(): Display {
+    return this.defaultDisplay;
   }
 
   getActiveMetric(): Observable<Metric> {
@@ -42,7 +47,18 @@ export class DataService {
   // only happens once
   setMetrics(metrics: Metric[]): void {
     this.metrics = metrics;
-    this.calculateValues();
+    let defaultMetric = null;
+    for (const metric of this.metrics) {
+
+      const updatedMetric = this.calculateValuesForMetric(metric);
+      if (defaultMetric === null && updatedMetric.display.data.count > 0) {
+        defaultMetric = updatedMetric;
+      }
+
+    }
+    if (defaultMetric) {
+      this.activeMetric.next(defaultMetric);
+    }
   }
 
   // Calculates 5th and 95th percentile of data
@@ -107,67 +123,64 @@ export class DataService {
     }
   }
 
+ recalculateMetrics(metrics: Metric[]) : void {
+    this.defaultDisplay.resetBins();
+    metrics.forEach(metric => {
+      this.calculateValuesForMetric(metric);
+    })
+ }
+
   // Apply default value, parameter values or calculate new ones.
-  private calculateValues (): void {
-    let defaultMetric = null;
-    for (const metric of this.metrics) {
-      const display = metric.display;
+  private calculateValuesForMetric(metric: Metric): Metric {
+    const display = metric.display;
 
-      if (this.metricNames.indexOf(metric.name) < 0) {
-        this.metricNames.push(metric.name);
-      }
-
-      if (this.parameters.displayValue) {
-        display.displayValue = this.parameters.displayValue;
-      } else {
-        display.displayValue = 'Average';
-      }
-
-      if (this.parameters.colocatedType) {
-        display.colocatedType = this.parameters.colocatedType;
-      } else {
-        display.colocatedType = 'channel';
-      }
-
-      if (this.parameters.aggregateValue) {
-        display.aggregateValue = this.parameters.aggregateValue;
-      } else {
-        display.aggregateValue = 'Minimum';
-      }
-
-      display.invert = this.parameters.invert ? this.parameters.invert : false;
-
-      display.channels.available = this.sortChannels(metric.getChannels());
-
-      metric.updateValues();
-
-      const values = metric.getValues();
-
-      if (this.parameters.coloring) {
-        display.coloring = this.parameters.coloring;
-      } else {
-        display.coloring = 'red_to_green';
-      }
-
-      if (this.parameters.binning &&
-          this.parameters.binning.max !== null &&
-          this.parameters.binning.min !== null &&
-          this.parameters.binning.count !== null) {
-        display.binning = this.parameters.binning;
-      } else {
-        display.binning = this.initialBinning(values, display.displayType);
-      }
-
-      metric.display = display;
-
-      if (defaultMetric === null && metric.display.data.count > 0) {
-        defaultMetric = metric;
-      }
-
-    }
-    if (defaultMetric) {
-      this.activeMetric.next(defaultMetric);
+    if (this.metricNames.indexOf(metric.name) < 0) {
+      this.metricNames.push(metric.name);
     }
 
+    if (this.defaultDisplay.displayValue) {
+      display.displayValue = this.defaultDisplay.displayValue;
+    } else {
+      display.displayValue = 'Average';
+    }
+
+    if (this.defaultDisplay.colocatedType) {
+      display.colocatedType = this.defaultDisplay.colocatedType;
+    } else {
+      display.colocatedType = 'channel';
+    }
+
+    if (this.defaultDisplay.aggregateValue) {
+      display.aggregateValue = this.defaultDisplay.aggregateValue;
+    } else {
+      display.aggregateValue = 'Minimum';
+    }
+
+    display.invert = this.defaultDisplay.invert ? this.defaultDisplay.invert : false;
+
+    display.channels.available = this.sortChannels(metric.getChannels());
+
+    metric.updateValues();
+
+    const values = metric.getValues();
+
+    if (this.defaultDisplay.coloring) {
+      display.coloring = this.defaultDisplay.coloring;
+    } else {
+      display.coloring = 'red_to_green';
+    }
+
+    if (this.defaultDisplay.binning &&
+        this.defaultDisplay.binning.max !== null &&
+        this.defaultDisplay.binning.min !== null &&
+        this.defaultDisplay.binning.count !== null) {
+      display.binning = this.defaultDisplay.binning;
+    } else {
+      display.binning = this.initialBinning(values, display.displayType);
+    }
+
+    metric.display = display;
+
+    return metric;
   }
 }

@@ -90,6 +90,14 @@ export class ControlsComponent implements OnInit {
     this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
     // this.valueChanged();
   }
+
+
+  resetBins() {
+    this.activeMetric.display.resetBins();
+    this.valueChanged();
+    this.dataService.recalculateMetrics(this.metrics);
+  }
+
   changeColoring(coloring) {
     this.activeMetric.display.coloring = coloring;
     this.valueChanged();
