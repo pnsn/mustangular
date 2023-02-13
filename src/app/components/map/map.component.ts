@@ -77,7 +77,7 @@ export class MapComponent implements OnInit, OnDestroy {
         (metrics) => {
           this.getMeasurements(this.query.getString(), metrics);
         },
-        (err) => {
+        () => {
           this.status = {
             message: "Unable to fetch metric information from MUSTANG.",
             error: true,

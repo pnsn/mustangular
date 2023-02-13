@@ -13,9 +13,8 @@ export class LoadingComponent implements OnInit {
   };
   timeout;
   showError = false;
-  constructor() {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.timeout = setTimeout(() => {
       if (!this.status.error) {
         this.status.info =

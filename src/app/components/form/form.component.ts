@@ -49,7 +49,7 @@ export class FormComponent implements OnInit, OnDestroy {
   start: moment.Moment;
   end: moment.Moment;
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Get metrics to populate form
     this.getMetrics();
 
@@ -68,7 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.parametersService.setQueryParameters();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -88,7 +88,7 @@ export class FormComponent implements OnInit, OnDestroy {
         }
         this.selectedMetrics = this.initialMetrics.slice();
       },
-      (err) => {
+      () => {
         this.message = "Cannot fetch metrics. Please try again.";
       }
     );
@@ -105,7 +105,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.selectedMetrics = event;
   }
 
-  onClearMetrics() {
+  onClearMetrics(): void {
     this.selectedMetrics = [];
   }
 
@@ -139,7 +139,7 @@ export class FormComponent implements OnInit, OnDestroy {
   };
 
   // Submit form
-  onSubmit() {
+  onSubmit(): void {
     this.query.metric = this.selectedMetrics.toString();
     this.query.sanitize(this.start, this.end);
     this.router.navigate(["../map"], { queryParams: this.query });

@@ -31,7 +31,7 @@ export class StationComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription(); // Handles connections
   dates: any;
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Get station when it is selected
     const sub = this.makeMarkersService
       .getActiveStation()
@@ -56,7 +56,7 @@ export class StationComponent implements OnInit, OnDestroy {
     this.subscription.add(sub1);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -92,7 +92,7 @@ export class StationComponent implements OnInit, OnDestroy {
   // Opens dialog to sort channels
   openStationDialog(): void {
     const results = this.convertDataToChart(this.activeStation);
-    const dialogRef = this.dialog.open(StationDialogComponent, {
+    this.dialog.open(StationDialogComponent, {
       data: {
         station: this.activeStation,
         metric: this.activeMetric,

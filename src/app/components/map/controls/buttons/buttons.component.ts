@@ -1,6 +1,6 @@
 // Handles dialogs and logic for downloading, help text, and sharing
 
-import { Component, OnInit, Input, Inject } from "@angular/core";
+import { Component, Input, Inject } from "@angular/core";
 import {
   MatDialog,
   MatDialogRef,
@@ -15,7 +15,7 @@ import { MeasurementsService } from "@services/measurements.service";
   templateUrl: "./buttons.component.html",
   styleUrls: ["./buttons.component.scss"],
 })
-export class ButtonsComponent implements OnInit {
+export class ButtonsComponent {
   @Input() metric: Metric; // Gets metric from parent component
 
   constructor(
@@ -23,8 +23,6 @@ export class ButtonsComponent implements OnInit {
     public snackBar: MatSnackBar,
     public measurementsService: MeasurementsService
   ) {}
-
-  ngOnInit() {}
 
   // Copies share metric link to clipboard
   copyShareLink(): void {
@@ -70,7 +68,7 @@ export class ButtonsComponent implements OnInit {
 
   // Opens help dialog
   openHelpDialog(): void {
-    const dialogRef = this.dialog.open(HelpDialogComponent, {
+    this.dialog.open(HelpDialogComponent, {
       data: { url: "test" },
     });
   }

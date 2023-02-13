@@ -15,7 +15,7 @@ export class KeyComponent implements OnInit {
   bins: Bin[]; // Bins
   layers: any = {}; // Which layers are on the map
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Waits for bins to be created
     this.binningService.getBins().subscribe((bins) => {
       this.bins = bins;

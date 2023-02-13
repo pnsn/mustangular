@@ -19,7 +19,7 @@ export class ChannelsDialogComponent {
     this.activeChannels = this.data.activeChannels;
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.channels, event.previousIndex, event.currentIndex);
   }
 }
