@@ -16,35 +16,23 @@ export class CombineMetricsService {
   }
 
   // Combines metrics with station data and measurements
-  combineMetrics(measurements: any, metrics: any): void {
+  combineMetrics(measurements: any, metrics: Metric[]): void {
     const combinedMetrics = new Array<Metric>();
     let measurementCount = 0;
 
     // Go through each metric
     for (const metric of metrics) {
-      // Create a new metric object (See: metric.ts)
-      const unit = metric.tables[0].columns[0].description.replace(
-        /\.*<\/*p>/g,
-        ""
-      );
-      const combinedMetric = new Metric(
-        metric.name,
-        metric.title.replace("Metric", ""),
-        metric.description,
-        unit
-      );
-
       if (measurements[metric.name]) {
         // Sort through measurements and add them to correct metric
         for (const m of measurements[metric.name]) {
           measurementCount++;
           const stationCode = m.net + "." + m.sta;
-          let station = combinedMetric.stations[stationCode];
+          let station = metric.stations[stationCode];
 
           // Create station if its the first pass
           if (!station) {
             station = new Station(m.net, m.sta, stationCode, m.qual);
-            combinedMetric.display.data.count++;
+            metric.display.data.count++;
           }
 
           // Add channel to station
@@ -61,11 +49,11 @@ export class CombineMetricsService {
           );
 
           station.channels = channels;
-          combinedMetric.stations[stationCode] = station;
+          metric.stations[stationCode] = station;
         }
       }
 
-      combinedMetrics.push(combinedMetric);
+      combinedMetrics.push(metric);
     }
 
     if (measurementCount > 0) {

@@ -97,11 +97,20 @@ export class Metric {
 
   private setMetricType(): void {
     let dType: MetricType;
-    if (this.description.search(/percent/i) > -1) {
+    if (
+      this.description?.toLowerCase().search(/percent/i) > -1 ||
+      this.unit?.toLowerCase().search(/percent/i) > -1
+    ) {
       dType = "percent";
-    } else if (this.description.search(/boolean/i) > -1) {
+    } else if (
+      this.description.toLowerCase().search(/boolean/i) > -1 ||
+      this.unit.toLowerCase().search(/boolean/i) > -1
+    ) {
       dType = "boolean";
-    } else if (this.description.search(/polarity/i) > -1) {
+    } else if (
+      this.description.toLowerCase().search(/polarity/i) > -1 ||
+      this.unit.toLowerCase().search(/polarity/i) > -1
+    ) {
       dType = "polarity";
     }
     this.display.metricType = dType;

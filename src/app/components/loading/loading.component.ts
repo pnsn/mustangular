@@ -18,7 +18,7 @@ export class LoadingComponent implements OnInit {
     this.timeout = setTimeout(() => {
       if (!this.status.error) {
         this.status.info =
-          "Large requests may take several minutes to load. To reduce load times," +
+          "Large requests may take several minutes to load. To reduce load times, " +
           "try smaller date ranges, less metrics, or more specific queries.";
         this.showError = true;
       }

@@ -1,7 +1,7 @@
 // Initiates data requests and handles top info bar
 
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { MetricsService } from "@services/metrics.service";
+import { IrisMetric, MetricsService } from "@services/metrics.service";
 import { Metric } from "@models/metric";
 import { MeasurementsService } from "@services/measurements.service";
 import { StationsService } from "@services/stations.service";

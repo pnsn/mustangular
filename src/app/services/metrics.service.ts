@@ -6,8 +6,15 @@ import { Metric } from "@models/metric";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 
+export interface IrisMetric {
+  title: string;
+  name: string;
+  description: string;
+  tables: any[];
+  version: 1;
+}
 export interface MetricResponse {
-  metrics?: any[];
+  metrics?: IrisMetric[];
 }
 @Injectable()
 export class MetricsService {
@@ -15,7 +22,28 @@ export class MetricsService {
 
   // Returns metrics and filters out errored metrics
   private mapMetrics(response: MetricResponse): Metric[] {
-    return response.metrics.filter((m) => m.name !== "metric_error");
+    const metrics: Metric[] = [];
+    response?.metrics.forEach((m) => {
+      //filter out metric errors and non-value metrics
+      if (
+        m.name !== "metric_error" &&
+        m.tables[0].columns[0].name === "value"
+      ) {
+        // Create a new metric object (See: metric.ts)
+        const unit = m.tables[0].columns[0].description.replace(
+          /\.*<\/*p>/g,
+          ""
+        );
+        const metric = new Metric(
+          m.name,
+          m.title.replace("Metric", ""),
+          m.description,
+          unit
+        );
+        metrics.push(metric);
+      }
+    });
+    return metrics;
   }
 
   // Gets requested metric data

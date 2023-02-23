@@ -8,6 +8,7 @@ import { ParametersService } from "@services/parameters.service";
 import { MAT_DATE_FORMATS } from "@angular/material/core";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
+import { Metric } from "@models/metric";
 
 export const MY_FORMATS = {
   parse: {
@@ -38,7 +39,7 @@ export class FormComponent implements OnInit, OnDestroy {
     private parametersService: ParametersService
   ) {}
 
-  metrics: any = []; // Available metrics from MUSTANG
+  metrics: Metric[] = []; // Available metrics from MUSTANG
   maxDate = new Date(); // Current date to prevent requests from future
   query = new Query(); // Holds all the query data
   selectedMetrics: string[] = []; // Selected metrics
@@ -78,14 +79,7 @@ export class FormComponent implements OnInit, OnDestroy {
     const sub = this.metricsService.getMetrics().subscribe(
       (metrics) => {
         this.loading = false;
-        for (const metric of metrics) {
-          if (metric.tables[0].columns[0].name === "value") {
-            this.metrics.push({
-              name: metric.name.toUpperCase(),
-              title: metric.title,
-            });
-          }
-        }
+        this.metrics = [...metrics];
         this.selectedMetrics = this.initialMetrics.slice();
       },
       () => {
@@ -140,7 +134,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   // Submit form
   onSubmit(): void {
-    this.query.metric = this.selectedMetrics.toString();
+    this.query.metric = this.selectedMetrics.toString().toUpperCase();
     this.query.sanitize(this.start, this.end);
     this.router.navigate(["../map"], { queryParams: this.query });
   }
