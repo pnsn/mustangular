@@ -101,7 +101,6 @@ export class StationComponent implements OnInit, OnDestroy {
         end: this.dates.end,
       },
       width: "80%",
-      height: "60%",
     });
   }
 }
@@ -113,16 +112,19 @@ export class StationComponent implements OnInit, OnDestroy {
   styleUrls: ["./station.component.scss"],
 })
 export class StationDialogComponent {
+  yAxisLabel = "";
   constructor(
     public dialogRef: MatDialogRef<StationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.yAxisLabel = this.metric.display.metricType || this.metric.unit;
+    console.log(this.metric.unit);
+  }
 
   station = this.data.station;
   metric = this.data.metric;
 
   xAxisLabel = "Measurement Start Date";
-  yAxisLabel = this.metric.unit;
 
   legendTitle = "Click to view PSD-PDF";
 

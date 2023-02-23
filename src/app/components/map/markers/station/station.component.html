@@ -1,4 +1,6 @@
-<h1 mat-dialog-title fxLayoutAlign="center center">{{station.code}} {{metric.title}}</h1>
+<h1 mat-dialog-title fxLayoutAlign="center center">
+  {{ station.code }} {{ metric.title }}
+</h1>
 
 <mat-divider></mat-divider>
 
@@ -24,8 +26,10 @@
   </div>
 </div>
 
-<span class="info-text" fxLayoutAlign="center center" >Click and drag above grey area to zoom graph.</span>
+<span class="info-text" fxLayoutAlign="center center"
+  >Click and drag above grey area to zoom graph.</span
+>
 
-<div mat-dialog-actions  fxLayoutAlign="end">
- <button mat-raised-button [mat-dialog-close] >Done</button>
+<div mat-dialog-actions fxLayoutAlign="end">
+  <button mat-raised-button [mat-dialog-close]>Done</button>
 </div>
