@@ -47,6 +47,7 @@ export class ControlsComponent implements OnInit {
       if (activeMetric) {
         this.activeMetric = Object.assign(activeMetric);
         this.display = activeMetric.display;
+        console.log(this.display);
         this.metrics = this.dataService.getMetrics();
       }
     });

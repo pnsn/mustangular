@@ -50,9 +50,11 @@ export class ParametersService {
       min: isNaN(+params.binmin) ? null : +params.binmin,
       max: isNaN(+params.binmax) ? null : +params.binmax,
     };
-    d.invert = params.invert === "true" ? true : false;
+    d.invert = params.invert === "true";
     d.displayValue = params.displayValue;
     d.aggregateValue = params.aggregateValue;
+    d.absValue = params.absValue === "true";
+    console.log(d.absValue);
     d.colocatedType = params.colocatedType;
     d.channels.active =
       params.channels && params.channels.length > 1

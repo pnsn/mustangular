@@ -147,10 +147,8 @@ export class DataService {
     display.colocatedType = this.defaultDisplay.colocatedType ?? "channel";
     display.aggregateValue = this.defaultDisplay.aggregateValue ?? "Minimum";
     display.coloring = this.defaultDisplay.coloring ?? "red_to_green";
-
-    display.invert = this.defaultDisplay.invert
-      ? this.defaultDisplay.invert
-      : false;
+    display.absValue = this.defaultDisplay.absValue;
+    display.invert = this.defaultDisplay.invert;
 
     display.channels.available = this.sortChannels(metric.getChannels());
 

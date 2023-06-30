@@ -1,22 +1,10 @@
-<form
-  #controlForm="ngForm"
-  (ngSubmit)="onSubmit(controlForm)"
-  *ngIf="activeMetric"
->
+<form #controlForm="ngForm" (ngSubmit)="onSubmit(controlForm)" *ngIf="activeMetric">
   <div id="metric-section" class="mat-elevation-z3">
     <div class="form-title">Available Metrics</div>
 
-    <mat-radio-group
-      class="select-active"
-      [ngModel]="activeMetric.name"
-      (ngModelChange)="metricChanged($event)"
-      name="metric"
-    >
-      <mat-radio-button
-        *ngFor="let metric of metrics"
-        [value]="metric.name"
-        [disabled]="metric.display.data.count < 1"
-      >
+    <mat-radio-group class="select-active" [ngModel]="activeMetric.name" (ngModelChange)="metricChanged($event)"
+      name="metric">
+      <mat-radio-button *ngFor="let metric of metrics" [value]="metric.name" [disabled]="metric.display.data.count < 1">
         {{ metric.title }} ({{ metric.display.data.count }} stations)
       </mat-radio-button>
     </mat-radio-group>
@@ -35,22 +23,18 @@
     <div class="form-section" fxLayout="column">
       <div class="section-title">
         Channel Value Across Timespan
-        <mat-icon
-          matTooltipPosition="above"
-          matTooltip="Value calculated for each channel for all data"
-          >help_outline</mat-icon
-        >
+        <mat-icon matTooltipPosition="above"
+          matTooltip="Value calculated for each channel for all data">help_outline</mat-icon>
       </div>
-      <mat-select
-        id="displayDropdown"
-        [(ngModel)]="display.displayValue"
-        (ngModelChange)="valueChanged()"
-        name="displayValue"
-      >
+      <mat-select id="displayDropdown" [(ngModel)]="display.displayValue" (ngModelChange)="valueChanged()"
+        name="displayValue">
         <mat-option *ngFor="let value of displayValues" [value]="value">
           {{ value | removeUnderscore }}
         </mat-option>
       </mat-select>
+      <mat-checkbox [(ngModel)]="display.absValue" (ngModelChange)="valueChanged()" name="Absolute Value">
+        Use Absolute Value
+      </mat-checkbox>
     </div>
 
     <mat-divider></mat-divider>
@@ -58,49 +42,30 @@
     <div class="form-section channels-dialog" fxLayout="column">
       <div class="section-title">
         Display Value
-        <mat-icon
-          color="secondary"
-          matTooltipPosition="above"
-          matTooltip="Value shown on the map for a station"
-          >help_outline</mat-icon
-        >
+        <mat-icon color="secondary" matTooltipPosition="above"
+          matTooltip="Value shown on the map for a station">help_outline</mat-icon>
       </div>
       <label for="colocated-select"></label>
-      <mat-radio-group
-        aria-labelledby="colocated-select"
-        class="example-radio-group"
-        [(ngModel)]="display.colocatedType"
-        name="colocated-select"
-        (ngModelChange)="valueChanged()"
-      >
+      <mat-radio-group aria-labelledby="colocated-select" class="example-radio-group"
+        [(ngModel)]="display.colocatedType" name="colocated-select" (ngModelChange)="valueChanged()">
         <mat-radio-button value="channel">
           <div>
             Display single channel
             <span class="status">Click box to prioritize</span>
           </div>
           <div (click)="openChannelsDialog()" id="openChannelsDialog">
-            <ng-container
-              *ngFor="let channel of display.channels.active; let i = index"
-            >
+            <ng-container *ngFor="let channel of display.channels.active; let i = index">
               <span *ngIf="i > 0"> > </span>
               <span> {{ i + 1 }}. {{ channel }}</span>
             </ng-container>
           </div>
         </mat-radio-button>
 
-        <mat-radio-button
-          value="aggregate"
-          [disabled]="!display.hasCoLocatedChannels"
-        >
+        <mat-radio-button value="aggregate" [disabled]="!display.hasCoLocatedChannels">
           <div>Aggregate Co-Located Channels</div>
           <div>
-            <mat-select
-              id="aggregateDropdown"
-              [(ngModel)]="display.aggregateValue"
-              (ngModelChange)="valueChanged()"
-              name="aggregateValue"
-              [disabled]="!display.hasCoLocatedChannels"
-            >
+            <mat-select id="aggregateDropdown" [(ngModel)]="display.aggregateValue" (ngModelChange)="valueChanged()"
+              name="aggregateValue" [disabled]="!display.hasCoLocatedChannels">
               <mat-option *ngFor="let value of aggregateValues" [value]="value">
                 {{ value | removeUnderscore }}
               </mat-option>
@@ -117,30 +82,14 @@
         <div>
           Binning
           <ng-container [ngSwitch]="activeMetric?.display.metricType">
-            <mat-icon
-              *ngSwitchCase="'percent'"
-              matTooltipPosition="above"
-              matTooltip="defaults are 0 and 100 for percent metrics"
-              >help_outline</mat-icon
-            >
-            <mat-icon
-              *ngSwitchCase="'boolean'"
-              matTooltipPosition="above"
-              matTooltip="defaults are 0 and 1 for boolean metrics"
-              >help_outline</mat-icon
-            >
-            <mat-icon
-              *ngSwitchCase="'polarity'"
-              matTooltipPosition="above"
-              matTooltip="defaults are -1 and 1 for polarity metrics"
-              >help_outline</mat-icon
-            >
-            <mat-icon
-              *ngSwitchDefault
-              matTooltipPosition="above"
-              matTooltip="defaults are the 5th and 95th percentile (for most metrics)"
-              >help_outline</mat-icon
-            >
+            <mat-icon *ngSwitchCase="'percent'" matTooltipPosition="above"
+              matTooltip="defaults are 0 and 100 for percent metrics">help_outline</mat-icon>
+            <mat-icon *ngSwitchCase="'boolean'" matTooltipPosition="above"
+              matTooltip="defaults are 0 and 1 for boolean metrics">help_outline</mat-icon>
+            <mat-icon *ngSwitchCase="'polarity'" matTooltipPosition="above"
+              matTooltip="defaults are -1 and 1 for polarity metrics">help_outline</mat-icon>
+            <mat-icon *ngSwitchDefault matTooltipPosition="above"
+              matTooltip="defaults are the 5th and 95th percentile (for most metrics)">help_outline</mat-icon>
           </ng-container>
         </div>
         <button mat-button type="button" (click)="resetBins()">Reset</button>
@@ -148,40 +97,20 @@
 
       <div fxLayout="row" fxLayoutGap="5px">
         <mat-form-field class="binning">
-          <input
-            matInput
-            type="number"
-            placeholder="Min = {{ display.data.min | number: '1.2-2' }}"
-            [(ngModel)]="display.binning.min"
-            (change)="valueChanged()"
-            max="{{ display.binning.max - 0.01 }}"
-            name="minimum"
-          />
+          <input matInput type="number" placeholder="Min = {{ display.data.min | number: '1.2-2' }}"
+            [(ngModel)]="display.binning.min" (change)="valueChanged()" max="{{ display.binning.max - 0.01 }}"
+            name="minimum" />
         </mat-form-field>
 
         <mat-form-field class="binning">
-          <input
-            matInput
-            type="number"
-            placeholder="Max = {{ display.data.max | number: '1.2-2' }}"
-            [(ngModel)]="display.binning.max"
-            (change)="valueChanged()"
-            min="{{ display.binning.min + 0.01 }}"
-            name="maximum"
-          />
+          <input matInput type="number" placeholder="Max = {{ display.data.max | number: '1.2-2' }}"
+            [(ngModel)]="display.binning.max" (change)="valueChanged()" min="{{ display.binning.min + 0.01 }}"
+            name="maximum" />
         </mat-form-field>
 
         <mat-form-field class="binning">
-          <input
-            matInput
-            type="number"
-            placeholder="Number of bins"
-            [(ngModel)]="display.binning.count"
-            (change)="valueChanged()"
-            min="1"
-            max="25"
-            name="count"
-          />
+          <input matInput type="number" placeholder="Number of bins" [(ngModel)]="display.binning.count"
+            (change)="valueChanged()" min="1" max="25" name="count" />
         </mat-form-field>
       </div>
     </div>
@@ -191,19 +120,11 @@
         Map Coloring
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <app-coloring
-          fxFlex="67"
-          [metricColoring]="activeMetric.display.coloring"
-          (changeColoring)="changeColoring($event)"
-        >
+        <app-coloring fxFlex="67" [metricColoring]="activeMetric.display.coloring"
+          (changeColoring)="changeColoring($event)">
         </app-coloring>
-        <mat-checkbox
-          fxFlex="30"
-          name="toggle-invert"
-          (ngModelChange)="valueChanged()"
-          [(ngModel)]="activeMetric.display.invert"
-          >Reverse</mat-checkbox
-        >
+        <mat-checkbox fxFlex="30" name="toggle-invert" (ngModelChange)="valueChanged()"
+          [(ngModel)]="activeMetric.display.invert">Reverse</mat-checkbox>
       </div>
     </div>
 
@@ -215,12 +136,7 @@
   </div>
   <div class="form-section form-buttons">
     <div fxLayout="row" fxLayoutAlign="center center">
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="!changed"
-        type="submit"
-      >
+      <button mat-raised-button color="primary" [disabled]="!changed" type="submit">
         Update
       </button>
     </div>

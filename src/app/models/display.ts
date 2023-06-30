@@ -25,6 +25,8 @@ export class Display {
   channels: Channels;
   invert: boolean;
   metricType?: MetricType; // Binary/Percent
+  //use absolute value of metrics for calculation?
+  absValue?: boolean;
   hasCoLocatedChannels: boolean;
   constructor() {
     this.data = {

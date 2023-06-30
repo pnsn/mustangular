@@ -11,4 +11,5 @@ export interface DisplayParams {
   colocatedType?: ColocatedType;
   aggregateValue?: AggregateValue;
   channels?: string;
+  absValue?: boolean;
 }
