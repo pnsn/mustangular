@@ -49,44 +49,35 @@ export class MakeMarkersService {
     }
 
     // Go through each station and create the icon
-    for (const s in metric.stations) {
-      if (metric.stations[s]) {
-        const station = metric.stations[s];
-        if (!station.lat || !station.lon) {
-          const info = this.stationsService.getStationData(station.code);
-          if (info) {
-            station.lat = info.lat;
-            station.lon = info.lon;
-            station.name = info.name;
-          }
+    for (const [code, station] of metric._stations) {
+      if (!station.lat || !station.lon) {
+        const info = this.stationsService.getStationData(code);
+        if (info) {
+          station.lat = info.lat;
+          station.lon = info.lon;
+          station.name = info.name;
         }
+      }
 
-        if (station.lat && station.lon) {
-          const latlon = latLng(station.lat, station.lon);
+      if (station.lat && station.lon) {
+        const latlon = latLng(station.lat, station.lon);
 
-          const options = this.buildIcon(station);
-          const m = new Marker(latlon, { icon: options.icon });
+        const options = this.buildIcon(station);
+        const m = new Marker(latlon, { icon: options.icon });
 
-          m.on("click", function () {
-            self.zone.run(() => {
-              self.activeStation.next(station);
-            });
+        m.on("click", function () {
+          self.zone.run(() => {
+            self.activeStation.next(station);
           });
+        });
 
-          m.bindTooltip(
-            self.buildPopup(
-              station,
-              metric.display.displayValue,
-              metric.display.colocatedType
-            )
-          );
+        m.bindTooltip(self.buildPopup(station, metric.display.colocatedType));
 
-          markerGroups[options.binIndex].push(m);
-          latlons.push(latlon);
-        } else {
-          // Station does not have data in fdsnws and must be skipped
-          console.log("no station data for: " + station.code);
-        }
+        markerGroups[options.binIndex].push(m);
+        latlons.push(latlon);
+      } else {
+        // Station does not have data in fdsnws and must be skipped
+        console.log("no station data for: " + station.code);
       }
     }
 
@@ -150,56 +141,35 @@ export class MakeMarkersService {
   }
 
   // Builds the station information popup
-  private buildPopup(
-    station: Station,
-    displayValue: DisplayValue,
-    colocatedType: ColocatedType
-  ): string {
+  private buildPopup(station: Station, colocatedType: ColocatedType): string {
     let value = station.displayValue;
     value = Math.round(value * 10) / 10;
 
-    let string =
-      "<h3>" +
-      station.net +
-      "." +
-      station.sta +
-      "</h3>" +
-      "<span> Click to view data</span><div> Value: (";
+    let string = `<h3>${station.code}</h3><span> Click to view data</span><div> Value: (`;
 
     if (colocatedType === "channel" && station.displayChannel) {
       string += station.displayChannel;
     } else {
       string += "aggregate";
     }
-    string += ") " + value + "<div> Channels: <ul id='channel-list'>";
+    string += `) ${value} <div> Channels: <ul id='channel-list'>`;
 
-    for (const c in station.channels) {
-      if (station.channels[c]) {
-        const channel: Channel = station.channels[c];
-        const channelValue = channel.getValue(displayValue);
-        const bin = this.getBin(channelValue);
+    for (const [code, channel] of station._channels) {
+      const channelValue = channel.value;
+      const bin = this.getBin(channelValue);
 
-        string += '<li style="color:' + bin.color;
+      string += '<li style="color:' + bin.color;
 
-        if (bin.color === "#ffffff" || bin.color === "white") {
-          string += '; background-color: gray;"';
-        } else {
-          string += ';"';
-        }
-
-        if (
-          colocatedType === "channel" &&
-          channel.name === station.displayChannel
-        ) {
-          string += " class='active channel'";
-        }
-        string +=
-          ">" +
-          channel.name +
-          " (" +
-          Math.round(channelValue * 100) / 100 +
-          ") </li>";
+      if (bin.color === "#ffffff" || bin.color === "white") {
+        string += '; background-color: gray;"';
+      } else {
+        string += ';"';
       }
+
+      if (colocatedType === "channel" && code === station.displayChannel) {
+        string += " class='active channel'";
+      }
+      string += `>${code} (${Math.round(channelValue * 100) / 100})</li>`;
     }
 
     string += "</ul>";

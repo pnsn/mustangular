@@ -1,4 +1,7 @@
 import { AggregateValue, ColocatedType, DisplayValue } from "app/types";
+import { Channel } from "./channel";
+import { Observable, combineLatest } from "rxjs";
+import { combineAll, mergeAll, map, reduce, tap } from "rxjs/operators";
 
 // Describes a Station object
 export class Station {
@@ -10,126 +13,82 @@ export class Station {
   ) {
     this.displayValue = null;
     this.displayChannel = null;
+    this._channels = new Map<string, Channel>();
   }
   lat: number;
   lon: number;
   name: string;
-  channels: any = {};
+  channels: Record<string, Channel> = {};
   displayValue: number; // Value displayed for the station
   displayChannel: string; // Channel being used to display
 
-  // Sorts channels to group up by loc and channel type
-  private sortChannels(): any {
-    this.channels = Object.keys(this.channels)
-      .sort(function (a: any, b: any) {
-        const A = a.split(".");
-        const B = b.split(".");
+  _channels: Map<string, Channel>; //map of nslc to channel
 
-        if (A[0] === "--") {
-          A[0] = -1;
-        }
-
-        if (B[0] === "--") {
-          B[0] = -1;
-        }
-
-        if (parseInt(A[0], 10) < parseInt(B[0], 10)) {
-          return -1;
-        } else if (parseInt(A[0], 10) > parseInt(B[0], 10)) {
-          return 1;
-        } else {
-          if (A[1] < B[1]) {
-            return -1;
-          } else if (A[1] > B[1]) {
-            return 1;
-          } else {
-            return 0;
-          }
-        }
-      })
-      .reduce(
-        (_sortedObj, key) => ({
-          ..._sortedObj,
-          [key]: this.channels[key],
-        }),
-        {}
-      );
+  get Channels() {
+    return this._channels;
   }
 
-  // Finds the single display value for the station from all the channels
-  private getValueFromDisplayChannel(
-    displayValue: string,
-    displayChannels: string[],
-    setDisplay: boolean
-  ): void {
-    this.displayChannel = null;
-    for (const displayChannel of displayChannels) {
-      if (!this.displayChannel) {
-        for (const c in this.channels) {
-          if (this.channels[c]) {
-            const channel = this.channels[c];
-            if (channel.name === displayChannel) {
-              this.displayChannel = channel.name;
-              if (setDisplay) {
-                this.displayValue = channel.getValue(displayValue);
-              }
-            }
-          }
-        }
-      }
-    }
+  getChannel(code: string) {
+    return this._channels.get(code);
   }
 
-  // Calculates the given aggregate value for the station
-  private getValueFromAggregate(
-    displayValue: DisplayValue,
-    aggregateValue: AggregateValue
-  ): void {
-    const channelValues = [];
-    for (const c in this.channels) {
-      if (this.channels[c]) {
-        const channel = this.channels[c];
-        channelValues.push(channel.getValue(displayValue));
-      }
+  // adds or creates channel and returns channel
+  getOrCreateChannel(code: string, loc: string, chan: string): Channel {
+    if (!this._channels.has(code)) {
+      this._channels.set(code, new Channel(code, loc, chan));
     }
 
-    switch (aggregateValue) {
-      case "Minimum": {
-        this.displayValue = Math.min(...channelValues);
-        break;
-      }
-      case "Maximum": {
-        this.displayValue = Math.max(...channelValues);
-        break;
-      }
-      case "Most_Extreme": {
-        const min = Math.min(...channelValues);
-        const max = Math.max(...channelValues);
-
-        this.displayValue = Math.abs(min) > Math.abs(max) ? min : max;
-        break;
-      }
-      default: {
-        this.displayValue = null;
-        break;
-      }
-    }
+    return this._channels.get(code);
   }
 
-  // Sets the station value according to the display value and selected channels
-  setValue(
+  value$(
     colocatedType: ColocatedType,
     displayValue: DisplayValue,
     aggregateValue: AggregateValue,
-    displayChannels: string[]
-  ): void {
-    this.sortChannels();
+    displayChannels: string[],
+    absValue = false
+  ): Observable<number> {
+    this.displayChannel = null;
 
-    if (colocatedType && colocatedType === "aggregate") {
-      this.getValueFromAggregate(displayValue, aggregateValue);
-      this.getValueFromDisplayChannel(displayValue, displayChannels, false);
-    } else {
-      this.getValueFromDisplayChannel(displayValue, displayChannels, true);
-    }
+    // find first display channel the station has and set to display
+    displayChannels.some((channel) => {
+      if (this._channels.has(channel)) {
+        this.displayChannel = channel;
+        return true;
+      }
+      return false;
+    });
+
+    const channels = [...this._channels.values()].map((channel) =>
+      channel.value$(displayValue, absValue)
+    );
+    return combineLatest(channels).pipe(
+      map((values: number[]): number => {
+        if (colocatedType && colocatedType === "aggregate") {
+          switch (aggregateValue) {
+            case "Minimum": {
+              return Math.min(...values);
+            }
+            case "Maximum": {
+              return Math.max(...values);
+            }
+            case "Most_Extreme": {
+              const min = Math.min(...values);
+              const max = Math.max(...values);
+
+              return Math.abs(min) > Math.abs(max) ? min : max;
+            }
+            default: {
+              return null;
+            }
+          }
+        } else {
+          return this._channels.get(this.displayChannel).value;
+        }
+      }),
+      tap((value: number) => {
+        this.displayValue = value;
+      })
+    );
   }
 }

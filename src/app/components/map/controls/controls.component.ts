@@ -43,11 +43,10 @@ export class ControlsComponent implements OnInit {
 
   ngOnInit(): void {
     // Subscribe to changes of the active metric and update display/metric data
-    this.dataService.getActiveMetric().subscribe((activeMetric) => {
+    this.dataService.getActiveMetric$().subscribe((activeMetric) => {
       if (activeMetric) {
-        this.activeMetric = Object.assign(activeMetric);
-        this.display = activeMetric.display;
-        console.log(this.display);
+        this.activeMetric = activeMetric;
+        this.display = Object.assign(new Display(), activeMetric.display);
         this.metrics = this.dataService.getMetrics();
       }
     });
@@ -73,25 +72,14 @@ export class ControlsComponent implements OnInit {
 
   // When metric is changed, switch display data to new metric
   metricChanged(newMetricName: string): void {
-    for (const metric of this.metrics) {
-      // Update Metric with new information
-      if (metric.name === this.activeMetric.name) {
-        metric.display = this.display;
-      }
-
-      // Switch to newMetric
-      if (metric.name === newMetricName) {
-        this.activeMetric = metric;
-        this.display = this.activeMetric.display;
-      }
-    }
-    this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
-    // this.valueChanged();
+    const activeMetric = this.metrics.find((m) => m.name === newMetricName);
+    this.dataService.setActiveMetric(activeMetric);
+    this.changed = false;
   }
 
   resetBins(): void {
-    this.dataService.recalculateMetrics(this.metrics);
-    this.valueChanged();
+    this.activeMetric.calculateBinning();
+    this.dataService.setActiveMetric(this.activeMetric);
   }
 
   changeColoring(coloring): void {
@@ -101,13 +89,14 @@ export class ControlsComponent implements OnInit {
 
   // Activate submit button
   valueChanged(): void {
-    this.parametersService.updateUrl(this.activeMetric.display);
     this.changed = true;
   }
 
   // Submit metric changes
   onSubmit(): void {
+    Object.assign(this.activeMetric.display, this.display);
     this.changed = false;
-    this.dataService.updateMetrics(this.metrics, this.activeMetric.name);
+    this.parametersService.updateUrl(this.activeMetric.display);
+    this.dataService.recalculateActiveMetric(this.activeMetric);
   }
 }

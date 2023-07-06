@@ -11,6 +11,7 @@ import { ParametersService } from "@services/parameters.service";
 import { DataService } from "@services/data.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: "app-map",
@@ -93,18 +94,20 @@ export class MapComponent implements OnInit, OnDestroy {
     this.status.message = "Accessing Station Information.";
     const sub = this.stationsService
       .getStationsData(this.query.getString(["net", "sta"]))
-      .subscribe(
-        () => {
+      .pipe(
+        tap(() => {
           this.dataService.setMetrics(metrics);
-        },
-        (err) => {
+        })
+      )
+      .subscribe({
+        error: (err) => {
           this.status = {
             message: "Unable to fetch station information.",
             error: true,
             info: err.error,
           };
-        }
-      );
+        },
+      });
     this.subscription.add(sub);
   }
 
@@ -130,7 +133,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private combineMetrics(measurements: object, metrics: Metric[]): void {
     this.status.message = "Processing Data.";
     // Wait for active metric
-    this.dataService.getActiveMetric().subscribe((activeMetric) => {
+    this.dataService.getActiveMetric$().subscribe((activeMetric) => {
       this.activeMetric = activeMetric;
       this.inProgress = false;
     });

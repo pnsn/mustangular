@@ -66,12 +66,15 @@ export class MarkersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Wait for active metric
-    const sub = this.dataService.getActiveMetric().subscribe((activeMetric) => {
-      if (activeMetric) {
-        this.activeMetric = activeMetric;
-        this.makeMarkers();
-      }
-    });
+    const sub = this.dataService
+      .getActiveMetric$()
+      .subscribe((activeMetric) => {
+        if (activeMetric) {
+          this.activeMetric = activeMetric;
+          console.log("start making bins");
+          this.makeMarkers();
+        }
+      });
     this.subscription.add(sub);
 
     // Add or remove layers from the map when the layers are toggled

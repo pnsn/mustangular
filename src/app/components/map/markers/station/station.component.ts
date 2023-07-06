@@ -47,7 +47,7 @@ export class StationComponent implements OnInit, OnDestroy {
 
     // Get currently selected metric
     const sub1 = this.dataService
-      .getActiveMetric()
+      .getActiveMetric$()
       .subscribe((activeMetric) => {
         this.activeMetric = Object.assign(activeMetric);
         this.metrics = this.dataService.getMetrics();

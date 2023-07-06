@@ -27,31 +27,27 @@ export class CombineMetricsService {
         for (const m of measurements[metric.name]) {
           measurementCount++;
           const stationCode = m.net + "." + m.sta;
-          let station = metric.stations[stationCode];
-
-          // Create station if its the first pass
-          if (!station) {
-            station = new Station(m.net, m.sta, stationCode, m.qual);
-            metric.display.data.count++;
-          }
-
-          // Add channel to station
           const loc = m.loc ? m.loc : "--";
           const channelCode = loc + "." + m.cha;
-          const channels = station.channels;
 
-          if (!channels[channelCode]) {
-            channels[channelCode] = new Channel(channelCode, loc, m.cha);
-          }
-          // Add measurement to channel
-          channels[channelCode].measurements.push(
-            new Measurement(m.end, m.lddate, m.start, m.value)
+          // Create station if its the first pass
+          const station = metric.getOrCreateStation(
+            m.net,
+            m.sta,
+            stationCode,
+            m.qual
           );
 
-          station.channels = channels;
-          metric.stations[stationCode] = station;
+          const channel = station.getOrCreateChannel(channelCode, loc, m.cha);
+
+          // Add measurement to channel
+          channel.measurements.push(
+            new Measurement(m.end, m.lddate, m.start, m.value)
+          );
         }
       }
+
+      metric.display.data.count = metric._stations.size;
 
       combinedMetrics.push(metric);
     }

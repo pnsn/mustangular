@@ -7,118 +7,103 @@
 
 import { DisplayValue } from "app/types";
 import { Measurement } from "./measurement";
+import { Observable, of } from "rxjs";
+import { expand, map, tap } from "rxjs/operators";
 export class Channel {
-  constructor(public name: string, public loc = "", public cha = "") {
+  constructor(code: string, public loc = "--", public cha = "") {
     this.measurements = new Array<Measurement>();
+    this.name = code;
   }
+  readonly name: string;
   public measurements: Measurement[];
-  private values: Array<number>; // Channel's possible values
-  private median?: number; // Median channel value
-  private average?: number; // Average channel value
-  private max?: number; // Maximum channel value
-  private min?: number; // Minimum channel value
-  // Calculates the values for the channel
-  private calculateValues(): void {
-    if (!this.values || this.values.length === 0) {
-      const values = [];
+  private _value: number;
 
-      for (const measurement of this.measurements) {
-        values.push(+measurement.value);
-      }
-
-      values.sort(function (a, b) {
-        return a - b;
-      });
-      this.values = values;
-      this.max = values[values.length - 1];
-      this.min = values[0];
-    }
+  get value(): number {
+    return this._value;
   }
 
-  // returns the value for the given display option
-  getValue(displayValue: DisplayValue): number {
-    let value: number;
+  // maps measurements to their value, uses absolute value if absValue === true
+  mapMeasurements(absValue: boolean): Observable<number[]> {
+    let values = this.measurements
+      .map((measurement) => {
+        return absValue ? Math.abs(measurement.value) : measurement.value;
+      })
+      .sort((a, b) => a - b);
 
-    this.calculateValues();
-
-    switch (displayValue) {
-      case "Minimum": {
-        value = this.getMin();
-        break;
-      }
-      case "Maximum": {
-        value = this.getMax();
-        break;
-      }
-      case "Average": {
-        value = this.getAverage();
-        break;
-      }
-      case "Median": {
-        value = this.getMedian();
-        break;
-      }
-      case "5th_Percentile": {
-        value = this.getPercentile(5);
-        break;
-      }
-      case "95th_Percentile": {
-        value = this.getPercentile(95);
-        break;
-      }
-      default: {
-        value = null;
-        break;
-      }
-    }
-    return value;
+    if (!values) values = [];
+    return of(values);
+  }
+  // emits value for channel
+  value$(displayValue: DisplayValue, absValue: boolean): Observable<number> {
+    return this.mapMeasurements(absValue).pipe(
+      map((values: number[]): number => {
+        switch (displayValue) {
+          case "Minimum": {
+            return this.getMin(values);
+          }
+          case "Maximum": {
+            return this.getMax(values);
+          }
+          case "Average": {
+            return this.getAverage(values);
+          }
+          case "Median": {
+            return this.getMedian(values);
+          }
+          case "5th_Percentile": {
+            return this.getPercentile(values, 5);
+          }
+          case "95th_Percentile": {
+            return this.getPercentile(values, 95);
+          }
+          default: {
+            return null;
+          }
+        }
+      }),
+      tap((value: number) => {
+        this._value = value;
+      })
+    );
   }
 
   // Calculates the median for the channel
-  private getMedian(): number {
-    if (!this.median) {
-      const mid = this.values.length / 2 - 0.5;
-      let median: number;
+  private getMedian(values: number[]): number {
+    const mid = values.length / 2 - 0.5;
+    let median: number;
 
-      if (mid % 1 === 0) {
-        median = this.values[mid];
-      } else {
-        median = (this.values[mid - 0.5] + this.values[mid - 0.5]) / 2;
-      }
-
-      this.median = median;
+    if (mid % 1 === 0) {
+      median = values[mid];
+    } else {
+      median = (values[mid - 0.5] + values[mid - 0.5]) / 2;
     }
-    return this.median;
+    return median;
   }
 
   // Calculates the average value for the channel
-  private getAverage(): number {
-    if (!this.average) {
-      let sum = 0;
-      for (const value of this.values) {
-        sum += value;
-      }
-      const average = sum / this.values.length;
-      this.average = average;
+  private getAverage(values: number[]): number {
+    let sum = 0;
+    for (const value of values) {
+      sum += value;
     }
-    return this.average;
+    const average = sum / values.length;
+
+    return average;
   }
 
   // Returns requested percentile, probably
-  private getPercentile(percentile: number): number {
-    const index = Math.ceil((percentile / 100) * this.values.length);
-    return index === this.values.length
-      ? this.values[index - 1]
-      : this.values[index];
+  private getPercentile(values: number[], percentile: number): number {
+    const index = Math.ceil((percentile / 100) * values.length);
+    return index === values.length ? values[index - 1] : values[index];
   }
 
   // Returns the channel's maximum value
-  private getMax(): number {
-    return this.max;
+  private getMax(values: number[]): number {
+    return values[values.length - 1];
   }
 
   // Returns the channel's minimum value
-  private getMin(): number {
-    return this.min;
+  private getMin(values: number[]): number {
+    return values[0];
   }
 }

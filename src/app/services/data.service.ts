@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
-import { Subject, Observable } from "rxjs";
+import { Subject, Observable, Observer, combineLatest } from "rxjs";
 import { Display } from "@models/display";
 import { MetricType } from "app/types";
 
@@ -20,18 +20,8 @@ export class DataService {
     return this.defaultDisplay;
   }
 
-  getActiveMetric(): Observable<Metric> {
+  getActiveMetric$(): Observable<Metric> {
     return this.activeMetric.asObservable();
-  }
-
-  // Changes the active metric and propagates it
-  private setActiveMetric(activeMetricName: string): void {
-    for (const metric of this.metrics) {
-      if (metric.name === activeMetricName) {
-        metric.updateValues();
-        this.activeMetric.next(metric);
-      }
-    }
   }
 
   // return metrics
@@ -39,100 +29,36 @@ export class DataService {
     return this.metrics.slice();
   }
 
-  updateMetrics(metrics: Metric[], activeMetricName: string): void {
-    this.metrics = metrics;
-    this.setActiveMetric(activeMetricName);
+  // changes active metric
+  setActiveMetric(metric: Metric): void {
+    this.activeMetric.next(metric);
+  }
+
+  // calculates values for metrics and sends out
+  recalculateActiveMetric(activeMetric: Metric): void {
+    activeMetric.data$(false).subscribe(() => {
+      this.setActiveMetric(activeMetric);
+    });
   }
 
   // only happens once
   setMetrics(metrics: Metric[]): void {
     this.metrics = metrics;
-    let defaultMetric = null;
+    let activeMetric = null;
     for (const metric of this.metrics) {
       const updatedMetric = this.setDefaultDisplay(metric);
-      if (defaultMetric === null && updatedMetric.display.data.count > 0) {
-        defaultMetric = updatedMetric;
-      }
+      const recalculateBins =
+        metric.display.binning.max === null ||
+        metric.display.binning.min === null;
+      updatedMetric.data$(recalculateBins).subscribe({
+        next: () => {
+          if (activeMetric === null && updatedMetric.display.data.count > 0) {
+            activeMetric = updatedMetric;
+            this.setActiveMetric(activeMetric);
+          }
+        },
+      });
     }
-    if (defaultMetric) {
-      this.activeMetric.next(defaultMetric);
-    }
-  }
-
-  // Calculates 5th and 95th percentile of data
-  // gets weird when there's only a few values
-  private calculateBinning(values: number[], type?: MetricType): any {
-    const length = values.length;
-    let minIndex: number;
-    let maxIndex: number;
-    let max, min, count: number;
-
-    // Find max and min values - default to %iles unless specified
-    switch (type) {
-      case "percent":
-        min = 0;
-        max = 100;
-        count = 5;
-        break;
-      case "boolean":
-        min = 0;
-        max = 1;
-        count = 2;
-        break;
-      case "polarity":
-        min = -1;
-        max = 1;
-        count = 2;
-        break;
-      default:
-        minIndex = Math.ceil(0.05 * length) - 1;
-        maxIndex = Math.floor(0.95 * length);
-        min = length > 0 && values[minIndex] ? +values[minIndex].toFixed(2) : 0;
-        max = length > 0 && values[maxIndex] ? +values[maxIndex].toFixed(2) : 1;
-
-        if (length === 0 || minIndex === maxIndex) {
-          // small dataset
-          count = 1;
-        } else if (values[maxIndex] - values[minIndex] < 2) {
-          // range
-          count = 2;
-        } else {
-          count = 3;
-        }
-        break;
-    }
-
-    return {
-      max: max,
-      min: min,
-      count: count,
-    };
-  }
-
-  private sortChannels(channels: Array<string>): Array<string> {
-    if (channels.length > 0) {
-      const displayChannels = [];
-      for (const channel of channels) {
-        if (displayChannels.indexOf(channel) === -1) {
-          displayChannels.push(channel);
-        }
-      }
-      return displayChannels;
-    } else {
-      return channels;
-    }
-  }
-
-  // recalculate values for metric after change
-  recalculateMetrics(metrics: Metric[]): void {
-    metrics.forEach((metric) => {
-      metric.updateValues();
-      const values = metric.getValues();
-      metric.display.binning = this.calculateBinning(
-        values,
-        metric.display.metricType
-      );
-    });
   }
 
   // Apply default value, parameter values or calculate new ones.
@@ -150,10 +76,7 @@ export class DataService {
     display.absValue = this.defaultDisplay.absValue;
     display.invert = this.defaultDisplay.invert;
 
-    display.channels.available = this.sortChannels(metric.getChannels());
-
-    metric.updateValues();
-    const values = metric.getValues();
+    display.channels.available = metric.getChannels();
 
     if (
       this.defaultDisplay.binning &&
@@ -162,8 +85,6 @@ export class DataService {
       this.defaultDisplay.binning.count !== null
     ) {
       display.binning = this.defaultDisplay.binning;
-    } else {
-      display.binning = this.calculateBinning(values, display.metricType);
     }
     return metric;
   }

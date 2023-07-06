@@ -101,8 +101,8 @@ export class BinningService {
   // Creates the bins
   makeBins(display: Display): Bin[] {
     const binning = display.binning;
+    console.log(display.binning);
     const data = display.data;
-
     let coloring: ColorOption;
     for (const c of this.colorings) {
       if (c.name === display.coloring) {

@@ -26,6 +26,7 @@ export class ParametersService {
   }
 
   updateUrl(changedDisplay: any): void {
+    console.log(changedDisplay.toParams());
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: changedDisplay.toParams(),
@@ -54,7 +55,6 @@ export class ParametersService {
     d.displayValue = params.displayValue;
     d.aggregateValue = params.aggregateValue;
     d.absValue = params.absValue === "true";
-    console.log(d.absValue);
     d.colocatedType = params.colocatedType;
     d.channels.active =
       params.channels && params.channels.length > 1

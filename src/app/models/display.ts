@@ -76,7 +76,6 @@ export class Display {
     const params: DisplayParams = {};
 
     if (this.coloring) params["coloring"] = this.coloring;
-    if (this.invert) params["invert"] = this.invert;
     if (this.binning) {
       if (this.binning.min !== null) params["binmin"] = this.binning.min;
       if (this.binning.max !== null) params["binmax"] = this.binning.max;
@@ -87,6 +86,9 @@ export class Display {
     if (this.aggregateValue) params["aggregateValue"] = this.aggregateValue;
     if (this.channels && this.channels.active)
       params["channels"] = this.channels.active.toString();
+
+    params["absValue"] = this.absValue === true;
+    params["invert"] = this.invert === true;
     return params;
   }
 
