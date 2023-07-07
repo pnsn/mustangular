@@ -16,7 +16,7 @@ export class ParametersService {
   private end: string;
 
   // Returns query parameters
-  getQuery(): Observable<Query> {
+  getQuery$(): Observable<Query> {
     return this.query.asObservable();
   }
 
@@ -26,7 +26,6 @@ export class ParametersService {
   }
 
   updateUrl(changedDisplay: any): void {
-    console.log(changedDisplay.toParams());
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: changedDisplay.toParams(),

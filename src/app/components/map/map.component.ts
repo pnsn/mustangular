@@ -4,14 +4,15 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { IrisMetric, MetricsService } from "@services/metrics.service";
 import { Metric } from "@models/metric";
 import { MeasurementsService } from "@services/measurements.service";
-import { StationsService } from "@services/stations.service";
+import { Stations, StationsService } from "@services/stations.service";
 import { Query } from "@models/query";
 import { CombineMetricsService } from "@services/combine-metrics.service";
 import { ParametersService } from "@services/parameters.service";
 import { DataService } from "@services/data.service";
-import { Subscription } from "rxjs";
+import { EMPTY, Observable, Subscription, zip } from "rxjs";
 import { Router } from "@angular/router";
-import { tap } from "rxjs/operators";
+import { map, mergeAll, switchMap, tap } from "rxjs/operators";
+import { Station } from "@models/station";
 
 @Component({
   selector: "app-map",
@@ -47,22 +48,38 @@ export class MapComponent implements OnInit, OnDestroy {
     message: "Loading",
     error: false,
   };
+
   ngOnInit(): void {
     // Wait for query parameters to be populated
-    const sub = this.parametersService.getQuery().subscribe((query) => {
-      this.query = query;
+    const sub = this.parametersService
+      .getQuery$()
+      .pipe(
+        switchMap((query) => {
+          this.query = query;
 
-      // Start requesting data
-      if (this.query.metric) {
-        this.getMetrics();
-      } else {
-        this.router.navigate(["../form"], { queryParams: this.query });
-      }
-    });
+          // Start requesting data
+          if (this.query.metric) {
+            return this.getMetrics$();
+          } else {
+            this.router.navigate(["../form"], { queryParams: this.query });
+            return EMPTY;
+          }
+        })
+      )
+      .subscribe();
     this.subscription.add(sub);
+
+    const activeMetricSub = this.dataService
+      .getActiveMetric$()
+      .subscribe((activeMetric) => {
+        this.activeMetric = activeMetric;
+        this.inProgress = false;
+      });
 
     // Initiates query parameter fetching
     this.parametersService.setQueryParameters();
+    this.subscription.add(sub);
+    this.subscription.add(activeMetricSub);
   }
 
   ngOnDestroy(): void {
@@ -70,36 +87,67 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   // Get list of available metrics from IRIS
-  private getMetrics(): void {
+  private getMetrics$(): Observable<Stations> {
     this.status.message = "Requesting Metrics from MUSTANG.";
-    const sub = this.metricsService
-      .getMetrics(this.query.getString(["metric"]))
-      .subscribe(
-        (metrics) => {
-          this.getMeasurements(this.query.getString(), metrics);
-        },
-        () => {
-          this.status = {
-            message: "Unable to fetch metric information from MUSTANG.",
-            error: true,
-            info: "This error occurs when an invalid metric is entered.",
-          };
-        }
-      );
-    this.subscription.add(sub);
-  }
+    const metricQuery = this.query.getString(["metric"]);
+    const measurementQuery = this.query.getString();
+    const stationQuery = this.query.getString(["net", "sta"]);
 
-  // Get list of all stations from IRIS FDSNWS
-  private getStations(metrics: Metric[]): void {
-    this.status.message = "Accessing Station Information.";
-    const sub = this.stationsService
-      .getStationsData(this.query.getString(["net", "sta"]))
-      .pipe(
-        tap(() => {
-          this.dataService.setMetrics(metrics);
-        })
-      )
-      .subscribe({
+    let combinedMetrics: Metric[];
+    let metrics: Metric[];
+    return this.metricsService.getMetrics$(metricQuery).pipe(
+      tap({
+        next: (results) => {
+          metrics = results;
+        },
+        error: () => {
+          this.status = {
+            message: "Unable to fetch Measurements from MUSTANG.",
+            error: true,
+            info: "This error occurs if MUSTANG does not recognize one or more of the search parameters.",
+          };
+        },
+      }),
+      switchMap(() => {
+        this.status.message = "Requesting Measurements from MUSTANG.";
+        return this.measurementsService.getMeasurements$(measurementQuery);
+      }),
+      tap({
+        error: () => {
+          this.status = {
+            message: "Unable to fetch Measurements from MUSTANG.",
+            error: true,
+            info: "This error occurs if MUSTANG does not recognize one or more of the search parameters.",
+          };
+        },
+      }),
+      switchMap((measurements) => {
+        this.status.message = "Processing Data.";
+        return this.combineMetricsService.combineMetrics$(
+          measurements,
+          metrics
+        );
+      }),
+      switchMap((results) => {
+        if (results && results.length > 0) {
+          this.dataService.display = this.parametersService.getDisplay();
+          this.status.message = "Accessing Station Information.";
+          combinedMetrics = results;
+
+          return this.stationsService.getStationsData$(stationQuery);
+        } else {
+          this.status = {
+            message: "No data returned from MUSTANG.",
+            error: true,
+            info: "MUSTANG did not have any measurements with your specified parameters.",
+          };
+          return EMPTY;
+        }
+      }),
+      tap({
+        next: () => {
+          this.dataService.setMetrics(combinedMetrics);
+        },
         error: (err) => {
           this.status = {
             message: "Unable to fetch station information.",
@@ -107,57 +155,7 @@ export class MapComponent implements OnInit, OnDestroy {
             info: err.error,
           };
         },
-      });
-    this.subscription.add(sub);
-  }
-
-  // Get measurements from MUSTANG
-  private getMeasurements(qString: string, metrics: Metric[]): void {
-    this.status.message = "Requesting Measurements from MUSTANG.";
-    const sub = this.measurementsService.getMeasurements(qString).subscribe(
-      (measurements) => {
-        this.combineMetrics(measurements, metrics);
-      },
-      () => {
-        this.status = {
-          message: "Unable to fetch Measurements from MUSTANG.",
-          error: true,
-          info: "This error occurs if MUSTANG does not recognize one or more of the search parameters.",
-        };
-      }
+      })
     );
-    this.subscription.add(sub);
-  }
-
-  // Combine all the data and update status
-  private combineMetrics(measurements: object, metrics: Metric[]): void {
-    this.status.message = "Processing Data.";
-    // Wait for active metric
-    this.dataService.getActiveMetric$().subscribe((activeMetric) => {
-      this.activeMetric = activeMetric;
-      this.inProgress = false;
-    });
-
-    // Wait for metric data
-    const sub = this.combineMetricsService
-      .getMetrics()
-      .subscribe((combinedMetrics) => {
-        if (combinedMetrics && combinedMetrics.length > 0) {
-          this.dataService.display = this.parametersService.getDisplay();
-
-          this.getStations(combinedMetrics);
-          // get station data now
-        } else {
-          this.status = {
-            message: "No data returned from MUSTANG.",
-            error: true,
-            info: "MUSTANG did not have any measurements with your specified parameters.",
-          };
-        }
-      });
-
-    this.subscription.add(sub);
-    // Combine measurements/metrics/stations
-    this.combineMetricsService.combineMetrics(measurements, metrics);
   }
 }

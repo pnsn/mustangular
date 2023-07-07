@@ -42,7 +42,7 @@ export class FormComponent implements OnInit, OnDestroy {
   metrics: Metric[] = []; // Available metrics from MUSTANG
   maxDate = new Date(); // Current date to prevent requests from future
   query = new Query(); // Holds all the query data
-  selectedMetrics: string[] = []; // Selected metrics
+  selectedMetrics: Metric[] = []; // Selected metrics
   initialMetrics: string[] = []; // Metrics from URL
   loading = true; // Are metrics still loading?
   subscription: Subscription = new Subscription(); // Handles connections
@@ -55,18 +55,29 @@ export class FormComponent implements OnInit, OnDestroy {
     this.getMetrics();
 
     // Wait for query to be populated from url
-    const sub = this.parametersService.getQuery().subscribe((query) => {
+    const sub = this.parametersService.getQuery$().subscribe((query) => {
       this.query = query;
       this.initialMetrics = query.metric ? query.metric.split(",") : [];
       if (this.query.start && this.query.end) {
         this.start = moment(this.query.start);
         this.end = moment(this.query.end);
       }
+      this.selectMetrics();
     });
     this.subscription.add(sub);
 
     // Tells parameter service to get parameters
     this.parametersService.setQueryParameters();
+  }
+
+  selectMetrics(): void {
+    if (this.metrics.length > 0 && this.initialMetrics.length > 0) {
+      this.selectedMetrics = this.metrics.filter((m) => {
+        this.initialMetrics.includes(m.name.toLocaleUpperCase());
+
+        return this.initialMetrics.includes(m.name.toLocaleUpperCase());
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -76,11 +87,11 @@ export class FormComponent implements OnInit, OnDestroy {
   // Get list of available metrics from IRIS
   private getMetrics(): void {
     this.loading = true;
-    const sub = this.metricsService.getMetrics().subscribe(
+    const sub = this.metricsService.getMetrics$().subscribe(
       (metrics) => {
         this.loading = false;
         this.metrics = [...metrics];
-        this.selectedMetrics = this.initialMetrics.slice();
+        this.selectMetrics();
       },
       () => {
         this.message = "Cannot fetch metrics. Please try again.";
@@ -134,7 +145,9 @@ export class FormComponent implements OnInit, OnDestroy {
 
   // Submit form
   onSubmit(): void {
-    this.query.metric = this.selectedMetrics.toString().toUpperCase();
+    this.query.metric = this.selectedMetrics
+      .map((m) => m.name.toUpperCase())
+      .toString();
     this.query.sanitize(this.start, this.end);
     this.router.navigate(["../map"], { queryParams: this.query });
   }

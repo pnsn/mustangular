@@ -24,8 +24,8 @@ export class StationsService {
   }
 
   // Concat data from fdnsws and ph5ws
-  getStationsData(queryString: string): Observable<Stations> {
-    return this.getStations("fdsnws", queryString).pipe(
+  getStationsData$(queryString: string): Observable<Stations> {
+    return this.getStations$("fdsnws", queryString).pipe(
       catchError((err) => {
         // if no stations, keep going
         if (this.stationCount === 0) {
@@ -38,7 +38,7 @@ export class StationsService {
       concatMap((fdsnResponse) => {
         this.stationCount = Object.keys(fdsnResponse).length;
         this.stations = { ...this.stations, ...fdsnResponse };
-        return this.getStations("ph5ws", queryString).pipe(
+        return this.getStations$("ph5ws", queryString).pipe(
           tap((ph5Response) => {
             this.stationCount += Object.keys(ph5Response).length;
             this.stations = { ...this.stations, ...ph5Response };
@@ -78,7 +78,10 @@ export class StationsService {
   }
 
   // Fetch stations from service
-  getStations(source: string, queryString: string): Observable<Stations> {
+  private getStations$(
+    source: string,
+    queryString: string
+  ): Observable<Stations> {
     const stationsURL =
       "https://service.iris.edu/" +
       source +

@@ -5,9 +5,23 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 
-export interface MeasurementResponse {
-  measurements?: any;
+export interface Measurement {
+  cha: string;
+  end: string;
+  lddate: string;
+  loc: string;
+  net: string;
+  qual: string;
+  start: string;
+  target: string;
+  value: number;
 }
+export interface MeasurementResponse {
+  measurements?: Record<string, MeasurementData[]>;
+}
+
+export type MeasurementData = Record<string, MeasurementData[]>;
+
 @Injectable()
 export class MeasurementsService {
   private url =
@@ -20,7 +34,10 @@ export class MeasurementsService {
   }
 
   // Gets the measurements from the IRIS service
-  getMeasurements(queryString: string, type?: string): Observable<any> {
+  getMeasurements$(
+    queryString: string,
+    type?: string
+  ): Observable<MeasurementData> {
     this.url += queryString;
 
     let measurementsURL = this.url;
