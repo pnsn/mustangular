@@ -111,12 +111,14 @@ export class StationComponent implements OnInit, OnDestroy {
 })
 export class StationDialogComponent {
   yAxisLabel = "";
+  maxLength = 35;
   constructor(
     public dialogRef: MatDialogRef<StationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.yAxisLabel = this.metric.display.metricType || this.metric.unit;
-    console.log(this.metric.unit);
+    if (this.yAxisLabel.length > this.maxLength)
+      this.yAxisLabel = this.yAxisLabel.slice(0, this.maxLength) + "...";
   }
 
   station = this.data.station;

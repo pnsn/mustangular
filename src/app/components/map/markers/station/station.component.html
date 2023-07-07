@@ -1,34 +1,18 @@
-<h1 mat-dialog-title fxLayoutAlign="center center">
+<h1 mat-dialog-title>
   {{ station.code }} {{ metric.title }}
 </h1>
 
-<mat-divider></mat-divider>
-
 <div mat-dialog-content id="chart-grandparent">
+  <span>Unit: {{metric.unit}}</span>
   <div id="chart-parent">
-    <ngx-charts-line-chart
-      [scheme]="colorScheme"
-      [results]="results"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [roundDomains]="true"
-      [animations]="false"
-      [timeline]="true"
-      [legendTitle]="legendTitle"
-      (select)="select($event)"
-    >
+    <ngx-charts-line-chart [scheme]="colorScheme" [results]="results" [xAxis]="true" [yAxis]="true" [legend]="true"
+      [showXAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [roundDomains]="true"
+      [animations]="false" [timeline]="true" [legendTitle]="legendTitle" (select)="select($event)">
     </ngx-charts-line-chart>
   </div>
 </div>
 
-<span class="info-text" fxLayoutAlign="center center"
-  >Click and drag above grey area to zoom graph.</span
->
+<span class="info-text" fxLayoutAlign="center center">Click and drag above grey area to zoom graph.</span>
 
 <div mat-dialog-actions fxLayoutAlign="end">
   <button mat-raised-button [mat-dialog-close]>Done</button>

@@ -71,7 +71,6 @@ export class MarkersComponent implements OnInit, OnDestroy {
       .subscribe((activeMetric) => {
         if (activeMetric) {
           this.activeMetric = activeMetric;
-          console.log("start making bins");
           this.makeMarkers();
         }
       });

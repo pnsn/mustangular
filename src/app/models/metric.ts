@@ -166,6 +166,5 @@ export class Metric {
       min: min,
       count: count,
     };
-    console.log(this.display.binning);
   }
 }
