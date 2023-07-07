@@ -23,7 +23,7 @@ export class Station {
 
   channels: Map<string, Channel>; //map of nslc to channel
 
-  getChannel(code: string) {
+  getChannel(code: string): Channel {
     return this.channels.get(code);
   }
 
