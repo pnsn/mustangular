@@ -2,7 +2,7 @@
 import { MetricType } from "app/types";
 import { Display } from "./display";
 import { Station } from "./station";
-import { Observable, Observer, combineLatest } from "rxjs";
+import { Observable, combineLatest } from "rxjs";
 import { map, tap } from "rxjs/operators";
 export class Metric {
   constructor(

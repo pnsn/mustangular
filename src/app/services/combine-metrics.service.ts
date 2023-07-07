@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
-import { Subject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Metric } from "@models/metric";
-import { Channel } from "@models/channel";
 import { Measurement } from "@models/measurement";
-import { Station } from "@models/station";
+import { MeasurementData } from "./measurements.service";
 
 /** Takes in station, metric, and measurement data and comines */
 @Injectable()
 export class CombineMetricsService {
-  combineMetrics$(measurements: any, metrics: Metric[]): Observable<Metric[]> {
+  combineMetrics$(
+    measurements: MeasurementData,
+    metrics: Metric[]
+  ): Observable<Metric[]> {
     return new Observable<Metric[]>((subscriber) => {
       const combinedMetrics = new Array<Metric>();
       // Go through each metric

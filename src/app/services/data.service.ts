@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
-import { Subject, Observable, Observer, combineLatest } from "rxjs";
+import { Subject, Observable } from "rxjs";
 import { Display } from "@models/display";
-import { MetricType } from "app/types";
 
 /** Handles metrics and calculating displays */
 @Injectable()

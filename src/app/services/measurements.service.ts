@@ -15,12 +15,12 @@ export interface Measurement {
   start: string;
   target: string;
   value: number;
+  sta: string;
 }
+export type MeasurementData = Record<string, Measurement[]>;
 export interface MeasurementResponse {
-  measurements?: Record<string, MeasurementData[]>;
+  measurements?: MeasurementData;
 }
-
-export type MeasurementData = Record<string, MeasurementData[]>;
 
 @Injectable()
 export class MeasurementsService {

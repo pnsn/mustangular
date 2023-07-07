@@ -100,24 +100,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subscription.add(sub);
   }
 
-  // Check if metric should be selected
-  metricSelected(metricName: string): boolean {
-    return this.initialMetrics.indexOf(metricName) >= 0;
-  }
-
-  // Store selected metric
-  onMetricSelect(event): void {
-    this.selectedMetrics = event;
-  }
-
   onClearMetrics(): void {
     this.selectedMetrics = [];
   }
-
-  // Take a string and make it capitalized
-  upperCase = (str: string): string => {
-    return str ? str.toUpperCase() : "";
-  };
 
   // Disable dates that haven't happened yet and dates after end date
   startFilter = (d: moment.Moment): boolean => {

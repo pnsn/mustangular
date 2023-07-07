@@ -1,7 +1,7 @@
 // Initiates data requests and handles top info bar
 
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { IrisMetric, MetricsService } from "@services/metrics.service";
+import { MetricsService } from "@services/metrics.service";
 import { Metric } from "@models/metric";
 import { MeasurementsService } from "@services/measurements.service";
 import { Stations, StationsService } from "@services/stations.service";
@@ -9,10 +9,9 @@ import { Query } from "@models/query";
 import { CombineMetricsService } from "@services/combine-metrics.service";
 import { ParametersService } from "@services/parameters.service";
 import { DataService } from "@services/data.service";
-import { EMPTY, Observable, Subscription, zip } from "rxjs";
+import { EMPTY, Observable, Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import { map, mergeAll, switchMap, tap } from "rxjs/operators";
-import { Station } from "@models/station";
+import { , switchMap, tap } from "rxjs/operators";
 
 @Component({
   selector: "app-map",

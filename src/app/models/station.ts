@@ -1,7 +1,7 @@
 import { AggregateValue, ColocatedType, DisplayValue } from "app/types";
 import { Channel } from "./channel";
 import { Observable, combineLatest } from "rxjs";
-import { combineAll, mergeAll, map, reduce, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
 // Describes a Station object
 export class Station {

@@ -5,8 +5,7 @@ import { Station } from "@models/station";
 import { Bin } from "@models/bin";
 import { Subject, Observable } from "rxjs";
 import { StationsService } from "@services/stations.service";
-import { Channel } from "@models/channel";
-import { ColocatedType, DisplayValue } from "app/types";
+import { ColocatedType } from "app/types";
 
 /** Takes a metric and the bins and creates marker layers for the map */
 @Injectable()

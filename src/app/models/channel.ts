@@ -8,7 +8,7 @@
 import { DisplayValue } from "app/types";
 import { Measurement } from "./measurement";
 import { Observable, of } from "rxjs";
-import { expand, map, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 export class Channel {
   constructor(code: string, public loc = "--", public cha = "") {
     this.measurements = new Array<Measurement>();
