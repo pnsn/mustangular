@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { ColorOption } from "@interfaces/binning.interface";
 import { BinningService } from "@services/binning.service";
 
 @Component({
@@ -7,11 +8,11 @@ import { BinningService } from "@services/binning.service";
   styleUrls: ["./coloring.component.scss"],
 })
 export class ColoringComponent implements OnInit {
-  @Input() metricColoring: string; // Gets coloring from parent component
-  @Output() changeColoring = new EventEmitter<string>(); // Sends coloring back to parent
+  @Input() coloring: string; // Gets coloring from parent component
+  @Output() coloringChange = new EventEmitter<string>(); // Sends coloring back to parent
 
-  colorings: any[];
-  currentColoring: any;
+  colorings: ColorOption[];
+  currentColoring: ColorOption;
   constructor(private binningService: BinningService) {}
 
   ngOnInit(): void {
@@ -25,12 +26,12 @@ export class ColoringComponent implements OnInit {
 
       coloring.background += ")";
     }
-    this.setColoring(this.metricColoring);
+    this.setColoring(this.coloring);
   }
 
   selectionChanged(event): void {
-    if (event !== this.metricColoring) {
-      this.changeColoring.emit(event);
+    if (event !== this.coloring) {
+      this.coloringChange.emit(event);
     }
     this.setColoring(event);
   }

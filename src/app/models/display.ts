@@ -92,6 +92,7 @@ export class Display {
     return params;
   }
 
+  // resets bins to the default
   resetBins(): void {
     // Upper and lower bounds for bins and number of bins
     this.binning = {

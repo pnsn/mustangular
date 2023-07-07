@@ -1,10 +1,4 @@
 // Describes a Channel object
-
-// {
-//   name : string,
-//   measurements : Measurement array
-// }
-
 import { DisplayValue } from "app/types";
 import { Measurement } from "./measurement";
 import { Observable, of } from "rxjs";
@@ -15,6 +9,7 @@ export class Channel {
     this.name = code;
   }
   readonly name: string;
+  // raw measurements for this channel
   public measurements: Measurement[];
   private _value: number;
 
@@ -33,7 +28,9 @@ export class Channel {
     if (!values) values = [];
     return of(values);
   }
-  // emits value for channel
+
+  // caclulates value for this channel using the display value,
+  // returns observable that resolves to the value
   value$(displayValue: DisplayValue, absValue: boolean): Observable<number> {
     return this.mapMeasurements(absValue).pipe(
       map((values: number[]): number => {

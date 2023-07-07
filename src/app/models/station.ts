@@ -23,11 +23,12 @@ export class Station {
 
   channels: Map<string, Channel>; //map of nslc to channel
 
+  // Return the channel with given code
   getChannel(code: string): Channel {
     return this.channels.get(code);
   }
 
-  // adds or creates channel and returns channel
+  // adds or creates channel and returns the channel
   getOrCreateChannel(code: string, loc: string, chan: string): Channel {
     if (!this.channels.has(code)) {
       this.channels.set(code, new Channel(code, loc, chan));
@@ -36,6 +37,9 @@ export class Station {
     return this.channels.get(code);
   }
 
+  // Finds the stations value using all of the channel values
+  // Returns observable that resolves to the station's displayed
+  // value
   value$(
     colocatedType: ColocatedType,
     displayValue: DisplayValue,
@@ -54,11 +58,13 @@ export class Station {
       return false;
     });
 
+    // get channel value observables
     const channels = [...this.channels.values()].map((channel) =>
       channel.value$(displayValue, absValue)
     );
     return combineLatest(channels).pipe(
       map((values: number[]): number => {
+        // if using aggregate value
         if (colocatedType && colocatedType === "aggregate") {
           switch (aggregateValue) {
             case "Minimum": {
@@ -78,10 +84,12 @@ export class Station {
             }
           }
         } else {
+          // otherwise use single station value
           return this.channels.get(this.displayChannel).value;
         }
       }),
       tap((value: number) => {
+        // store station value for later
         this.displayValue = value;
       })
     );

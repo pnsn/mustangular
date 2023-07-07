@@ -120,8 +120,7 @@
         Map Coloring
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <app-coloring fxFlex="67" [metricColoring]="activeMetric.display.coloring"
-          (changeColoring)="changeColoring($event)">
+        <app-coloring fxFlex="67" [(coloring)]="display.coloring" (coloringChange)="valueChanged()">
         </app-coloring>
         <mat-checkbox fxFlex="30" name="toggle-invert" (ngModelChange)="valueChanged()"
           [(ngModel)]="activeMetric.display.invert">Reverse</mat-checkbox>

@@ -77,14 +77,10 @@ export class ControlsComponent implements OnInit {
     this.changed = false;
   }
 
+  // Tells metric to recalculate bins to default and updates
   resetBins(): void {
     this.activeMetric.calculateBinning();
     this.dataService.setActiveMetric(this.activeMetric);
-  }
-
-  changeColoring(coloring): void {
-    this.activeMetric.display.coloring = coloring;
-    this.valueChanged();
   }
 
   // Activate submit button

@@ -1,11 +1,18 @@
 export class Bin {
   constructor(
+    // number of items in bin
     public count: number,
+    // color code for bin
     public color: string,
+    // position of bin in all bins
     public position: number,
+    // name of corresponding map layer
     public layer: string,
+    // max bin value
     public max?: number,
+    // min bin value
     public min?: number,
+    // width in px of bin
     public width?: number
   ) {}
 

@@ -36,6 +36,11 @@ export class Metric {
     return this.stations.get(stationCode);
   }
 
+  // Gets all station values for the metric and finds the range
+  // of the data. If recalculateBins = true, the bins will
+  // be recalculated using the new values
+  // Returns observable that resolves to the sort values for the
+  // metric
   data$(recalculateBins: boolean): Observable<number[]> {
     const stations = [...this.stations.values()].map((station) =>
       station.value$(
@@ -99,6 +104,8 @@ export class Metric {
     );
   }
 
+  // Uses the metric's description or unit to figure out if the metric
+  // is a percent, boolean, or polarity metric and stores that as the metricType
   private setMetricType(): void {
     let dType: MetricType;
     if (
@@ -120,6 +127,7 @@ export class Metric {
     this.display.metricType = dType;
   }
 
+  // Finds the default binning for the metric using the metricType
   calculateBinning(): void {
     const values = this.values;
     const length = values.length;
@@ -145,6 +153,7 @@ export class Metric {
         count = 2;
         break;
       default:
+        // 5th and 95th percentile for all other metrics
         minIndex = Math.ceil(0.05 * length) - 1;
         maxIndex = Math.floor(0.95 * length);
         min = length > 0 && values[minIndex] ? +values[minIndex].toFixed(2) : 0;

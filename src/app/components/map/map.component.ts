@@ -60,6 +60,7 @@ export class MapComponent implements OnInit, OnDestroy {
           if (this.query.metric) {
             return this.getMetrics$();
           } else {
+            // Reroute to map if no metric set
             this.router.navigate(["../form"], { queryParams: this.query });
             return EMPTY;
           }
@@ -68,6 +69,7 @@ export class MapComponent implements OnInit, OnDestroy {
       .subscribe();
     this.subscription.add(sub);
 
+    // Listen to changes in activeMetric and stop loading
     const activeMetricSub = this.dataService
       .getActiveMetric$()
       .subscribe((activeMetric) => {
@@ -85,7 +87,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // Get list of available metrics from IRIS
+  // Get all the data in correct order and sets data
+  // Observable returns the results of the stations query
   private getMetrics$(): Observable<Stations> {
     this.status.message = "Requesting Metrics from MUSTANG.";
     const metricQuery = this.query.getString(["metric"]);

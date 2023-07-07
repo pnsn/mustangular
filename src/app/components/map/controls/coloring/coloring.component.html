@@ -1,12 +1,11 @@
-<mat-select placeholder="Colorings" [ngModel]="metricColoring" (ngModelChange)="selectionChanged($event)">
+<mat-select placeholder="Colorings" [ngModel]="coloring" (ngModelChange)="selectionChanged($event)">
   <mat-select-trigger>
     <div>{{currentColoring.title}}</div>
     <div class="spectrum" [style.background]="currentColoring.background"></div>
   </mat-select-trigger>
-  
-  <mat-option *ngFor="let coloring of colorings" [value]="coloring.name" >
+
+  <mat-option *ngFor="let coloring of colorings" [value]="coloring.name">
     <div>{{ coloring.title }}</div>
     <div class="spectrum" [style.background]="coloring.background"></div>
   </mat-option>
 </mat-select>
-
