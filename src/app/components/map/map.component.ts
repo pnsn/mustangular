@@ -11,7 +11,7 @@ import { ParametersService } from "@services/parameters.service";
 import { DataService } from "@services/data.service";
 import { EMPTY, Observable, Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import { , switchMap, tap } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
 
 @Component({
   selector: "app-map",

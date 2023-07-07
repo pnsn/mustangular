@@ -13,15 +13,13 @@ export class Metric {
     public tables?: any
   ) {
     this.display = new Display();
-    this.stations = {};
     this.setMetricType();
-    this._stations = new Map<string, Station>();
+    this.stations = new Map<string, Station>();
   }
 
   display: Display; // Metric's display settings
-  stations: Record<string, Station>; // Metric's stations
 
-  _stations: Map<string, Station>;
+  stations: Map<string, Station>;
   private values: Array<number>; // Metric's display values
 
   // adds or creates channel and returns channel
@@ -31,15 +29,15 @@ export class Metric {
     stationCode: string,
     qual: string
   ): Station {
-    if (!this._stations.has(stationCode)) {
-      this._stations.set(stationCode, new Station(net, sta, stationCode, qual));
+    if (!this.stations.has(stationCode)) {
+      this.stations.set(stationCode, new Station(net, sta, stationCode, qual));
     }
 
-    return this._stations.get(stationCode);
+    return this.stations.get(stationCode);
   }
 
   data$(recalculateBins: boolean): Observable<number[]> {
-    const stations = [...this._stations.values()].map((station) =>
+    const stations = [...this.stations.values()].map((station) =>
       station.value$(
         this.display.colocatedType,
         this.display.displayValue,
@@ -77,11 +75,11 @@ export class Metric {
   getChannels(): Array<string> {
     const channelCodes = new Set<string>();
 
-    for (const [_code, station] of this._stations) {
-      if (station._channels.size > 1) {
+    for (const [_code, station] of this.stations) {
+      if (station.channels.size > 1) {
         this.display.hasCoLocatedChannels = true;
       }
-      for (const code of station._channels.keys()) {
+      for (const code of station.channels.keys()) {
         channelCodes.add(code);
       }
     }
@@ -92,7 +90,7 @@ export class Metric {
   private getActiveChannels(): void {
     const availableChannels = this.display.channels.available.slice();
     const activeChannels = new Set<string>();
-    this._stations.forEach((station) => {
+    this.stations.forEach((station) => {
       const c = station.displayChannel;
       activeChannels.add(c);
     });

@@ -13,32 +13,27 @@ export class Station {
   ) {
     this.displayValue = null;
     this.displayChannel = null;
-    this._channels = new Map<string, Channel>();
+    this.channels = new Map<string, Channel>();
   }
   lat: number;
   lon: number;
   name: string;
-  channels: Record<string, Channel> = {};
   displayValue: number; // Value displayed for the station
   displayChannel: string; // Channel being used to display
 
-  _channels: Map<string, Channel>; //map of nslc to channel
-
-  get Channels() {
-    return this._channels;
-  }
+  channels: Map<string, Channel>; //map of nslc to channel
 
   getChannel(code: string) {
-    return this._channels.get(code);
+    return this.channels.get(code);
   }
 
   // adds or creates channel and returns channel
   getOrCreateChannel(code: string, loc: string, chan: string): Channel {
-    if (!this._channels.has(code)) {
-      this._channels.set(code, new Channel(code, loc, chan));
+    if (!this.channels.has(code)) {
+      this.channels.set(code, new Channel(code, loc, chan));
     }
 
-    return this._channels.get(code);
+    return this.channels.get(code);
   }
 
   value$(
@@ -52,14 +47,14 @@ export class Station {
 
     // find first display channel the station has and set to display
     displayChannels.some((channel) => {
-      if (this._channels.has(channel)) {
+      if (this.channels.has(channel)) {
         this.displayChannel = channel;
         return true;
       }
       return false;
     });
 
-    const channels = [...this._channels.values()].map((channel) =>
+    const channels = [...this.channels.values()].map((channel) =>
       channel.value$(displayValue, absValue)
     );
     return combineLatest(channels).pipe(
@@ -83,7 +78,7 @@ export class Station {
             }
           }
         } else {
-          return this._channels.get(this.displayChannel).value;
+          return this.channels.get(this.displayChannel).value;
         }
       }),
       tap((value: number) => {

@@ -39,7 +39,7 @@ export class CombineMetricsService {
           }
         }
 
-        metric.display.data.count = metric._stations.size;
+        metric.display.data.count = metric.stations.size;
 
         combinedMetrics.push(metric);
       }

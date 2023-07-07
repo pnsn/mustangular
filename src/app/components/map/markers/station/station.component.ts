@@ -63,28 +63,26 @@ export class StationComponent implements OnInit, OnDestroy {
   // Formats data for chart
   convertDataToChart(station: Station): any {
     const results = [];
-    for (const c in station.channels) {
-      if (station.channels[c]) {
-        const chan = station.channels[c];
+    for (const [_code, channel] of station.channels) {
+      const chan = channel;
 
-        const ch = {
-          name: chan.name,
-          series: [],
-        };
+      const ch = {
+        name: chan.name,
+        series: [],
+      };
 
-        for (const m of chan.measurements) {
-          const date = new Date(m.start + "Z");
-          // adjusts for browsers wanting to use local time
-          const adjustedDate = new Date(
-            date.getTime() + date.getTimezoneOffset() * 60000
-          );
-          ch.series.push({
-            value: m.value,
-            name: adjustedDate,
-          });
-        }
-        results.push(ch);
+      for (const m of chan.measurements) {
+        const date = new Date(m.start + "Z");
+        // adjusts for browsers wanting to use local time
+        const adjustedDate = new Date(
+          date.getTime() + date.getTimezoneOffset() * 60000
+        );
+        ch.series.push({
+          value: m.value,
+          name: adjustedDate,
+        });
       }
+      results.push(ch);
     }
     return results;
   }

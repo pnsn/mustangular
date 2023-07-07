@@ -48,7 +48,7 @@ export class MakeMarkersService {
     }
 
     // Go through each station and create the icon
-    for (const [code, station] of metric._stations) {
+    for (const [code, station] of metric.stations) {
       if (!station.lat || !station.lon) {
         const info = this.stationsService.getStationData(code);
         if (info) {
@@ -153,7 +153,7 @@ export class MakeMarkersService {
     }
     string += `) ${value} <div> Channels: <ul id='channel-list'>`;
 
-    for (const [code, channel] of station._channels) {
+    for (const [code, channel] of station.channels) {
       const channelValue = channel.value;
       const bin = this.getBin(channelValue);
 
