@@ -70,6 +70,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.parametersService.setQueryParameters();
   }
 
+  // Finds selected metrics
   selectMetrics(): void {
     if (this.metrics.length > 0 && this.initialMetrics.length > 0) {
       this.selectedMetrics = this.metrics.filter((m) => {
