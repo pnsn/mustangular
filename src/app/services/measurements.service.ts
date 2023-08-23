@@ -1,9 +1,10 @@
 // Fetches measurements from MUSTANG
 
 import { Observable } from "rxjs";
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
+import { MUSTANG_URL } from "app/tokens";
 
 export interface Measurement {
   cha: string;
@@ -24,13 +25,15 @@ export interface MeasurementResponse {
 
 @Injectable()
 export class MeasurementsService {
-  private url =
-    "https://service.iris.edu/mustang/measurements/1/query?nodata=200";
+  private measurementUrl = "/mustang/measurements/1/query?nodata=200";
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(MUSTANG_URL) private mustangUrl: string
+  ) {}
 
   getUrl(): string {
-    return this.url;
+    return this.mustangUrl + this.measurementUrl;
   }
 
   // Gets the measurements from the IRIS service
@@ -38,9 +41,8 @@ export class MeasurementsService {
     queryString: string,
     type?: string
   ): Observable<MeasurementData> {
-    this.url += queryString;
+    let measurementsURL = this.getUrl() + queryString;
 
-    let measurementsURL = this.url;
     if (type) {
       measurementsURL += "&output" + type; // FIXME: is this right
     } else {

@@ -69,11 +69,8 @@ export class MetricsService {
       metricsURL += metric;
     }
 
-    return this.http.jsonp(metricsURL, "callback").pipe(
-      map((r: MetricResponse) => {
-        return metricsData as MetricResponse;
-      }),
-      map(this.mapMetrics.bind(this))
-    );
+    return this.http
+      .jsonp(metricsURL, "callback")
+      .pipe(map(this.mapMetrics.bind(this)));
   }
 }
