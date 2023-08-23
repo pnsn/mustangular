@@ -1,11 +1,12 @@
 // Get metric information from MUSTANG
 
 import { Observable } from "rxjs";
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { metricsData } from "./metrics.query";
+import { MUSTANG_URL } from "app/tokens";
 
 export interface IrisMetric {
   title: string;
@@ -19,9 +20,12 @@ export interface MetricResponse {
 }
 @Injectable()
 export class MetricsService {
-  private metricService: string; //metric endpoint
+  private metricUrl = "/mustang/metrics/1/query?output=jsonp&nodata=200";
   private valueRegex = new RegExp(/Units='([^']*)'(?=.*<p>)?/);
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(MUSTANG_URL) private mustangUrl: string
+  ) {}
 
   // Returns metrics and filters out errored metrics
   private mapMetrics(response: MetricResponse): Metric[] {
@@ -43,10 +47,7 @@ export class MetricsService {
           } catch {
             unit = "";
           }
-        } else {
-          console.log("no value for ", m.name);
         }
-        console.log(unit);
         const metric = new Metric(
           m.name,
           m.title.replace("Metric", ""),
@@ -62,8 +63,8 @@ export class MetricsService {
 
   // Gets requested metric data
   getMetrics$(metric?: string): Observable<Metric[]> {
-    let metricsURL =
-      "https://service.iris.edu/mustang/metrics/1/query?output=jsonp&nodata=200";
+    let metricsURL = this.mustangUrl + this.metricUrl;
+    console.log(metricsURL);
     if (metric) {
       metricsURL += metric;
     }

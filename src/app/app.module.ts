@@ -58,6 +58,8 @@ import { RemoveUnderscorePipe } from "./pipes/remove-underscore.pipe";
 import { LoadingComponent } from "./components/loading/loading.component";
 import { StationsService } from "@services/stations.service";
 import { ChannelsDialogComponent } from "./components/map/controls/channels-dialog/channels-dialog.component";
+import { MUSTANG_URL } from "./tokens";
+import { environment } from "environments/environment";
 
 @NgModule({
   declarations: [
@@ -119,6 +121,7 @@ import { ChannelsDialogComponent } from "./components/map/controls/channels-dial
     StationsService,
     DataService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: MUSTANG_URL, useValue: environment.mustangUrl },
   ],
   bootstrap: [AppComponent],
 })

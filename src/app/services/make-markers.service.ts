@@ -76,7 +76,7 @@ export class MakeMarkersService {
         latlons.push(latlon);
       } else {
         // Station does not have data in fdsnws and must be skipped
-        console.log("no station data for: " + station.code);
+        console.warn("no station data for: " + station.code);
       }
     }
 
