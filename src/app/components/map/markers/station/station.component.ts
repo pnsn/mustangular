@@ -116,7 +116,7 @@ export class StationDialogComponent {
     public dialogRef: MatDialogRef<StationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.yAxisLabel = this.metric.display.metricType || this.metric.unit;
+    this.yAxisLabel = this.metric.unit || this.metric.display.metricType;
     if (this.yAxisLabel.length > this.maxLength)
       this.yAxisLabel = this.yAxisLabel.slice(0, this.maxLength) + "...";
   }

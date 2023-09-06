@@ -5,7 +5,6 @@ import { Inject, Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { metricsData } from "./metrics.query";
 import { MUSTANG_URL } from "app/tokens";
 
 export interface IrisMetric {
@@ -64,7 +63,6 @@ export class MetricsService {
   // Gets requested metric data
   getMetrics$(metric?: string): Observable<Metric[]> {
     let metricsURL = this.mustangUrl + this.metricUrl;
-    console.log(metricsURL);
     if (metric) {
       metricsURL += metric;
     }

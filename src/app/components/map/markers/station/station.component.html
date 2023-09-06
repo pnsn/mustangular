@@ -3,11 +3,11 @@
 </h1>
 
 <div mat-dialog-content id="chart-grandparent">
-  <span>Unit: {{metric.unit}}</span>
   <div id="chart-parent">
     <ngx-charts-line-chart [scheme]="colorScheme" [results]="results" [xAxis]="true" [yAxis]="true" [legend]="true"
-      [showXAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [roundDomains]="true"
-      [animations]="false" [timeline]="true" [legendTitle]="legendTitle" (select)="select($event)">
+      [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+      [roundDomains]="true" [animations]="false" [timeline]="true" [legendTitle]="legendTitle"
+      (select)="select($event)">
     </ngx-charts-line-chart>
   </div>
 </div>
