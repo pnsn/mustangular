@@ -27,8 +27,8 @@
   <h3 id="channelvalue">Channel Value (across timespan)</h3>
 
   <p>
-    MUSTANGular displays data for a station using one channel at a time. (See:
-    see Display Value) The channel value is the aggregate of all of a channel's measurements.
+    MUSTANGular displays data for a station using one value at a time (See: Display Value). The channel value is the
+    aggregate of all of a channel's measurements.
     Possible values are:
   </p>
   <ul>
@@ -40,17 +40,18 @@
     <li>95th_percentile : 95th percentile of measurements for the channel</li>
   </ul>
 
+  <h3 id="absolutevalue">Absolute value</h3>
+  If enabled, MUSTANGular will use the absolute value of the measurement data for the channel value calculation.
 
   <h3 id="displayvalue">Display Value</h3>
 
   <p>
-    MUSTANGular displays data for a station using one channel at a time. (See:
-    see Display Value) The channel value is the aggregate of all of a channel's measurements.
+    The display value is a single value that is used to represent a station on the map.
     Possible values are:
   </p>
   <ul>
-    <li>Channel Priority : shows a single channel, chosen by the user</li>
-    <li>Aggregate Channels : agregates all channel values to a single value</li>
+    <li>Channel Priority : shows the value of a single channel, in order of priority as chosen by the user</li>
+    <li>Aggregate Channels : aggregates all channel values to a single value</li>
   </ul>
 
   <h3 id="channelpriority">Channel Priority:</h3>
@@ -98,7 +99,7 @@
 
   <p>
     Hovering over a dot on the map will show a list of channels available for
-    that metric and the channel used for display (in green).
+    that metric and the channel used for display (in bold).
   </p>
 
   <h3>Station Chart:</h3>
