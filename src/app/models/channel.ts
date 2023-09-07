@@ -72,7 +72,7 @@ export class Channel {
     if (mid % 1 === 0) {
       median = values[mid];
     } else {
-      median = (values[mid - 0.5] + values[mid - 0.5]) / 2;
+      median = (+values[mid - 0.5] + +values[mid - 0.5]) / 2;
     }
     return median;
   }
@@ -81,10 +81,9 @@ export class Channel {
   private getAverage(values: number[]): number {
     let sum = 0;
     for (const value of values) {
-      sum += value;
+      sum += +value;
     }
     const average = sum / values.length;
-
     return average;
   }
 

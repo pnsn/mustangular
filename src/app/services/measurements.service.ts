@@ -26,6 +26,7 @@ export interface MeasurementResponse {
 @Injectable()
 export class MeasurementsService {
   private measurementUrl = "/mustang/measurements/1/query?nodata=200";
+  private dataUrl: string;
 
   constructor(
     private http: HttpClient,
@@ -33,7 +34,7 @@ export class MeasurementsService {
   ) {}
 
   getUrl(): string {
-    return this.mustangUrl + this.measurementUrl;
+    return this.dataUrl;
   }
 
   // Gets the measurements from the IRIS service
@@ -41,16 +42,12 @@ export class MeasurementsService {
     queryString: string,
     type?: string
   ): Observable<MeasurementData> {
-    let measurementsURL = this.getUrl() + queryString;
+    this.dataUrl = this.mustangUrl + this.measurementUrl + queryString;
 
-    if (type) {
-      measurementsURL += "&output" + type; // FIXME: is this right
-    } else {
-      measurementsURL += "&output=jsonp";
-    }
+    const output = `&output=${type || "jsonp"}`;
 
     return this.http
-      .jsonp(measurementsURL, "callback")
+      .jsonp(this.dataUrl + output, "callback")
       .pipe(
         map((response: MeasurementResponse) => response.measurements ?? {})
       );
