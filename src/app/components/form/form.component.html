@@ -72,6 +72,8 @@
 
         <span class="info-text" fxFlex>Dates (YYYY-MM-DD) start at beginning of day.</span>
         <span class="info-text" fxFlex>Fields with * are required.</span>
+        <span class="info-text" fxFlex>Empty fields, comma separated lists, and wildcards (? and *)
+          allowed.</span>
       </div>
 
       <div id="submit" fxFlex="50" fxLayout="column" fxLayoutAlign="end start">
@@ -108,8 +110,6 @@
         </mat-selection-list>
 
         <div fxLayout="row" fxFlexAlign="end" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
-          <span class="info-text" fxFlex>Empty fields, comma separated lists, and wildcards (? and *)
-            allowed.</span>
           <button mat-raised-button color="primary" type="submit"
             [disabled]="!(queryForm.form.valid && selectedMetrics.length > 0)">
             Submit
