@@ -32,7 +32,7 @@ export class StationsService {
           return of({});
         } else {
           // An actual error should be thrown
-          return throwError(err);
+          return throwError(new Error(err));
         }
       }),
       concatMap((fdsnResponse) => {
@@ -46,7 +46,7 @@ export class StationsService {
           catchError((err) => {
             // if neither have stations, throw error
             if (this.stationCount === 0) {
-              throw new Error("No station data returned: " + err);
+              return throwError(new Error("No station data returned: " + err));
             } else {
               // if one has stations, keep going
               return of({});
