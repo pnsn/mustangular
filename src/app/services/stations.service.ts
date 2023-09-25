@@ -32,7 +32,7 @@ export class StationsService {
           return of({});
         } else {
           // An actual error should be thrown
-          throwError(err);
+          return throwError(err);
         }
       }),
       concatMap((fdsnResponse) => {
