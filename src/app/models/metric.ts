@@ -2,8 +2,8 @@
 import { MetricType } from "app/types";
 import { Display } from "./display";
 import { Station } from "./station";
-import { Observable, combineLatest } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { Observable, combineLatest, of } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
 export class Metric {
   constructor(
     public name: string,
@@ -42,15 +42,15 @@ export class Metric {
   // Returns observable that resolves to the sort values for the
   // metric
   data$(recalculateBins: boolean): Observable<number[]> {
-    const stations = [...this.stations.values()].map((station) =>
-      station.value$(
+    const stations = [...this.stations.values()].map((station) => {
+      return station.value$(
         this.display.colocatedType,
         this.display.displayValue,
         this.display.aggregateValue,
         this.display.channels.available,
         this.display.absValue
-      )
-    );
+      );
+    });
     return combineLatest(stations).pipe(
       map((values: number[]): number[] => {
         return values.sort(function (a, b) {
@@ -67,6 +67,10 @@ export class Metric {
         if (recalculateBins) {
           this.calculateBinning();
         }
+      }),
+      catchError((err) => {
+        console.log(err);
+        return of([]);
       })
     );
   }

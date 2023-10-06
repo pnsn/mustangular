@@ -13,6 +13,7 @@ export class CombineMetricsService {
   ): Observable<Metric[]> {
     return new Observable<Metric[]>((subscriber) => {
       const combinedMetrics = new Array<Metric>();
+      let measurementCount = 0;
       // Go through each metric
       for (const metric of metrics) {
         if (measurements[metric.name]) {
@@ -29,19 +30,22 @@ export class CombineMetricsService {
               stationCode,
               m.qual
             );
-
             const channel = station.getOrCreateChannel(channelCode, loc, m.cha);
 
             // Add measurement to channel
             channel.measurements.push(
               new Measurement(m.end, m.lddate, m.start, m.value)
             );
+            measurementCount++;
           }
         }
 
         metric.display.data.count = metric.stations.size;
 
         combinedMetrics.push(metric);
+      }
+      if (measurementCount === 0 || combinedMetrics.length === 0) {
+        subscriber.error(new Error());
       }
       subscriber.next(combinedMetrics);
       subscriber.complete();

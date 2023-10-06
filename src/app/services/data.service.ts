@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Metric } from "@models/metric";
 import { Subject, Observable } from "rxjs";
 import { Display } from "@models/display";
+import { take } from "rxjs/operators";
 
 /** Handles metrics and calculating displays */
 @Injectable()
@@ -49,14 +50,17 @@ export class DataService {
       const recalculateBins =
         metric.display.binning.max === null ||
         metric.display.binning.min === null;
-      updatedMetric.data$(recalculateBins).subscribe({
-        next: () => {
-          if (activeMetric === null && updatedMetric.display.data.count > 0) {
-            activeMetric = updatedMetric;
-            this.setActiveMetric(activeMetric);
-          }
-        },
-      });
+      updatedMetric
+        .data$(recalculateBins)
+        .pipe(take(1))
+        .subscribe({
+          next: () => {
+            if (activeMetric === null && updatedMetric.display.data.count > 0) {
+              activeMetric = updatedMetric;
+              this.setActiveMetric(activeMetric);
+            }
+          },
+        });
     }
   }
 

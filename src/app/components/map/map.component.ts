@@ -9,7 +9,7 @@ import { Query } from "@models/query";
 import { CombineMetricsService } from "@services/combine-metrics.service";
 import { ParametersService } from "@services/parameters.service";
 import { DataService } from "@services/data.service";
-import { EMPTY, Observable, Subscription } from "rxjs";
+import { EMPTY, Observable, Subscription, forkJoin } from "rxjs";
 import { Router } from "@angular/router";
 import { switchMap, tap } from "rxjs/operators";
 
@@ -49,6 +49,14 @@ export class MapComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    // Listen to changes in activeMetric and stop loading
+    const activeMetricSub = this.dataService
+      .getActiveMetric$()
+      .subscribe((activeMetric) => {
+        this.activeMetric = activeMetric;
+        this.inProgress = false;
+      });
+
     // Wait for query parameters to be populated
     const sub = this.parametersService
       .getQuery$()
@@ -66,16 +74,12 @@ export class MapComponent implements OnInit, OnDestroy {
           }
         })
       )
-      .subscribe();
-    this.subscription.add(sub);
-
-    // Listen to changes in activeMetric and stop loading
-    const activeMetricSub = this.dataService
-      .getActiveMetric$()
-      .subscribe((activeMetric) => {
-        this.activeMetric = activeMetric;
-        this.inProgress = false;
+      .subscribe({
+        error: (error) => {
+          console.log(error);
+        },
       });
+    this.subscription.add(sub);
 
     // Initiates query parameter fetching
     this.parametersService.setQueryParameters();
@@ -90,72 +94,78 @@ export class MapComponent implements OnInit, OnDestroy {
   // Get all the data in correct order and sets data
   // Observable returns the results of the stations query
   private getMetrics$(): Observable<Stations> {
-    this.status.message = "Requesting Metrics from MUSTANG.";
+    this.status.message = "Requesting Metrics and Measurements from MUSTANG.";
     const metricQuery = this.query.getString(["metric"]);
     const measurementQuery = this.query.getString();
     const stationQuery = this.query.getString(["net", "sta"]);
 
     let combinedMetrics: Metric[];
-    let metrics: Metric[];
-    return this.metricsService.getMetrics$(metricQuery).pipe(
-      tap({
-        next: (results) => {
-          metrics = results;
-        },
-        error: () => {
-          this.status = {
-            message: "Unable to fetch Measurements from MUSTANG.",
-            error: true,
-            info: "This error occurs if MUSTANG does not recognize one or more of the search parameters.",
-          };
-        },
-      }),
-      switchMap(() => {
-        this.status.message = "Requesting Measurements from MUSTANG.";
-        return this.measurementsService.getMeasurements$(measurementQuery);
-      }),
-      tap({
-        error: () => {
-          this.status = {
-            message: "Unable to fetch Measurements from MUSTANG.",
-            error: true,
-            info: "This error occurs if MUSTANG does not recognize one or more of the search parameters.",
-          };
-        },
-      }),
-      switchMap((measurements) => {
+    // get metrics and measurements at same time
+    return forkJoin({
+      metrics: this.metricsService.getMetrics$(metricQuery).pipe(
+        tap({
+          error: () => {
+            this.status = {
+              message: "Unable to fetch Metrics from MUSTANG.",
+              error: true,
+              info: "This error can occur if MUSTANG does not recognize one or more of the search parameters.",
+            };
+          },
+        })
+      ),
+      measurements: this.measurementsService
+        .getMeasurements$(measurementQuery)
+        .pipe(
+          tap({
+            error: () => {
+              this.status = {
+                message: "Unable to fetch Measurements from MUSTANG.",
+                error: true,
+                info: "This error can occur if MUSTANG does not recognize one or more of the search parameters.",
+              };
+            },
+          })
+        ),
+    }).pipe(
+      // if successful, combine data
+      switchMap(({ metrics, measurements }) => {
         this.status.message = "Processing Data.";
-        return this.combineMetricsService.combineMetrics$(
-          measurements,
-          metrics
-        );
+        return this.combineMetricsService
+          .combineMetrics$(measurements, metrics)
+          .pipe(
+            tap({
+              next: (results) => {
+                combinedMetrics = results;
+              },
+              error: () => {
+                this.status = {
+                  message: "No data returned from MUSTANG.",
+                  error: true,
+                  info: "This error occurs if MUSTANG did not have any measurements with your specified parameters.",
+                };
+              },
+            })
+          );
       }),
-      switchMap((results) => {
-        if (results && results.length > 0) {
-          this.dataService.display = this.parametersService.getDisplay();
-          this.status.message = "Accessing Station Information.";
-          combinedMetrics = results;
-
-          return this.stationsService.getStationsData$(stationQuery);
-        } else {
-          this.status = {
-            message: "No data returned from MUSTANG.",
-            error: true,
-            info: "MUSTANG did not have any measurements with your specified parameters.",
-          };
-          return EMPTY;
-        }
+      // then get station info
+      switchMap(() => {
+        this.dataService.display = this.parametersService.getDisplay();
+        this.status.message = "Accessing Station Information.";
+        return this.stationsService.getStationsData$(stationQuery).pipe(
+          tap({
+            error: () => {
+              this.status = {
+                message: "No station data found.",
+                error: true,
+                info: "This error occurs if no stations matching the given parameters were found.",
+              };
+            },
+          })
+        );
       }),
       tap({
         next: () => {
           this.dataService.setMetrics(combinedMetrics);
-        },
-        error: (err) => {
-          this.status = {
-            message: "Unable to fetch station information.",
-            error: true,
-            info: err.error,
-          };
         },
       })
     );

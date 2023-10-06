@@ -65,8 +65,8 @@ export class ParametersService {
 
   // Grab query parameters from URL
   setQueryParameters(): void {
-    const queryParamMap: Subscription = this.route.queryParamMap.subscribe(
-      (params) => {
+    const queryParamMap: Subscription = this.route.queryParamMap.subscribe({
+      next: (params) => {
         if (params && params["params"]) {
           const pa = params["params"];
           // grab other query params here
@@ -87,8 +87,8 @@ export class ParametersService {
           this.setDisplay(pa);
           this.query.next(query);
         }
-      }
-    );
+      },
+    });
     queryParamMap.unsubscribe();
   }
 }

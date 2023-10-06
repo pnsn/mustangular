@@ -46,10 +46,10 @@ export class MeasurementsService {
 
     const output = `&output=${type || "jsonp"}`;
 
-    return this.http
-      .jsonp(this.dataUrl + output, "callback")
-      .pipe(
-        map((response: MeasurementResponse) => response.measurements ?? {})
-      );
+    return this.http.jsonp(this.dataUrl + output, "callback").pipe(
+      map((response: MeasurementResponse) => {
+        return response.measurements ?? {};
+      })
+    );
   }
 }
