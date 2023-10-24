@@ -3,6 +3,9 @@
 # compiled output
 /tmp
 /out-tsc
+/dist
+dist.zip
+
 
 # dependencies
 /node_modules
@@ -39,3 +42,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+/.angular/*
+.angular/*

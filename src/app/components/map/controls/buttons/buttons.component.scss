@@ -1,0 +1,16 @@
+@import "styles.scss";
+
+#control-buttons button {
+  margin: 0px 10px;
+  color: $secondary;
+  height: 30px;
+  font-size: 24px;
+  line-height: 24px;
+}
+#help-dialog {
+  h3,
+  p,
+  pre {
+    margin: 10px 0px;
+  }
+}

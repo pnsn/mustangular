@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  mustangUrl: "https://service.iris.edu", //metric endpoint",
 };

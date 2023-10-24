@@ -1,0 +1,17 @@
+@import "styles.scss";
+.info-text {
+  color: $accent;
+}
+
+#chart-grandparent {
+  height: calc(100% - 117px);
+  min-height: 400px;
+}
+mat-dialog-actions {
+  padding-bottom: 0px;
+}
+#chart-parent {
+  height: 100%;
+  //  padding-bottom:1px;
+  //    display:grid;
+}

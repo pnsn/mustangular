@@ -1,23 +1,27 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "src",
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "ES2020",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "hammerjs"
-    ],
+    "target": "ES2020",
     "lib": [
-      "es2017",
+      "ES2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@models/*": ["app/models/*"],
+      "@pipes/*": ["app/pipes/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+    },
   },
   "preserveWhitespaces": "off"
 }
