@@ -85,7 +85,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // Get list of available metrics from IRIS
+  // Get list of available metrics from EarthScope 
   private getMetrics(): void {
     this.loading = true;
     const sub = this.metricsService.getMetrics$().subscribe(
