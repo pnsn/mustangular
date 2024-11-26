@@ -136,7 +136,7 @@ export class StationDialogComponent {
 
   select(event): void {
     if (typeof event === "string" || event instanceof String) {
-      const url = "https://service.iris.edu/mustang/noise-pdf/1/query?target=";
+      const url = "https://service.earthscope.org/mustang/noise-pdf/1/query?target=";
       window.open(
         url +
           this.station.code +

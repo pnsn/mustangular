@@ -37,7 +37,7 @@ export class MeasurementsService {
     return this.dataUrl;
   }
 
-  // Gets the measurements from the IRIS service
+  // Gets the measurements from the EarthScope service
   getMeasurements$(
     queryString: string,
     type?: string

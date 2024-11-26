@@ -1,4 +1,4 @@
-// Fetches station data from IRIS FDSNWS
+// Fetches station data from EarthScope FDSNWS
 
 import { Observable, forkJoin, of, throwError } from "rxjs";
 import { Injectable } from "@angular/core";
@@ -76,7 +76,7 @@ export class StationsService {
     queryString: string
   ): Observable<Stations> {
     const stationsURL =
-      "https://service.iris.edu/" +
+      "https://service.earthscope.org/" +
       source +
       "/station/1/query?format=text" +
       queryString;

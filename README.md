@@ -1,7 +1,7 @@
 # MUSTANGular V2.3
 Check out the wiki to learn more about using MUSTANGular: https://github.com/pnsn/mustangular/wiki
 
-MUSTANGular is an Angular application that displays station metrics from the IRIS MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)
+MUSTANGular is an Angular application that displays station metrics from the EarthScope MUSTANG service on a leaflet map. (Created by Pacific Northwest Seismic Network - PNSN - 2018)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 

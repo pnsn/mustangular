@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  mustangUrl: "https://service.iris.edu",
+  mustangUrl: "https://service.earthscope.org",
 };
